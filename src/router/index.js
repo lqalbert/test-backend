@@ -55,12 +55,6 @@ export const constantRouterMap = [
         meta: { title: '角色列表', icon: 'role' }
       },
       {
-        path: 'menu',
-        name: '菜单列表',
-        component: () => import('@/views/menus/index'),
-        meta: { title: '菜单列表', icon: 'menu' }
-      },
-      {
         path: 'user',
         name: '用户列表',
         component: () => import('@/views/users/index'),
@@ -102,27 +96,7 @@ export const constantRouterMap = [
 	    }
     ]
   },
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/index',
-    name: '权限管理',
-    meta: { title: '权限管理', icon: 'permissions' },
-    children: [
-      {
-        path: 'index',
-        name: '角色管理',
-        component: () => import('@/views/roles/index'),
-        meta: { title: '角色', icon: 'role' }
-      },
-      {
-        path: 'permission',
-        name: '权限设置',
-        component: () => import('@/views/permission/Index'),
-        meta: { title: '权限', icon: 'permission' }
-      }
-    ]
-  },
+ 
   {
   	path: '/website',
 	  component: Layout,
@@ -130,12 +104,6 @@ export const constantRouterMap = [
 	  name: '网站管理',
 	  meta: { title: '网站管理', icon: 'website' },
 	  children: [
-		  {
-		  	path: 'index',
-        name: '皮肤管理',
-			  component: () => import('@/views/website/Index'),
-			  meta: { title: '皮肤管理', icon: 'skin' }
-		  },
 		  {
 			  path: 'level',
 			  name: '会员等级',
@@ -258,12 +226,6 @@ export const constantRouterMap = [
         component: () => import('@/views/sale/Activity'),
         meta: { title: '活动', icon: 'activity' }
       },
-	    {
-		    path: 'voucher',
-		    name: '卡券',
-		    component: () => import('@/views/sale/Voucher'),
-		    meta: { title: '卡券', icon: 'voucher' }
-	    }
     ]
   },
   {
@@ -273,16 +235,10 @@ export const constantRouterMap = [
     name: '机器人管理',
     meta: { title: '机器人管理', icon: 'robot' },
     children: [
-      // {
-      //   path: 'index',
-      //   name: '机器人管理员',
-      //   component: () => import('@/views/robot/Index'),
-      //   meta: { title: '机器人管理员', icon: 'manager' }
-      // },
       {
         path: 'robots',
         name: '机器人用户',
-        component: () => import('@/views/robot/Robot'),
+        component: () => import('@/views/robot/Answer'),
         meta: { title: '机器人用户', icon: 'robots' }
       },
       {
