@@ -124,20 +124,6 @@ export const constantRouterMap = [
     ]
   },
   {
-    path: '',
-    component: Layout,
-    redirect: 'upload/index',
-    name: '上传文件',
-    // hidden: false,
-    children: [
-      {
-        path: 'upload/index',
-        component: () => import('@/views/upload/index'),
-        meta: { title: '上传文件', icon: 'course' }
-      }
-    ]
-  },
-  {
   	path: '/website',
 	  component: Layout,
 	  redirect: '/website/index',
@@ -156,46 +142,7 @@ export const constantRouterMap = [
 			  component: () => import('@/views/website/level'),
 			  meta: { title: '会员等级', icon: 'level' }
 		  },
-      {
-        path: '/course',
-        name: '课程管理',
-        // redirect: 'packet',
-        component: () => import('@/views/packet/index'),
-
-        meta: { title: '课程管理', icon: 'course' },
-        children: [
-          {
-            path: 'Type',
-            name: '系列类型',
-            component: () => import('@/views/course/Type'),
-            meta: { title: '系列类型', icon: 'course' }
-          },
-          {
-            path: 'Branch',
-            name: '系列分类',
-            component: () => import('@/views/course/Branch'),
-            meta: { title: '系列分类', icon: 'course' }
-          },
-          {
-            path: 'List',
-            name: '系列列表',
-            component: () => import('@/views/course/List'),
-            meta: { title: '系列列表', icon: 'course' }
-          },
-          {
-            path: 'Lesson',
-            name: '课程列表',
-            component: () => import('@/views/course/Lesson'),
-            meta: { title: '课程列表', icon: 'course' }
-          }
-          // {
-          //   path: 'Test',
-          //   name: '数据测试',
-          //   component: () => import('@/views/packet/Test'),
-          //   meta: { title: '数据测试', icon: 'packet' }
-          // },
-        ]
-      },
+      
       {
         path: '/ads',
         name: '广告设置',
