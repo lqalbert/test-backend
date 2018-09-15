@@ -2,7 +2,7 @@
     <div>
         <el-row>
             <el-col :span="24">
-                <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
+                <el-form :inline="true" ref="searchForm" class="demo-form-inline" size="small">
                     <el-form-item>
                         <el-button type="primary" size="small" icon="el-icon-refresh"
                                    @click="refresh">
@@ -64,6 +64,7 @@
                 mainparam: '',
                 total: '100',
                 dataLoad: false,
+                searchForm:[],
                 imgLink: APP_CONST.BASE_URL
             }
         },
