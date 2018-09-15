@@ -93,7 +93,25 @@ export const constantRouterMap = [
 		    name: '直播间密码',
 		    component: () => import('@/views/video/Password'),
 		    meta: { title: '直播间密码', icon: 'livepwd' }
-	    }
+	    },
+      {
+        path: 'password',
+        name: '直播互动',
+        component: () => import('@/views/video/Password'),
+        meta: { title: '直播互动', icon: 'livepwd' }
+      },
+      {
+        path: 'password',
+        name: '二维码管理',
+        component: () => import('@/views/video/Password'),
+        meta: { title: '二维码管理', icon: 'livepwd' }
+      },
+      {
+        path: 'password',
+        name: '敏感词汇管理',
+        component: () => import('@/views/video/Password'),
+        meta: { title: '敏感词汇管理', icon: 'livepwd' }
+      }
     ]
   },
  
@@ -128,6 +146,12 @@ export const constantRouterMap = [
             name: '直播间广告',
             component: () => import('@/views/ads/Livead'),
             meta: { title: '直播间广告', icon: 'livead' }
+          },
+          {
+            path: 'Livead',
+            name: '弹幕广告',
+            component: () => import('@/views/ads/Livead'),
+            meta: { title: '弹幕广告', icon: 'livead' }
           }
         ]
       },
@@ -136,6 +160,12 @@ export const constantRouterMap = [
         name: '名师管理',
         component: () => import('@/views/teacher/teacher'),
         meta: { title: '名师管理', icon: 'teacher' }
+      },
+      {
+        path: 'teacher',
+        name: '课程管理',
+        component: () => import('@/views/teacher/teacher'),
+        meta: { title: '课程管理', icon: 'course' }
       },
       {
         path: '/article',
