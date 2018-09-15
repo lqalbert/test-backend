@@ -95,22 +95,28 @@ export const constantRouterMap = [
 		    meta: { title: '直播间密码', icon: 'livepwd' }
 	    },
       {
-        path: 'password',
+        path: 'chatmsg',
         name: '直播互动',
-        component: () => import('@/views/video/Password'),
-        meta: { title: '直播互动', icon: 'livepwd' }
+        component: () => import('@/views/chatmsg/index'),
+        meta: { title: '直播互动', icon: 'chatmsg' }
       },
       {
-        path: 'password',
+        path: 'wx_code',
         name: '二维码管理',
-        component: () => import('@/views/video/Password'),
-        meta: { title: '二维码管理', icon: 'livepwd' }
+        component: () => import('@/views/wx_code/index'),
+        meta: { title: '二维码管理', icon: 'wx_code' }
       },
       {
-        path: 'password',
+        path: 'word',
         name: '敏感词汇管理',
-        component: () => import('@/views/video/Password'),
-        meta: { title: '敏感词汇管理', icon: 'livepwd' }
+        component: () => import('@/views/word/index'),
+        meta: { title: '敏感词汇管理', icon: 'word' }
+      },
+      {
+        path: 'online',
+        name: '在线列表',
+        component: () => import('@/views/online/index'),
+        meta: { title: '在线列表', icon: 'online' }
       }
     ]
   },
@@ -212,6 +218,12 @@ export const constantRouterMap = [
         name: '重要通告',
         component: () => import('@/views/announcement/index'),
         meta: { title: '重要通告', icon: 'announcement' }
+      },
+      {
+        path: 'answer',
+        name: '咨询问答',
+        component: () => import('@/views/robot/Answer'),
+        meta: { title: '咨询问答', icon: 'answer' }
       }
 	  ]
   },
@@ -256,27 +268,6 @@ export const constantRouterMap = [
         component: () => import('@/views/sale/Activity'),
         meta: { title: '活动', icon: 'activity' }
       },
-    ]
-  },
-  {
-    path: '/robot',
-    component: Layout,
-    redirect: '/robot/index',
-    name: '机器人管理',
-    meta: { title: '机器人管理', icon: 'robot' },
-    children: [
-      {
-        path: 'robots',
-        name: '机器人用户',
-        component: () => import('@/views/robot/Answer'),
-        meta: { title: '机器人用户', icon: 'robots' }
-      },
-      {
-        path: 'answer',
-        name: '咨询问答',
-        component: () => import('@/views/robot/Answer'),
-        meta: { title: '咨询问答', icon: 'answer' }
-      }
     ]
   },
   {
