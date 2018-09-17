@@ -19,11 +19,11 @@
 
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
-                    <el-table-column prop="role_name" label="角色名字" width="180" align="center"></el-table-column>
+                    <el-table-column prop="role_name" label="角色名字" width="220" align="center"></el-table-column>
 
-                    <el-table-column prop="role_comment" label="角色说明" width="180" align="center"></el-table-column>
+                    <el-table-column prop="role_comment" label="角色说明" width="220" align="center"></el-table-column>
 
-                    <el-table-column prop="role_mark" label="角色标签" width="180" align="center"></el-table-column>
+                    <el-table-column prop="role_mark" label="角色标签" width="220" align="center"></el-table-column>
 
                      <el-table-column prop="is_use" label="是否启用" align="center">
                       <template slot-scope="scope">
@@ -52,20 +52,8 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column prop="is_robot" label="是否机器人" align="center">
-                        <template slot-scope="scope">
-                            <el-switch
-                                    v-model="scope.row.is_robot"
-                                    active-value="y"
-                                    inactive-value="n"
-                                    active-color="#13ce66"
-                                    inactive-color="#ff4949"
-                                    @change="switchHandle3(scope.row)">
-                            </el-switch>
-                        </template>
-                    </el-table-column>
 
-                    <el-table-column  fixed="right"  label="操作" align="center" width="180">
+                    <el-table-column  fixed="right"  label="操作" align="center" width="220">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
                             <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
