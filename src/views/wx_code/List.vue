@@ -10,9 +10,18 @@
                     </el-form-item>
                     <el-form-item>
                         <el-button type="primary" size="small" icon="search"
-                                   @click="createWxcode">添加二维码
+                                   @click="createPacket">添加红包
                         </el-button>
-                    </el-form-item>                    
+                    </el-form-item>
+                    
+                    <el-form-item label="红包状态" prop="status">
+                        <el-select v-model="searchForm.status">
+                            <el-option v-for="(item,index) in statusList" :key="index" :label="item" :value="index"> 
+                            <!-- {{index}} -->
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    
                     <el-form-item label="直播间房间号" prop="room_number">
                         <!-- <el-input size="small" placeholder="S000001"   disabled ></el-input> -->
                         <el-select v-model="searchForm.room_number" placeholder="请选择">
@@ -23,6 +32,8 @@
                               :value="item.room_number">
                             </el-option>
                         </el-select>
+
+
                     </el-form-item>
 
 
@@ -48,6 +59,14 @@
                     @dbclick="actionThis"
                 >
                     <el-table-column label="序号" align="center" type="index" width="65px"></el-table-column>
+                    <el-table-column prop="total_num" label="总个数" align="center" ></el-table-column>
+                    <el-table-column prop="off_num" label="剩余数目" align="center" ></el-table-column>
+                    <el-table-column prop="total_money" label="总金额" align="center"></el-table-column>
+                    <el-table-column prop="off_money" label="剩余金额" align="center"></el-table-column>
+                    <el-table-column prop="max_money" label="最大金额" align="center"></el-table-column>
+                    <el-table-column prop="min_money" label="最小金额" align="center"></el-table-column>
+                    
+                    <el-table-column prop="nickname" label="创建人" align="center"></el-table-column>
                     <el-table-column prop="wx_code" label="客服二维码" align="center">
                         <template slot-scope="scope">
                             <img :src="imgLink+scope.row.wx_code" alt="" width="100px" >
@@ -55,11 +74,19 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="room_number" label="直播间号" align="center"></el-table-column>
+                    <el-table-column prop="create_time" label="创建时间" align="center" width="100px"></el-table-column>
+                    <el-table-column prop="start_time" label="开始时间" align="center" width="100px"></el-table-column>
+                    <el-table-column prop="end_time" label="结束时间" align="center" width="100px"></el-table-column>
+                    <el-table-column prop="packet_status" label="状态" align="center">
+                        <template slot-scope="scope">
+                            <div>{{statusList[scope.row.packet_status]}}</div>
+                        </template>
+                    </el-table-column>
                     <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">
-                            <el-button type="primary" size="mini" round @click="editCode(scope.row)" >修改</el-button>
-                            <el-button type="danger" size="mini" round @click="deleCode(scope.row.id)" >删除</el-button>
-                            <span  v-if="scope.row.Wxcode_status==3">已结束</span>
+                            <el-button type="primary" size="mini" round @click="sendPacket(scope.row.id)" v-if="scope.row.packet_status==1">发放红包</el-button>
+                            <el-button type="danger" size="mini" round @click="endPacket(scope.row.id)" v-if="scope.row.packet_status!=3">结束红包</el-button>
+                            <span  v-if="scope.row.packet_status==3">已结束</span>
                         </template>
                     </el-table-column>
                 </TableProxy>
@@ -69,7 +96,7 @@
 
         <Add name="add-list"
              :ajax-proxy="ajaxProxy"
-             @submit-success="addWxcode"/>
+             @submit-success="addPacket"/>
 
         <Edit name="edit-list"
               :ajax-proxy="ajaxProxy"
@@ -84,19 +111,19 @@
     import SearchTool from '@/mix/SearchTool'
     import DataTable from '@/mix/DataTable'
     import TableProxy from '@/components/Commontable/Table'
-    import WxcodeAjaxProxy from '@/api/wxcode'
+    import PacketAjaxProxy from '@/api/packet'
     import Edit from './Edit'
     import Add from './Add'
     import APP_CONST from '@/config/index'
 
     export default {
       name: 'Videos',
-      mixins: [PageMix, DataTable, config, SearchTool, WxcodeAjaxProxy],
+      mixins: [PageMix, DataTable, config, SearchTool, PacketAjaxProxy],
       components: { TableProxy, Add, Edit },
       data() {
         return {
-          ajaxProxy: WxcodeAjaxProxy,
-          mainurl: WxcodeAjaxProxy.getUrl(),
+          ajaxProxy: PacketAjaxProxy,
+          mainurl: PacketAjaxProxy.getUrl(),
           mainparam: '',
           total: '100',
           dataLoad: false,
@@ -104,6 +131,11 @@
             status: '',
             room_number: ''
             // user_id:'',
+          },
+          statusList: {
+            1: '未发送',
+            2: '抢包中',
+            3: '已结束'
           },
           roomList: [],
           imgLink: APP_CONST.BASE_URL
@@ -113,11 +145,11 @@
         getAjaxProxy() {
           return this.ajaxProxy
         },
-        createWxcode() {
+        createPacket() {
           this.$modal.show('add-list', { roomList: this.roomList })
         },
-        editCode(row) {
-          this.$modal.show('edit-list', { model: row, roomList:this.roomList})
+        actionThis(row) {
+          // this.$modal.show('edit-list', { model: row })
         },
         onSearchChange(param) {
           this.mainparam = JSON.stringify(param)
@@ -125,36 +157,58 @@
         onSearchReset() {
           this.videoProxy.load()
         },
-        actionThis(){
-
+        alertShow(msg) {
+          this.$message({
+            message: msg,
+            type: 'success'
+          })
         },
-        deleCode(id) {
+        sendPacket(id) {
           var self=this;
+          // self.$message.error('pro.msg');
+          // return;
           this.$msgbox({
             title: '消息',
-            message: '确定删除该二维码？？',
+            message: '确定发放红包？？',
             showCancelButton: true,
             confirmButtonText: '确定',
             cancelButtonText: '取消'
           }).then(action => {
-            WxcodeAjaxProxy.delete(id).then(pro => {
-	             self.$message.success('删除成功');
-	             self.refresh();
+            PacketAjaxProxy.update(id, '').then(pro => {
+              this.alertShow(pro.msg)
+              this.refresh()
             }).catch(error=>{
-              self.$message.error('删除失败');
+              self.$message.error('发送失败');
+            })
+          })
+        },
+        endPacket(id) {
+          var self=this;
+          this.$msgbox({
+            title: '消息',
+            message: '确定结束红包状态？？',
+            showCancelButton: true,
+            confirmButtonText: '确定',
+            cancelButtonText: '取消'
+          }).then(action => {
+            PacketAjaxProxy.delete(id).then(pro => {
+              this.alertShow(pro.msg)
+              this.refresh()
+            }).catch(error=>{
+              self.$message.error('结束失败');
             })
           })
         },
         refresh() {
           this.dataTableReload++
         },
-        addWxcode() {
+        addPacket() {
           this.refresh();
         },
         getRoomList() {
           // console.log('getRoomList')
-          WxcodeAjaxProxy.find('1').then(response => {
-              console.log(response.data)
+          PacketAjaxProxy.find('1').then(response => {
+              console.log()
             this.roomList = response.data
           }).catch(error => {
 
