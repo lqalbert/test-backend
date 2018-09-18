@@ -19,42 +19,41 @@
                     <!--<el-table-column articleType="selection" align="center" width="50"></el-table-column>-->
 
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
-
                     <el-table-column prop="username" label="用户名" width="180" align="center"></el-table-column>
-
+                    <el-table-column prop="nickname" label="昵称" width="180" align="center"></el-table-column>
+                    <el-table-column prop="level" label="等级" width="180" align="center"></el-table-column>
+                    <el-table-column  align="center" prop="cid" label="用户所属学院" width="180">
+                        <template scope="scope">
+                            {{ getCollege(scope.row.cid, colleges) }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column  align="center" prop="role_id" label="账号类型" width="180">
+                        <template scope="scope">
+                            {{ getRole(scope.row.role_id, options) }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="watch_time_total" label="观看总时长" width="180" align="center"></el-table-column>
+                    <el-table-column prop="watch_time_today" label="今日观看时长" width="180" align="center"></el-table-column>
+                    <el-table-column prop="status" label="账号状态" width="180" align="center"></el-table-column>
                     <el-table-column prop="email" label="用户邮箱" width="180" align="center"></el-table-column>
                     <el-table-column prop="phone" label="用户手机" width="180" align="center"></el-table-column>
-
+                    <el-table-column prop="address" label="用户地址" width="180" align="center"></el-table-column>
                     <el-table-column prop="user_img" label="头像" width="120" align="center">
                         <template slot-scope="scope">
                             <img :src="url+scope.row.user_img" alt="" width="100px">
                         </template>
                     </el-table-column>
-
-                    <el-table-column prop="nickname" label="昵称" width="180" align="center"></el-table-column>
-
-                    <el-table-column  align="center" prop="pid" label="用户所属学院" width="180">
-                        <template scope="scope">
-                            {{ getCollege(scope.row.pid, colleges) }}
-                        </template>
-                    </el-table-column>
-
-                    <el-table-column prop="address" label="用户地址" width="180" align="center"></el-table-column>
                     <el-table-column prop="front_login" label="前台登录时间" width="180" align="center"></el-table-column>
                     <el-table-column prop="front_logout" label="前台登出时间" width="180" align="center"></el-table-column>
                     <el-table-column prop="login_time" label="后台登录时间" width="180" align="center"></el-table-column>
                     <el-table-column prop="logout_time" label="后台登出时间" width="180" align="center"></el-table-column>
 
-                    <el-table-column prop="create_time" label="创建时间" align="center" width="180">
-                        <template scope="scope">
-                            {{ scope.row.create_time | moment }}
-                        </template>
-                    </el-table-column>
+                    <el-table-column prop="created_at" label="注册时间" align="center" width="180"></el-table-column>
 
-                    <el-table-column prop="update_time" label="更新时间" align="center" width="180">
-                        <template scope="scope">
+                    <el-table-column prop="updated_at" label="更新时间" align="center" width="180">
+                        <!--<template scope="scope">
                             {{ scope.row.update_time | moment }}
-                        </template>
+                        </template>-->
                     </el-table-column>
 
                     <el-table-column prop="is_use" label="是否启用" align="center">
@@ -182,7 +181,14 @@ export default {
                   return arr[i]['name'];
               }
           }
-        }
+        },
+        getRole(id, arr){
+          for ( let i = 0; i <arr.length; i++){
+              if (arr[i]['id']==id){
+                  return arr[i]['role_comment'];
+              }
+          }
+        },
 
       },
 

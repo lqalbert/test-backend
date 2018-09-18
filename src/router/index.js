@@ -122,12 +122,12 @@ export const constantRouterMap = [
 	  name: '网站管理',
 	  meta: { title: '网站管理', icon: 'website' },
 	  children: [
-		  {
-			  path: 'level',
-			  name: '会员等级',
-			  component: () => import('@/views/website/level'),
-			  meta: { title: '会员等级', icon: 'level' }
-		  },
+          {
+              path: 'level',
+              name: '会员等级',
+              component: () => import('@/views/levels/index'),
+              meta: { title: '会员等级', icon: 'level' }
+          },
       
       {
         path: '/ads',

@@ -35,7 +35,6 @@
                                   inactive-color="#ff4949"
                                   @change="switchHandle1(scope.row)">
                           </el-switch>
-
                       </template>
                     </el-table-column>
 
@@ -51,7 +50,6 @@
                             </el-switch>
                         </template>
                     </el-table-column>
-
 
                     <el-table-column  fixed="right"  label="操作" align="center" width="220">
                         <template slot-scope="scope">
@@ -69,13 +67,11 @@
 
         <Add name="add-list"
              :ajax-proxy="ajaxProxy"
-             @submit-success="handleReload"
-             :options="options"/>
+             @submit-success="handleReload"/>
 
         <Edit name="edit-list"
              :ajax-proxy="ajaxProxy"
-             @submit-success="handleReload"
-             :options="options"/>
+             @submit-success="handleReload"/>
 
     </div>
 </template>
@@ -91,7 +87,6 @@
     import RoleProxy from '../../packages/RoleProxy';
     import RoleAjaxProxy from '../../api/role';
 
-
     export default {
         name:'Role',
         mixins: [SearchTool, DataTable, PageMix, config],
@@ -103,8 +98,7 @@
                 },
                 ajaxProxy:RoleAjaxProxy,
                 mainurl:RoleAjaxProxy.getUrl(),
-                mainparam:'',
-                options: []
+                mainparam:''
             }
         },
 
@@ -121,14 +115,7 @@
             showEdit(row) {
                 this.$modal.show('edit-list', { model: row })
             },
-            loadRoles(data){
-                this.options = data.items;
-                console.log( this.options)
-            },
-            getCanAddRoles(){
-                let canAddRoles = new RoleProxy({}, this.loadRoles, this);
-                canAddRoles.load();
-            },
+
             switchHandle1(row){
                 this.ajaxProxy.update(row.id, {is_use:row.is_use}).then((response)=>{
                     this.$message.success('设置成功');
@@ -144,22 +131,11 @@
                     this.$message.error('更新失败');
                     row.is_backend = row.is_backend == 'y' ? 'n' : 'y' ;
                 });
-            },
-            switchHandle3(row){
-                this.ajaxProxy.update(row.id, {is_robot:row.is_robot}).then((response)=>{
-                    this.$message.success('设置成功');
-                }).catch((response)=>{
-                    this.$message.error('更新失败');
-                    row.is_robot = row.is_robot == 'y' ? 'n' : 'y' ;
-                });
             }
-
-
         },
 
         created() {
             this.$on('search-tool-change', this.onSearchChange);
-            this.getCanAddRoles();
         }
 
 

@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'production') {
   baseUrl = 'http://yanggang112.51vip.biz:40001'
 } else {
   domain = '/admin'
-  url = 'http://testserve.io/admin/uploadfile'
+  url = 'http://test-serve.io/admin/uploadfile'
   baseUrl = 'http://test-serve.io'
 }
 
