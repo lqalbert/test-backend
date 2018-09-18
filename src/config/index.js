@@ -10,8 +10,8 @@ let url
 let baseUrl
 if (process.env.NODE_ENV === 'production') {
   domain = ''
-  url = 'http://yanggang112.51vip.biz:40001/admin/uploadfile'
-  baseUrl = 'http://yanggang112.51vip.biz:40001'
+  url = 'http://yanggang112.51vip.biz:40003/admin/uploadfile'
+  baseUrl = 'http://yanggang112.51vip.biz:40003'
 } else {
   domain = '/admin'
   url = 'http://www.edus.com/admin/uploadfile'
