@@ -16,28 +16,8 @@
                     <el-input v-model="editForm.role_mark"></el-input>
                 </el-form-item>
 
-
-                <el-form-item label="父类角色" prop="parent_id">
-                    <el-select  disabled v-model="editForm.parent_id">
-                        <el-option
-                                v-for="item in options"
-                                :key="item.id"
-                                :label="item.role_comment"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-
                 <el-form-item label="是否启用" prop="is_use">
                     <el-radio-group v-model="editForm.is_use">
-                        <el-radio label="y" border>是</el-radio>
-                        <el-radio label="n" border>否</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-
-                <el-form-item label="是否机器人" prop="is_robot">
-                    <el-radio-group v-model="editForm.is_robot">
                         <el-radio label="y" border>是</el-radio>
                         <el-radio label="n" border>否</el-radio>
                     </el-radio-group>
@@ -85,9 +65,7 @@
                     role_name: '',
                     role_comment: '',
                     role_mark: '',
-                    parent_id: '',
                     is_use: '',
-                    is_robot: '',
                     is_backend: ''
                 },
                 rules: {
@@ -108,9 +86,6 @@
                     ],
                     is_use:[
                         { required: true, message: '请选择是否启用', trigger: 'change' }
-                    ],
-                    is_robot:[
-                        { required: true, message: '请选择是否机器人', trigger: 'change' }
                     ],
                     is_backend:[
                         { required: true, message: '请选择是否可登录后台', trigger: 'change' }

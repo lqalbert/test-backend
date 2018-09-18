@@ -15,27 +15,8 @@
                     <el-input v-model="addForm.role_mark"></el-input>
                 </el-form-item>
 
-                <el-form-item label="父类角色" prop="parent_id">
-                    <el-select  clearable placeholder="请选择" v-model="addForm.parent_id">
-                        <el-option
-                                v-for="item in options"
-                                :key="item.id"
-                                :label="item.role_comment"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-
                 <el-form-item label="是否启用" prop="is_use">
                     <el-radio-group v-model="addForm.is_use">
-                        <el-radio label="y" border>是</el-radio>
-                        <el-radio label="n" border>否</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-
-                <el-form-item label="是否机器人" prop="is_robot">
-                    <el-radio-group v-model="addForm.is_robot">
                         <el-radio label="y" border>是</el-radio>
                         <el-radio label="n" border>否</el-radio>
                     </el-radio-group>
@@ -82,9 +63,7 @@
                     role_name: '',
                     role_comment: '',
                     role_mark: '',
-                    parent_id: '',
                     is_use: '',
-                    is_robot: '',
                     is_backend: ''
                 },
                 rules: {
@@ -104,15 +83,11 @@
                         { min: 1, max: 10, message: '长度在 1 到 10个字符', trigger: 'blur' },
                         { pattern: /^[\u4E00-\u9FA5]+$/, message: '只能为中文'}
                     ],
-                    parent_id:[
-                        { required: true, message: '请选择父类角色', trigger: 'change' }
-                    ],
+
                     is_use:[
                         { required: true, message: '请选择是否启用', trigger: 'change' }
                     ],
-                    is_robot:[
-                        { required: true, message: '请选择是否机器人', trigger: 'change' }
-                    ],
+
                     is_backend:[
                         { required: true, message: '请选择是否可登录后台', trigger: 'change' }
                     ]

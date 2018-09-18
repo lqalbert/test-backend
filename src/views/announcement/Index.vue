@@ -62,7 +62,6 @@
     import AnnouncementAjaxProxy from '../../api/announcement';
     import APP_CONST from '../../config/index'
 
-
     export default {
         name:'announcement',
         mixins: [SearchTool, DataTable, PageMix, config],
@@ -85,7 +84,7 @@
             },
             showAdd() {
                 this.$modal.show('add-list')
-            },
+        },
             showEdit(row) {
                 this.$modal.show('edit-list', { model: row })
             }
