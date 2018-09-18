@@ -79,12 +79,20 @@
                     <el-table-column prop="end_time" label="结束时间" align="center" width="100px"></el-table-column>
                     <el-table-column prop="packet_status" label="状态" align="center">
                         <template slot-scope="scope">
-                            <div>{{statusList[scope.row.packet_status]}}</div>
+                            <el-switch
+                                    v-model="scope.row.packet_status"
+                                    active-value="1"
+                                    inactive-value="0"
+                                    active-color="#13ce66"
+                                    inactive-color="#ff4949"
+                                    @change="changeStatus(scope.row)"
+                            >
+                            </el-switch>
                         </template>
                     </el-table-column>
                     <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">
-                            <el-button type="primary" size="mini" round @click="sendPacket(scope.row.id)" v-if="scope.row.packet_status==1">发放红包</el-button>
+                            <el-button type="primary" size="mini" round @click="sendPacket(scope.row.id)" >发放红包</el-button>
                             <el-button type="danger" size="mini" round @click="endPacket(scope.row.id)" v-if="scope.row.packet_status!=3">结束红包</el-button>
                             <span  v-if="scope.row.packet_status==3">已结束</span>
                         </template>
@@ -161,6 +169,32 @@
           this.$message({
             message: msg,
             type: 'success'
+          })
+        },
+        changeStatus(data) {
+          const vmthis = this
+          this.ajaxProxy.update(data.id,'').then(function(response) {
+            if (response.data.code !== 200) {
+              vmthis.$message.error(response.data.msg ? response.data.msg : '操作失败')
+            } else {
+              vmthis.$message.success(response.data.msg)
+            }
+          }).catch(function(error) {
+            console.log(error)
+            if (error.response.data.code && error.response.data.code === 422) {
+              const x = error.response.data
+              const message = []
+              for (const key in x) {
+                if (x.hasOwnProperty(key)) {
+                  const element = x[key]
+                  message.push(element)
+                }
+              }
+              vmthis.$message.error(message.join())
+            } else {
+              console.log(error)
+              vmthis.$message.error('出错了')
+            }
           })
         },
         sendPacket(id) {

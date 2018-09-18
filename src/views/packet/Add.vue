@@ -11,29 +11,6 @@
                           :value="item.room_number">
                         </el-option>
                     </el-select>
-
-
-                </el-form-item>
-                <el-form-item label="客服二维码" prop="wx_code">
-                    <el-upload
-                            ref="upload"
-                            name="avatar"
-                            :data="liveDir"
-                            :auto-upload="false"
-                            class="avatar-uploader"
-                            :show-file-list="false"
-                            :action='actionUrl'
-                            accept="image/gif, image/jpeg,image/jpg,image/png"
-                            :headers='myHeader'
-                            :on-preview="handlePictureCardPreview"
-                            :on-success="handleAvatarSuccess"
-                            :on-error="uploadError"
-                            :before-upload="beforeAvatarUpload"
-                            :on-change="changefileList"
-                    >
-                        <img v-if="imgURL" :src="imgURL" class="avatar" style="max-width:300px">
-                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                    </el-upload>
                 </el-form-item>
             
                 <el-form-item label="红包总金额" prop="total_money">
