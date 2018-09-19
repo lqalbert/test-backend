@@ -87,7 +87,7 @@
                     <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">
                             <el-button type="primary" size="mini" round @click="editCourse(scope.row)" >修改</el-button>
-                            <el-button type="danger" size="mini" round @click="deleCourse(scope.row.id)" >删除</el-button>
+                            <el-button type="danger" size="mini" round @click="deleCourse(scope.row.id,scope.row.status)" >删除</el-button>
                             <span  v-if="scope.row.packet_status==3">已结束</span>
                         </template>
                     </el-table-column>
@@ -156,17 +156,11 @@
         onSearchReset() {
           this.videoProxy.load()
         },
-        alertShow(msg) {
-          this.$message({
-            message: msg,
-            type: 'success'
-          })
-        },
         editCourse(row) {
-          this.$modal.show('edit-list', {List:[row,this.roomList]})
-          
+          this.$modal.show('edit-list', {List:[row,this.roomList,]})
         },
-        deleCourse(id) {
+        deleCourse(id,status) {
+          if(status=='y')return this.$message.error('该广告启动中，不能删除');
           this.$msgbox({
             title: '消息',
             message: '确定结束红包状态？？',
@@ -175,9 +169,12 @@
             cancelButtonText: '取消'
           }).then(action => {
             PacketAjaxProxy.delete(id).then(pro => {
-              this.alertShow(pro.msg)
+              this.$message.success('删除成功');              
               this.refresh()
               // return;
+            }).catch(error=>{
+              // console.log(error.code)
+              this.$message.error('删除失败');
             })
           })
         },

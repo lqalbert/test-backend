@@ -74,25 +74,32 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="room_number" label="直播间号" align="center"></el-table-column>
-                    <el-table-column prop="create_time" label="创建时间" align="center" width="100px"></el-table-column>
-                    <el-table-column prop="start_time" label="开始时间" align="center" width="100px"></el-table-column>
-                    <el-table-column prop="end_time" label="结束时间" align="center" width="100px"></el-table-column>
+                    <!-- <el-table-column prop="create_time" label="创建时间" align="center" width="100px"></el-table-column> -->
+                    <!-- <el-table-column prop="start_time" label="开始时间" align="center" width="100px"></el-table-column> -->
+                    <el-table-column prop="end_time" label="结束时间" align="center" width="100px">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.packet_status!=3">未结束</span>
+                            <span v-if="scope.row.packet_status==3">{{scope.row.end_time}}</span>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="packet_status" label="状态" align="center">
                         <template slot-scope="scope">
-                            <el-switch
+                            <el-switch v-if="scope.row.packet_status!=3"
                                     v-model="scope.row.packet_status"
-                                    active-value="1"
-                                    inactive-value="0"
+                                    active-value="2"
+                                    inactive-value="1"
                                     active-color="#13ce66"
                                     inactive-color="#ff4949"
                                     @change="changeStatus(scope.row)"
                             >
                             </el-switch>
+                            <span v-if="scope.row.packet_status==3">已结束</span>
+
+
                         </template>
                     </el-table-column>
                     <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">
-                            <el-button type="primary" size="mini" round @click="sendPacket(scope.row.id)" >发放红包</el-button>
                             <el-button type="danger" size="mini" round @click="endPacket(scope.row.id)" v-if="scope.row.packet_status!=3">结束红包</el-button>
                             <span  v-if="scope.row.packet_status==3">已结束</span>
                         </template>
@@ -141,8 +148,8 @@
             // user_id:'',
           },
           statusList: {
-            1: '未发送',
-            2: '抢包中',
+            1: '关闭中',
+            2: '开启中',
             3: '已结束'
           },
           roomList: [],
@@ -165,55 +172,12 @@
         onSearchReset() {
           this.videoProxy.load()
         },
-        alertShow(msg) {
-          this.$message({
-            message: msg,
-            type: 'success'
-          })
-        },
         changeStatus(data) {
           const vmthis = this
           this.ajaxProxy.update(data.id,'').then(function(response) {
-            if (response.data.code !== 200) {
-              vmthis.$message.error(response.data.msg ? response.data.msg : '操作失败')
-            } else {
-              vmthis.$message.success(response.data.msg)
-            }
+              vmthis.$message.success('操作成功')
           }).catch(function(error) {
-            console.log(error)
-            if (error.response.data.code && error.response.data.code === 422) {
-              const x = error.response.data
-              const message = []
-              for (const key in x) {
-                if (x.hasOwnProperty(key)) {
-                  const element = x[key]
-                  message.push(element)
-                }
-              }
-              vmthis.$message.error(message.join())
-            } else {
-              console.log(error)
-              vmthis.$message.error('出错了')
-            }
-          })
-        },
-        sendPacket(id) {
-          var self=this;
-          // self.$message.error('pro.msg');
-          // return;
-          this.$msgbox({
-            title: '消息',
-            message: '确定发放红包？？',
-            showCancelButton: true,
-            confirmButtonText: '确定',
-            cancelButtonText: '取消'
-          }).then(action => {
-            PacketAjaxProxy.update(id, '').then(pro => {
-              this.alertShow(pro.msg)
-              this.refresh()
-            }).catch(error=>{
-              self.$message.error('发送失败');
-            })
+              vmthis.$message.error('操作失败')
           })
         },
         endPacket(id) {
@@ -226,7 +190,8 @@
             cancelButtonText: '取消'
           }).then(action => {
             PacketAjaxProxy.delete(id).then(pro => {
-              this.alertShow(pro.msg)
+              self.$message.success('结束成功');
+
               this.refresh()
             }).catch(error=>{
               self.$message.error('结束失败');
@@ -242,7 +207,7 @@
         getRoomList() {
           // console.log('getRoomList')
           PacketAjaxProxy.find('1').then(response => {
-              console.log()
+              // console.log()
             this.roomList = response.data
           }).catch(error => {
 
