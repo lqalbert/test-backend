@@ -113,7 +113,8 @@ export default {
       myHeader: {
         'Authorization': 'Bearer ' + getToken()
       },
-      actionUrl: APP_CONST.UPLOAD_BASE_URL
+      actionUrl: APP_CONST.UPLOAD_BASE_URL,
+      fileList: []
     }
   },
   methods: {

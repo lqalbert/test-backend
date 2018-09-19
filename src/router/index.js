@@ -120,7 +120,7 @@ export const constantRouterMap = [
       }
     ]
   },
- 
+
   {
   	path: '/website',
 	  component: Layout,
@@ -128,13 +128,13 @@ export const constantRouterMap = [
 	  name: '网站管理',
 	  meta: { title: '网站管理', icon: 'website' },
 	  children: [
-          /*{
+      /* {
               path: 'level',
               name: '会员等级',
               component: () => import('@/views/levels/index'),
               meta: { title: '会员等级', icon: 'level' }
           },*/
-      
+
       {
         path: '/ads',
         name: '广告设置',
@@ -267,7 +267,7 @@ export const constantRouterMap = [
         name: '活动',
         component: () => import('@/views/sale/Activity'),
         meta: { title: '活动', icon: 'activity' }
-      },
+      }
     ]
   },
   {
