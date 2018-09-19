@@ -97,80 +97,18 @@ export default {
     }
   },
   methods: {
-    getAjaxPromise() {
-      // if(this.addForm.min_money*this.addForm.total_num>=this.addForm.total_money||this.addForm.max_money>this.addForm.total_money){
-      //     this.alertShowError('数据错误，请重填');
-      //     // return;
-      // }
+    getAjaxPromise(model) {
       return this.ajaxProxy.create(this.addForm)
     },
-    alertShowSuccess(msg) {
-      this.$message({
-        message: msg,
-        type: 'success'
-      })
+    submitUpload() {            
+        this.$refs.addForm.submit()
     },
-    alertShowError(msg) {
-      this.$message({
-        message: msg,
-        type: 'error'
-      })
+    beforeFormSubmit(name){
+        this.formSubmit(name)
     },
-    handleAvatarSuccess(res, file) {
-      const vmthis = this
-      if (res.code === 200) {
-        vmthis.addForm.wx_code = res.data.url
-        this.formSubmit('addForm')
-      } else {
-        this.$message.error(res.data.msg)
-      }
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
-      }
-      return isJPG && isLt2M
-    },
-    handlePictureCardPreview(file) {
-      this.url = ''
-      // this.editForm.img_url = file
-    },
-    uploadError(err, file, fileList) {
-      this.$message.error('上传出错：' + err.msg)
-    },
-    changefileList(file, fileList) {
-      this.fileList = fileList
-      this.imgURL = URL.createObjectURL(file.raw)
-    },
-    handleRemove(file, fileList) {},
-    beforeFormSubmit(name) {
-      if (this.fileList.length === 0) {
-        this.$message.error('未上传新图片')
-        return
-      } else {
-        this.$refs['addForm'].validate((valid) => {
-          if (valid) {
-            this.submitUpload()
-          } else {
-            this.$emit('submit-final', name)
-            console.log('error submit!!')
-            return false
-          }
-        })
-      }
-    },
-    submitUpload() {
-      this.$refs.upload.submit()
-    },
-
     onOpen(model){
         this.roomList=model.params.roomList;
-    }
+    },
 
   }
 }

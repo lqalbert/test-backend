@@ -2,8 +2,8 @@
     <div>
         <myDialog title="编辑直播间" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
-                 <el-form-item label="名称" prop="home_ad_name">
-                    <el-input size="small" placeholder="名称" v-model="editForm.home_ad_name"></el-input>
+                 <el-form-item label="名称" prop="live_ad_name">
+                    <el-input size="small" placeholder="名称" v-model="editForm.live_ad_name"></el-input>
                 </el-form-item>
                
 
@@ -64,7 +64,7 @@ export default {
               base: 'live'
             },
             editForm: {
-                home_ad_name: '',
+                live_ad_name: '',
                 url_img: '',
             },
             rules: {
@@ -144,6 +144,7 @@ export default {
             }, 2000)
         },
         onOpen(model){
+            console.log(model.params.List);
             this.editForm=model.params.List[0];
             this.imgURL=this.editForm.url_img
         }
