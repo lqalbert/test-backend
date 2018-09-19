@@ -70,10 +70,12 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column  fixed="right" label="操作" align="center" width="180">
+                    <el-table-column  fixed="right" label="操作" align="center" width="220">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
                             <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
+                            <router-link :to="'/system/sockpuppet?id='+scope.row.id"><el-button type="success" size="small" v-show=show >马甲</el-button></router-link>
+                            <!--<el-button type="success" size="small" v-show=show @click="handleDelete(scope.row.id)">马甲</el-button>-->
                         </template>
                     </el-table-column>
 
@@ -114,6 +116,7 @@
     import CollegeProxy from '../../packages/CollegeProxy';
     import CollegeAjaxProxy from '../../api/college';
     import APP_CONST from '../../config/index'
+    import { mapActions,mapGetters } from 'vuex';
 
 export default {
       name: 'User',
@@ -127,6 +130,7 @@ export default {
           ajaxProxy: UserAjaxProxy,
           mainurl: UserAjaxProxy.getUrl(),
           mainparam: '',
+          show:false,
           options: [],
           colleges: [],
           teachers: [],
@@ -189,6 +193,12 @@ export default {
               }
           }
         },
+          setSockpuppet(){
+            let $role=this.$store.getters;
+            if($role['roles']=='salesman'){
+                return this.show = true;
+            }
+          }
 
       },
 
@@ -196,7 +206,7 @@ export default {
         this.$on('search-tool-change', this.onSearchChange)
         this.getCanAddRoles()
         this.getCanAddColleges()
-
+        this.setSockpuppet();
     }
 
     }
