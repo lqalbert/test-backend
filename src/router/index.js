@@ -61,6 +61,13 @@ export const constantRouterMap = [
         meta: { title: '用户列表', icon: 'users' }
       },
       {
+        path: 'sockpuppet',
+        name: '马甲列表',
+        hidden: true,
+        component: () => import('@/views/sockpuppets/index'),
+        meta: { title: '马甲列表', icon: 'users' }
+      },
+      {
         path: 'college',
         name: '学院列表',
         component: () => import('@/views/colleges/index'),
@@ -128,13 +135,12 @@ export const constantRouterMap = [
 	  name: '网站管理',
 	  meta: { title: '网站管理', icon: 'website' },
 	  children: [
-      /* {
-              path: 'level',
-              name: '会员等级',
-              component: () => import('@/views/levels/index'),
-              meta: { title: '会员等级', icon: 'level' }
-          },*/
-
+      {
+        path: 'level',
+        name: '会员等级',
+        component: () => import('@/views/levels/index'),
+        meta: { title: '会员等级', icon: 'level' }
+      },
       {
         path: '/ads',
         name: '广告设置',
