@@ -16,12 +16,16 @@
         <el-row>
             <el-col>
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15">
-                    <!--<el-table-column articleType="selection" align="center" width="50"></el-table-column>-->
 
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
                     <el-table-column prop="username" label="用户名" width="180" align="center"></el-table-column>
                     <el-table-column prop="nickname" label="昵称" width="180" align="center"></el-table-column>
-                    <el-table-column prop="level" label="等级" width="180" align="center"></el-table-column>
+                    <el-table-column prop="level" label="等级" width="180" align="center">
+                        <template scope="scope">
+                            {{ getLevel(scope.row.level, scope.row.cid, levels, colleges) }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="invitation_code" label="邀请码" width="180" align="center"></el-table-column>
                     <el-table-column  align="center" prop="cid" label="用户所属学院" width="180">
                         <template scope="scope">
                             {{ getCollege(scope.row.cid, colleges) }}
@@ -34,7 +38,11 @@
                     </el-table-column>
                     <el-table-column prop="watch_time_total" label="观看总时长" width="180" align="center"></el-table-column>
                     <el-table-column prop="watch_time_today" label="今日观看时长" width="180" align="center"></el-table-column>
-                    <el-table-column prop="status" label="账号状态" width="180" align="center"></el-table-column>
+                    <el-table-column prop="status" label="账号状态" width="180" align="center">
+                        <template scope="scope">
+                            {{ getStatus(scope.row.status) }}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="email" label="用户邮箱" width="180" align="center"></el-table-column>
                     <el-table-column prop="phone" label="用户手机" width="180" align="center"></el-table-column>
                     <el-table-column prop="address" label="用户地址" width="180" align="center"></el-table-column>
@@ -74,13 +82,13 @@
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
                             <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
-                            <router-link :to="'/system/sockpuppet?id='+scope.row.id"><el-button type="success" size="small" v-show=show >马甲</el-button></router-link>
-                            <!--<el-button type="success" size="small" v-show=show @click="handleDelete(scope.row.id)">马甲</el-button>-->
+                            <router-link :to="'/system/sockpuppet?pid='+scope.row.id"><el-button type="success" size="small" v-show=scope.row.show>马甲</el-button></router-link>
                         </template>
                     </el-table-column>
 
                     <div slot="buttonbar">
                         <el-button size="small" type="primary" @click="showAdd">添加账号</el-button>
+
                     </div>
                 </TableProxy>
             </el-col>
@@ -90,7 +98,8 @@
              :ajax-proxy="ajaxProxy"
              @submit-success="handleReload"
              :options="options"
-             :colleges="colleges"/>
+             :colleges="colleges"
+             :leveloption="leveloption"/>
 
         <Edit name="edit-list"
               :ajax-proxy="ajaxProxy"
@@ -111,8 +120,10 @@
     import PageMix from '../../mix/Page'
     import UserProxy from '../../packages/UserProxy'
     import RoleProxy from '../../packages/RoleProxy'
+    import LevelProxy from '../../packages/LevelProxy'
     import UserAjaxProxy from '../../api/user'
     import RoleAjaxProxy from '../../api/role'
+    import LevelAjaxProxy from '../../api/level'
     import CollegeProxy from '../../packages/CollegeProxy';
     import CollegeAjaxProxy from '../../api/college';
     import APP_CONST from '../../config/index'
@@ -133,7 +144,21 @@ export default {
           show:false,
           options: [],
           colleges: [],
-          teachers: [],
+          levels: [],
+          leveloption: [
+              {
+                  id:'1',
+                  name:'普通'
+              },
+              {
+                  id:'2',
+                  name:'中级'
+              },
+              {
+                  id:'3',
+                  name:'高级'
+              },
+          ],
           url: APP_CONST.BASE_URL
         }
       },
@@ -159,6 +184,10 @@ export default {
           this.colleges = data.items
           console.log(this.colleges)
         },
+          loadLevels(data) {
+              this.levels = data.items
+              console.log(this.levels)
+          },
         // 获取options的数据，即获取可以添加的角色数据，要根据当前的角色判断，不能添加比当前角色权限更高的角色
         getCanAddRoles() {
           const canAddRoles = new RoleProxy({}, this.loadRoles, this)
@@ -169,6 +198,10 @@ export default {
           const canAddColleges = new CollegeProxy({}, this.loadColleges, this)
           canAddColleges.load()
         },
+          getCanAddLevels() {
+              const canAddLevels = new LevelProxy({}, this.loadLevels, this)
+              canAddLevels.load()
+          },
 
         switchHandle1(row) {
           this.ajaxProxy.update(row.id, { is_use: row.is_use }).then((response) => {
@@ -186,6 +219,22 @@ export default {
               }
           }
         },
+          getLevel(level, cid, levels, colleges){
+              let level_type = '';
+              let res = '';
+              for ( let i = 0; i <colleges.length; i++){
+                  if (colleges[i]['id']==cid){
+                      level_type = colleges[i]['level_type'];
+                      for ( let j = 0; j <levels.length; j++){
+                          if (levels[j]['id']==level_type){
+                              return levels[j]['name'+level]
+                          }
+                      }
+                      return res;
+                  }
+              }
+          },
+
         getRole(id, arr){
           for ( let i = 0; i <arr.length; i++){
               if (arr[i]['id']==id){
@@ -193,12 +242,19 @@ export default {
               }
           }
         },
-          setSockpuppet(){
-            let $role=this.$store.getters;
-            if($role['roles']=='salesman'){
-                return this.show = true;
-            }
-          }
+
+          getStatus(status){
+              if(status==1){
+                  return '封号中'
+              }
+              if(status==2){
+                  return '禁言中'
+              }else{
+                  return '正常'
+              }
+          },
+
+
 
       },
 
@@ -206,7 +262,8 @@ export default {
         this.$on('search-tool-change', this.onSearchChange)
         this.getCanAddRoles()
         this.getCanAddColleges()
-        this.setSockpuppet();
+        this.getCanAddLevels()
+
     }
 
     }

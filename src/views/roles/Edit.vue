@@ -48,13 +48,6 @@
     export default {
         name: 'editList',
         mixins: [DialogForm],
-        props:{
-                options:{
-                    type:Array,
-                    default:[]
-                }
-            },
-
         data() {
             return {
                 dialogThis: this,

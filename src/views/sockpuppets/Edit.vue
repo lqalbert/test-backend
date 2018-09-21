@@ -1,11 +1,18 @@
 <template>
     <div>
-        <myDialog title="编辑文章类型" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <myDialog title="编辑马甲" :name="name" :width="width" :height="height" @before-open="onOpen">
 
             <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
-                <el-form-item label="文章类型" prop="name">
-                    <el-input v-model="editForm.name" ></el-input>
+                <el-form-item label="马甲名称" prop="nickname">
+                    <el-input v-model="editForm.nickname" ></el-input>
                     <!-- <el-input articleType="hidden" v-model="addForm.id"></el-input>-->
+                </el-form-item>
+                <el-form-item label="马甲等级"  prop="level">
+                    <el-radio-group v-model="editForm.level">
+                        <el-radio :label="1" border>普通</el-radio>
+                        <el-radio :label="2" border>中级</el-radio>
+                        <el-radio :label="3" border>高级</el-radio>
+                    </el-radio-group>
                 </el-form-item>
             </el-form>
 
@@ -35,14 +42,17 @@
                 labelWidth: '120px',
                 editForm: {
                     id:'',
-                    name: ''
+                    nickname: '',
+                    level: ''
                 },
                 rules: {
 
-                    name:[
-                        { required: true, message: '只能输入中文', trigger: 'blur' },
-                        { min: 1, max: 10, message: '长度在 1 到 10个字符', trigger: 'blur' },
-                        { pattern: /^[\u4E00-\u9FA5]+$/, message: '只能为中文'}
+                    nickname:[
+                        { required: true, trigger: 'blur' },
+                        { min: 1, max: 10, message: '长度在 1 到 10个字符', trigger: 'blur' }
+                    ],
+                    level:[
+                        { required: true, trigger: 'blur' }
                     ]
                 },
                 model:''

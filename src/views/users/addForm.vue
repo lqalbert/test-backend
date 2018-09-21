@@ -15,9 +15,7 @@
                                     <el-input class="name-input" v-model="addForm.username"  auto-complete="off"></el-input>
                                 </el-form-item>
                             </el-col>
-                        </el-row>
 
-                        <el-row>
                             <el-col :span="12">
                                 <el-form-item label="密码" prop="password">
                                     <el-input class="name-input" type="password" v-model="addForm.password" auto-complete="off"></el-input>
@@ -26,6 +24,12 @@
                         </el-row>
 
                         <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="邀请码" prop="invitation_code">
+                                    <el-input class="name-input" v-model="addForm.invitation_code"></el-input>
+                                </el-form-item>
+                            </el-col>
+
                             <el-col :span="12">
                                 <el-form-item label="角色" prop="role_id">
                                     <el-select  clearable placeholder="请选择" v-model="addForm.role_id">
@@ -41,7 +45,34 @@
                         </el-row>
 
                         <el-row>
-                            <el-col>
+                            <el-col :span="12">
+                                <el-form-item label="所属学院" prop="cid">
+                                    <el-select  clearable placeholder="请选择" v-model="addForm.cid">
+                                        <el-option
+                                                v-for="item in colleges"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12">
+                                <el-form-item label="用户等级" prop="level">
+                                    <el-select  clearable placeholder="请选择" v-model="addForm.level">
+                                        <el-option
+                                                v-for="item in leveloption"
+                                                :key="item.id"
+                                                :label="item.name"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="12">
                                 <el-form-item label="是否启用" prop="is_use">
                                     <el-radio-group v-model="addForm.is_use">
                                         <el-radio label="y" border>是</el-radio>
@@ -104,21 +135,7 @@
                             </el-col>
                         </el-row>
 
-                        <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="所属学院" prop="pid">
-                                    <el-select  clearable placeholder="请选择" v-model="addForm.pid">
-                                        <el-option
-                                                v-for="item in colleges"
-                                                :key="item.id"
-                                                :label="item.name"
-                                                :value="item.id">
-                                        </el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
 
-                        </el-row>
 
                     </el-tab-pane>
                 </el-tabs>
@@ -150,6 +167,10 @@
           colleges: {
               type: Array,
               default: []
+          },
+          leveloption: {
+              type: Array,
+              default: []
           }
       },
 
@@ -163,13 +184,15 @@
             username: '',
             password: '',
             role_id: '',
+            level: '',
             is_use: '',
             user_img: '/images/home/user.jpg',
             nickname: '',
             email: '',
             phone: '',
             address: '',
-            pid: ''
+            cid: '',
+            pid: '0'
           },
           url: APP_CONST.UPLOAD_BASE_URL,
           rules: {
@@ -183,6 +206,11 @@
               { required: true, message: '请设置密码6-16位，不能使用空格', trigger: 'blur' },
               { pattern: /^([^\s]){6,16}$/, message: '请设置密码6-16位，不能使用空格' }
             ],
+              invitation_code: [
+                  { required: true, message: '请输入1-6个数字或字母', trigger: 'blur' },
+                  { min: 1, max: 6, message: '长度在 1 到 6个字符', trigger: 'blur' },
+                  { pattern: /^([A-Za-z0-9]){1,6}$/, message: '只能输入1-6个数字或字母' }
+              ],
               nickname:[
                   { min: 1, max: 32, message: '长度在 1 到 32个字符', trigger: 'blur' },
               ],
@@ -198,10 +226,13 @@
             role_id: [
               { required: true, message: '请选择角色', trigger: 'change' }
             ],
+              level: [
+                  { required: true, message: '请选择用户等级', trigger: 'change' }
+              ],
             is_use: [
               { required: true, message: '请选择是否启用', trigger: 'change' }
             ],
-            pid: [
+            cid: [
               { required: true, message: '请选择所属学院', trigger: 'change' }
             ],
           },
