@@ -11,7 +11,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '**': {target:"http://www.edus.com/", changeOrigin:true} ,
+      '**': {target:"http://www.zhibo.com/", changeOrigin:true} ,
     },
 
     // Various Dev Server settings
@@ -29,7 +29,7 @@ module.exports = {
     // If true, eslint errors and warnings will also be shown in the error overlay
     // in the browser.
     showEslintErrorsInOverlay: false,
-
+    
     /**
      * Source Maps
      */

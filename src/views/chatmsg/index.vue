@@ -44,11 +44,11 @@
                     @dbclick="actionThis"
                 >
                     <el-table-column label="序号" align="center" type="index" width="100px"></el-table-column>
-                    <el-table-column prop="room_number" label="用户账号" align="center" ></el-table-column>
+                    <el-table-column prop="room_number" label="直播间号" align="center" ></el-table-column>
                     <el-table-column prop="nickname" label="昵称" align="center" ></el-table-column>
-                    <el-table-column prop="user_id" label="账户类型" align="center" ></el-table-column>
-                    <el-table-column prop="send_time" label="发送时间" align="center" ></el-table-column>
+                    <el-table-column prop="role_comment" label="账户类型" align="center" ></el-table-column>
                     <el-table-column prop="content" label="内容" align="center" ></el-table-column>
+                    <el-table-column prop="send_time" label="发送时间" align="center" ></el-table-column>
 
                     
                 </TableProxy>
