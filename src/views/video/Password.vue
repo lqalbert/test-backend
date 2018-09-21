@@ -130,112 +130,108 @@
     import Add from './Add2'
     import APP_CONST from '@/config/index'
 
-
-
-
     export default {
-        name: 'Videos',
-        mixins: [PageMix, DataTable, config, SearchTool, LivePasswordAjaxProxy],
-        components: { TableProxy,Add },
-        data() {
-            return {
-                ajaxProxy: LivePasswordAjaxProxy,
-                mainurl: LivePasswordAjaxProxy.getUrl(),
-                mainparam: '',
-                total: '100',
-                dataLoad: false,
-                searchForm: {
-                    status:'',
-                    room_number:'',
-                    time_type:'',
-                },
-                timeTypeList:{
-                	1: '固定时长',
-                    2: '固定日期',
-                },
-                statusList:{
-                    1: '正常状态',
-                    2: '已经过期',
-                    3: '提前到期',
-                },
-                roomList:[],
-                imgLink: APP_CONST.BASE_URL
-            }
+      name: 'Videos',
+      mixins: [PageMix, DataTable, config, SearchTool, LivePasswordAjaxProxy],
+      components: { TableProxy, Add },
+      data() {
+        return {
+          ajaxProxy: LivePasswordAjaxProxy,
+          mainurl: LivePasswordAjaxProxy.getUrl(),
+          mainparam: '',
+          total: '100',
+          dataLoad: false,
+          searchForm: {
+            status: '',
+            room_number: '',
+            time_type: ''
+          },
+          timeTypeList: {
+            1: '固定时长',
+            2: '固定日期'
+          },
+          statusList: {
+            1: '正常状态',
+            2: '已经过期',
+            3: '提前到期'
+          },
+          roomList: [],
+          imgLink: APP_CONST.BASE_URL
+        }
+      },
+      methods: {
+        getAjaxProxy() {
+          return this.ajaxProxy
         },
-        methods:{
-            getAjaxProxy() {
-                return this.ajaxProxy
-            },
-            createPacket(){
-                this.$modal.show('add-list', { roomList:this.roomList })
-            },
-            actionThis(row) {
-                // this.$modal.show('edit-list', { model: row })
-            },
-            onSearchChange(param) {
-                this.mainparam = JSON.stringify(param);
-            },
-            onSearchReset() {
-                this.videoProxy.load()
-            },
-            alertShow(msg){
-                this.$message({
-                    message: msg,
-                    type: 'success'
-                });
-            },
-            sendPacket(id) {
-                this.$msgbox({
-                    title: '消息',
-                    message: '确定发放红包？？',
-                    showCancelButton: true,
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消'
-                }).then(action => {
-                    LivePasswordAjaxProxy.update(id,'').then(pro=>{
-                        this.alertShow(pro.msg);
-                        this.refresh();
-                    });
-                });
-            },
-            endPacket(id) {
-                this.$msgbox({
-                    title: '消息',
-                    message: '确定结束红包状态？？',
-                    showCancelButton: true,
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消'
-                }).then(action => {
-                    LivePasswordAjaxProxy.delete(id).then(pro=>{
-                        this.alertShow(pro.msg);
-                        this.refresh();
-                        // return;
-                    });
-                });
-            },
-            refresh(){
-                this.dataTableReload++;
-            },
-            addPassword(){
-                this.refresh()
-            },
-            getRoomList(){
-                // console.log('getRoomList')
-                LivePasswordAjaxProxy.find('1').then(response=>{
-                    this.roomList=response.data;
-                }).catch(error=>{
+        createPacket() {
+          this.$modal.show('add-list', { roomList: this.roomList })
+        },
+        actionThis(row) {
+          // this.$modal.show('edit-list', { model: row })
+        },
+        onSearchChange(param) {
+          this.mainparam = JSON.stringify(param)
+        },
+        onSearchReset() {
+          this.videoProxy.load()
+        },
+        alertShow(msg) {
+          this.$message({
+            message: msg,
+            type: 'success'
+          })
+        },
+        sendPacket(id) {
+          this.$msgbox({
+            title: '消息',
+            message: '确定发放红包？？',
+            showCancelButton: true,
+            confirmButtonText: '确定',
+            cancelButtonText: '取消'
+          }).then(action => {
+            LivePasswordAjaxProxy.update(id, '').then(pro => {
+              this.alertShow(pro.msg)
+              this.refresh()
+            })
+          })
+        },
+        endPacket(id) {
+          this.$msgbox({
+            title: '消息',
+            message: '确定结束红包状态？？',
+            showCancelButton: true,
+            confirmButtonText: '确定',
+            cancelButtonText: '取消'
+          }).then(action => {
+            LivePasswordAjaxProxy.delete(id).then(pro => {
+              this.alertShow(pro.msg)
+              this.refresh()
+              // return;
+            })
+          })
+        },
+        refresh() {
+          this.dataTableReload++
+        },
+        addPassword() {
+          this.refresh()
+        },
+        getRoomList() {
+          // console.log('getRoomList')
+          LivePasswordAjaxProxy.find('1').then(response => {
+            this.roomList = response.data
+          }).catch(error => {
 
-                });
-            }
-        },
-        created() {
-            this.$on('search-tool-change', this.onSearchChange)
-            this.getRoomList();
+          })
+        }
+      },
+      created() {
+        this.$on('search-tool-change', this.onSearchChange)
+        this.getRoomList()
+      },
+      mounted() {
 
-        },
-        mounted() {
-
-        },
+      }
 
     }
 </script>
