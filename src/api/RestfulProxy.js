@@ -15,8 +15,12 @@ RestfulProxy.prototype.create = function(param) {
 RestfulProxy.prototype.update = function(id, model) {
   return AxiosInstance.put(this.url + '/' + id, model)
 }
-RestfulProxy.prototype.find = function(id) {
-  return AxiosInstance.get(this.url + '/' + id)
+RestfulProxy.prototype.find = function(id, param=null){
+    if(param) {
+        return AxiosInstance.get(this.url + "/" + id, {params:param});
+    } else {
+        return AxiosInstance.get(this.url + "/" + id);
+    }
 }
 RestfulProxy.prototype.getAxios = function() {
   return AxiosInstance

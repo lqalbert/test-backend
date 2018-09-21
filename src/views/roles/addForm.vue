@@ -3,8 +3,7 @@
         <myDialog title="添加角色" :name="name" :width="width" :height="height">
             <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
                 <el-form-item label="角色名字" prop="role_name">
-                    <el-input v-model="addForm.role_name" placeholder="只能输入字母、数字、下划线"></el-input>
-                    <!-- <el-input articleType="hidden" v-model="addForm.id"></el-input>-->
+                    <el-input v-model="addForm.role_name" placeholder="只能输入数字、字母、下划线"></el-input>
                 </el-form-item>
 
                 <el-form-item label="角色说明" prop="role_comment">
@@ -47,13 +46,6 @@
     export default {
         name: 'addList',
         mixins: [DialogForm],
-        props:{
-                options:{
-                    type:Array,
-                    default:[]
-                }
-            },
-
         data() {
             return {
                 dialogThis: this,
@@ -99,9 +91,6 @@
                 return this.ajaxProxy.create(model);
             }
         },
-
-
-
     }
 </script>
 
