@@ -7,12 +7,15 @@
                     <el-input v-model="editForm.nickname" ></el-input>
                     <!-- <el-input articleType="hidden" v-model="addForm.id"></el-input>-->
                 </el-form-item>
-                <el-form-item label="马甲等级"  prop="level">
-                    <el-radio-group v-model="editForm.level">
-                        <el-radio :label="1" border>普通</el-radio>
-                        <el-radio :label="2" border>中级</el-radio>
-                        <el-radio :label="3" border>高级</el-radio>
-                    </el-radio-group>
+                <el-form-item label="马甲等级" prop="level">
+                    <el-select  v-model="editForm.level">
+                        <el-option
+                                v-for="item in leveloption"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
             </el-form>
 
@@ -34,7 +37,12 @@
     export default {
         name: 'editList',
         mixins: [DialogForm],
-
+        props: {
+            leveloption: {
+                type: Array,
+                default: []
+            }
+        },
         data() {
             return {
                 dialogThis: this,
@@ -46,7 +54,6 @@
                     level: ''
                 },
                 rules: {
-
                     nickname:[
                         { required: true, trigger: 'blur' },
                         { min: 1, max: 10, message: '长度在 1 到 10个字符', trigger: 'blur' }

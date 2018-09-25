@@ -27,6 +27,16 @@
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
+                <el-form-item label="用户等级" prop="level">
+                    <el-select  v-model="editForm.level">
+                        <el-option
+                                v-for="item in leveloption"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="邮箱" prop="email">
                     <el-input size="small"  v-model="editForm.email"></el-input>
                 </el-form-item>
@@ -65,6 +75,12 @@
     export default {
         name: 'editList',
         mixins: [DialogForm],
+        props: {
+            leveloption: {
+                type: Array,
+                default: []
+            }
+        },
         data() {
             return {
                 dialogThis: this,
@@ -85,6 +101,7 @@
                     email: '',
                     nickname: '',
                     phone: '',
+                    level: '',
                     address: '',
                     is_use: ''
                 },

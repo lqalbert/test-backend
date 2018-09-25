@@ -6,12 +6,15 @@
                     <el-input v-model="addForm.nickname"></el-input>
                 </el-form-item>
 
-                <el-form-item label="马甲等级"  prop="level">
-                    <el-radio-group v-model="addForm.level">
-                        <el-radio label="1" border>普通</el-radio>
-                        <el-radio label="2" border>中级</el-radio>
-                        <el-radio label="3" border>高级</el-radio>
-                    </el-radio-group>
+                <el-form-item label="马甲等级" prop="level">
+                    <el-select  clearable placeholder="请选择" v-model="addForm.level">
+                        <el-option
+                                v-for="item in leveloption"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
 
             </el-form>
@@ -33,7 +36,21 @@
     export default {
         name: 'addList',
         mixins: [DialogForm],
-        props:['pid'],
+        //props:['pid'],
+        props: {
+            pid: {
+                type: String,
+                default: []
+            },
+            cid: {
+                type: Number,
+                default: []
+            },
+            leveloption: {
+                type: Array,
+                default: []
+            }
+        },
         data() {
             return {
                 dialogThis: this,
@@ -43,9 +60,18 @@
                     nickname: '',
                     level: '',
                     sockpuppet: 'y',
-                    pid: this.pid
+                    pid: this.pid,
+                    cid: this.cid
                 },
-                rules: {}
+                rules: {
+                    nickname: [
+                        { required: true,  trigger: 'blur' },
+                        { min: 1, max: 10, message: '长度在 1 到 10个字符', trigger: 'blur' }
+                    ],
+                    level: [
+                        { required: true, message: '请选择马甲等级', trigger: 'change' }
+                    ],
+                }
             }
         },
         methods: {
@@ -53,9 +79,6 @@
                 return this.ajaxProxy.create(model);
             }
         },
-
-
-
     }
 </script>
 
