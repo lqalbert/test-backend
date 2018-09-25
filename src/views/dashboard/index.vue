@@ -205,6 +205,7 @@ export default {
     },
     initMsg(data) {
       const msg = data.items[0]
+      console.log(msg)
       for (const x in this.editForm) {
       	if (this.editForm.hasOwnProperty(x) && msg.hasOwnProperty(x)) {
           this.editForm[x] = msg[x]
@@ -212,7 +213,7 @@ export default {
       }
       this.editForm.videoUrl = msg.company.address
       this.editForm.pushName = msg.users.username
-      if (msg.pop_url !== '') {
+      if (msg.pop_url !== null) {
         this.imgURL = this.url + msg.pop_url
       }
       this.dataLoad = false
