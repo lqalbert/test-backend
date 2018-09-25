@@ -44,8 +44,8 @@
                     @dbclick="actionThis"
                 >
                     <el-table-column label="序号" align="center" type="index" width="100px"></el-table-column>
-                    <el-table-column prop="room_number" label="用户昵称" align="center" ></el-table-column>
-                    <el-table-column prop="pwd_num" label="用户等级" align="center" ></el-table-column>
+                    <el-table-column prop="nickname" label="用户昵称" align="center" ></el-table-column>
+                    <el-table-column prop="level" label="用户等级" align="center" ></el-table-column>
 
                     
                 </TableProxy>
@@ -64,7 +64,7 @@
     import SearchTool from '@/mix/SearchTool'
     import DataTable from '@/mix/DataTable'
     import TableProxy from '@/components/Commontable/Table'
-    import LivePasswordAjaxProxy from '@/api/livepassword'
+    import OnlineAjaxProxy from '@/api/online'
     import APP_CONST from '@/config/index'
 
 
@@ -72,12 +72,12 @@
 
     export default {
         name: 'Videos',
-        mixins: [PageMix, DataTable, config, SearchTool, LivePasswordAjaxProxy],
+        mixins: [PageMix, DataTable, config, SearchTool, OnlineAjaxProxy],
         components: { TableProxy },
         data() {
             return {
-                ajaxProxy: LivePasswordAjaxProxy,
-                mainurl: LivePasswordAjaxProxy.getUrl(),
+                ajaxProxy: OnlineAjaxProxy,
+                mainurl: OnlineAjaxProxy.getUrl(),
                 mainparam: '',
                 total: '100',
                 dataLoad: false,
@@ -106,7 +106,7 @@
             },
             getRoomList(){
                 // console.log('getRoomList')
-                LivePasswordAjaxProxy.find('1').then(response=>{
+                OnlineAjaxProxy.find('1').then(response=>{
                     this.roomList=response.data;
                 }).catch(error=>{
 
