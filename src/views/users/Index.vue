@@ -105,7 +105,8 @@
               :ajax-proxy="ajaxProxy"
               @submit-success="handleReload"
               :options="options"
-              :colleges="colleges"/>
+              :colleges="colleges"
+              :leveloption="leveloption"/>
 
     </div>
 </template>
@@ -145,20 +146,7 @@ export default {
           options: [],
           colleges: [],
           levels: [],
-          leveloption: [
-              {
-                  id:'1',
-                  name:'普通'
-              },
-              {
-                  id:'2',
-                  name:'中级'
-              },
-              {
-                  id:'3',
-                  name:'高级'
-              },
-          ],
+          leveloption: [],
           url: APP_CONST.BASE_URL
         }
       },
@@ -253,7 +241,39 @@ export default {
                   return '正常'
               }
           },
-
+          getCanAddLevelOptions(){
+            if(this.$store.getters.level_type==1){
+                this.leveloption=[
+                    {
+                        id:'1',
+                        name:'普通'
+                    },
+                    {
+                        id:'2',
+                        name:'中级'
+                    },
+                    {
+                        id:'3',
+                        name:'高级'
+                    }
+                ]
+            }else if(this.$store.getters.level_type==2){
+                  this.leveloption=[
+                      {
+                          id:'1',
+                          name:'白银'
+                      },
+                      {
+                          id:'2',
+                          name:'黄金'
+                      },
+                      {
+                          id:'3',
+                          name:'砖石'
+                      }
+                  ]
+              }
+          }
 
 
       },
@@ -263,6 +283,7 @@ export default {
         this.getCanAddRoles()
         this.getCanAddColleges()
         this.getCanAddLevels()
+        this.getCanAddLevelOptions()
 
     }
 

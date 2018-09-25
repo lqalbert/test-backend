@@ -21,7 +21,11 @@
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
                     <el-table-column prop="nickname" label="马甲名称"  align="center"></el-table-column>
-                    <el-table-column prop="level" label="马甲等级"  align="center"></el-table-column>
+                    <el-table-column prop="level" label="马甲等级"  align="center">
+                        <template scope="scope">
+                            {{ getLevel(scope.row.level, scope.row.cid, levels, colleges) }}
+                        </template>
+                    </el-table-column>
 
 
                     <el-table-column  fixed="right"  label="操作" align="center" width="180">
@@ -42,11 +46,14 @@
         <Add name="add-list"
              :ajax-proxy="ajaxProxy"
              @submit-success="handleReload"
-            :pid="pid"/>
+             :pid="pid"
+             :cid="cid"
+             :leveloption="leveloption"/>
 
         <Edit name="edit-list"
               :ajax-proxy="ajaxProxy"
-              @submit-success="handleReload"/>
+              @submit-success="handleReload"
+              :leveloption="leveloption"/>
 
     </div>
 </template>
@@ -62,7 +69,9 @@
     import UserProxy from '../../packages/UserProxy'
     import UserAjaxProxy from '../../api/user'
     import APP_CONST from '../../config/index'
-
+    import { mapActions,mapGetters } from 'vuex';
+    import LevelProxy from '../../packages/LevelProxy'
+    import CollegeProxy from '../../packages/CollegeProxy';
 
     export default {
         name:'Sockpuppet',
@@ -74,7 +83,9 @@
                 ajaxProxy:UserAjaxProxy,
                 mainurl:UserAjaxProxy.getUrl(),
                 mainparam:'{"pid": ' + this.$route.query.pid + '}',
-                pid:''
+                pid:'',
+                cid:'',
+                leveloption: []
             }
         },
 
@@ -91,14 +102,86 @@
             showEdit(row) {
                 this.$modal.show('edit-list', { model: row })
             },
+            loadColleges(data) {
+                this.colleges = data.items
+                console.log(this.colleges)
+            },
+            loadLevels(data) {
+                this.levels = data.items
+                console.log(this.levels)
+            },
             getId(){
                  return this.pid = this.$route.query.pid;
-            }
+            },
+            getCid(){
+                return this.cid = this.$store.getters.company_id;
+            },
+            getCanAddColleges() {
+                const canAddColleges = new CollegeProxy({}, this.loadColleges, this)
+                canAddColleges.load()
+            },
+            getCanAddLevels() {
+                const canAddLevels = new LevelProxy({}, this.loadLevels, this)
+                canAddLevels.load()
+            },
+            getCanAddLevelOption(){
+                if(this.$store.getters.level_type==1){
+                    this.leveloption=[
+                        {
+                            id:'1',
+                            name:'普通'
+                        },
+                        {
+                            id:'2',
+                            name:'中级'
+                        },
+                        {
+                            id:'3',
+                            name:'高级'
+                        }
+                    ]
+                }else if(this.$store.getters.level_type==2){
+                    this.leveloption=[
+                        {
+                            id:'1',
+                            name:'白银'
+                        },
+                        {
+                            id:'2',
+                            name:'黄金'
+                        },
+                        {
+                            id:'3',
+                            name:'砖石'
+                        }
+                    ]
+                }
+            },
+            getLevel(level, cid, levels, colleges){
+                let level_type = '';
+                let res = '';
+                for ( let i = 0; i <colleges.length; i++){
+                    if (colleges[i]['id']==cid){
+                        level_type = colleges[i]['level_type'];
+                        for ( let j = 0; j <levels.length; j++){
+                            if (levels[j]['id']==level_type){
+                                return levels[j]['name'+level]
+                            }
+                        }
+                        return res;
+                    }
+                }
+            },
+
         },
 
         created() {
             this.$on('search-tool-change', this.onSearchChange);
             this.getId();
+            this.getCid();
+            this.getCanAddColleges()
+            this.getCanAddLevels()
+            this.getCanAddLevelOption()
         }
 
 
