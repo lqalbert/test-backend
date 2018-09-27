@@ -11,7 +11,7 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '**': {target:"http://www.edus.com/", changeOrigin:true} ,
+      '**': {target:"http://test-serve.io/", changeOrigin:true} ,
     },
 
     // Various Dev Server settings

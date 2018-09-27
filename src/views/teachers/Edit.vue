@@ -1,12 +1,20 @@
 <template>
     <div>
-        <myDialog title="编辑用户信息" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <myDialog title="编辑通告" :name="name" :width="width" :height="height" @before-open="onOpen">
+
             <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
-                <el-form-item label="账户" prop="username">
-                    <el-input class="name-input" size="small" v-model="editForm.username" ></el-input>
+                <el-form-item label="所属直播间" prop="room_id">
+                    <el-select  placeholder="请选择" v-model="editForm.room_id">
+                        <el-option
+                                v-for="item in rooms"
+                                :key="item.id"
+                                :label="item.room_number"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
                 </el-form-item>
 
-                <el-form-item label="头像" prop="user_img">
+                <el-form-item label="教师简介" prop="teacher_img">
                     <el-upload
                             ref="upload"
                             name="avatar"
@@ -27,40 +35,10 @@
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="用户等级" prop="level">
-                    <el-select  v-model="editForm.level">
-                        <el-option
-                                v-for="item in leveloption"
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="邀请码" prop="invitation_code">
-                    <el-input class="name-input" v-model="editForm.invitation_code"></el-input>
-                </el-form-item>
-                <el-form-item label="邮箱" prop="email">
-                    <el-input size="small"  v-model="editForm.email"></el-input>
-                </el-form-item>
-                <el-form-item label="昵称" prop="nickname">
-                    <el-input size="small" v-model="editForm.nickname"></el-input>
-                </el-form-item>
-                <el-form-item label="电话" prop="phone">
-                    <el-input size="small"  v-model="editForm.phone"></el-input>
-                </el-form-item>
-                <el-form-item label="地址" prop="address">
-                    <el-input size="small" v-model="editForm.address"></el-input>
-                </el-form-item>
-                <el-form-item label="是否启用" prop="is_use">
-                    <el-radio-group v-model="editForm.is_use">
-                        <el-radio label="y" border>是</el-radio>
-                        <el-radio label="n" border>否</el-radio>
-                    </el-radio-group>
-                </el-form-item>
             </el-form>
+
             <div slot="dialog-foot" class="dialog-footer">
-                <el-button size="small" @click="handleClose">取消</el-button>
+                <el-button  @click="handleClose">取消</el-button>
                 <submit-button @click="beforeFormSubmit('editForm')"
                                :observer="dialogThis">
                     保存
@@ -71,15 +49,16 @@
 </template>
 
 <script>
-    /* eslint-disable indent,no-mixed-spaces-and-tabs */
-    import { getToken } from '../../utils/auth'
+    /* eslint-disable no-mixed-spaces-and-tabs */
+
     import DialogForm from '../../mix/DialogForm'
+    import { getToken } from '../../utils/auth'
     import APP_CONST from '../../config/index'
     export default {
         name: 'editList',
         mixins: [DialogForm],
         props: {
-            leveloption: {
+            rooms: {
                 type: Array,
                 default: []
             }
@@ -89,6 +68,19 @@
                 dialogThis: this,
                 labelPosition: 'right',
                 labelWidth: '120px',
+                editForm: {
+                    id:'',
+                    room_id: '',
+                    teacher_img:''
+                },
+                rules: {
+
+
+                },
+                model:'',
+                fileList: [],
+                imgURL: '',
+                submit_stat: '',
                 uploadUrl: APP_CONST.UPLOAD_BASE_URL,
                 url: APP_CONST.BASE_URL,
                 myHeader: {
@@ -96,39 +88,8 @@
                 },
                 liveDir: {
                     base: 'live'
-                },
-                editForm: {
-                    id: '',
-                    username: '',
-                    user_img: '',
-                    email: '',
-                    nickname: '',
-                    phone: '',
-                    level: '',
-                    address: '',
-                    invitation_code: '',
-                    is_use: ''
-                },
-                rules: {
-                    username:[
-                        { required: true, message: '只能输入字母、数字、下划线', trigger: 'blur' },
-                        { min: 1, max: 32, message: '长度在 1 到 32个字符', trigger: 'blur' },
-                        //{ pattern: /^[\u4E00-\u9FA5]+$/, message: '用户名只能为中文'}
-                        { pattern: /^([A-Za-z0-9_-]){1,32}$/, message: '只能输入1-32个字母、数字、下划线'}
-                    ],
-                    invitation_code: [
-                        { required: true, message: '请输入1-6个数字或字母', trigger: 'blur' },
-                        { min: 1, max: 6, message: '长度在 1 到 6个字符', trigger: 'blur' },
-                        { pattern: /^([A-Za-z0-9]){1,6}$/, message: '只能输入1-6个数字或字母' }
-                    ],
-                    is_use: [
-                        { required: true, message: '请选择是否启用', trigger: 'change' }
-                    ],
-                },
-                model: '',
-                fileList: [],
-                imgURL: '',
-                submit_stat: ''
+                }
+
             }
         },
         methods: {
@@ -141,7 +102,7 @@
             handleAvatarSuccess(res, file) {
                 const vmthis = this
                 if (res.code === 200) {
-                    vmthis.editForm.user_img = res.data.url
+                    vmthis.editForm.teacher_img = res.data.url
                     this.formSubmit('editForm')
                 } else {
                     this.$message.error(res.data.msg)
@@ -210,10 +171,11 @@
                         this.editForm[key] = val[key]
                     }
                 }
-                this.imgURL = this.url + this.editForm.user_img
+                this.imgURL = this.url + this.editForm.teacher_img
             }
         },
-        created() {
+        created(){
+
         }
     }
 </script>
@@ -232,16 +194,17 @@
     .avatar-uploader-icon {
         font-size: 28px;
         color: #8c939d;
-        min-width: 100px;
-        min-height: 60px;
-        line-height: 178px;
+        min-width: 150px;
+        min-height: 100px;
+        line-height: 100px;
         text-align: center;
     }
     .avatar {
-        min-width: 100px;
-        max-width: 100%;
-        min-height: 60px;
-        max-height: 200px;
+        min-width: 150px;
+        min-height: 100px;
         display: block;
+    }
+    .pull-right {
+        float:right
     }
 </style>

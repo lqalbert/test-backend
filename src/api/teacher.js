@@ -1,6 +1,6 @@
-import RestfulProxy from './RestfulProxy'
+import RestfulProxy from './RestfulProxy';
 
-const URL = '/teacher'
-const proxy = new RestfulProxy(URL)
+const URL = '/teacher';
+const proxy = new RestfulProxy(URL);
 
-export default proxy
+export default proxy;

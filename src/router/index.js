@@ -170,13 +170,13 @@ export const constantRouterMap = [
       {
         path: 'teacher',
         name: '名师管理',
-        component: () => import('@/views/teacher/teacher'),
+        component: () => import('@/views/teachers/index'),
         meta: { title: '名师管理', icon: 'teacher' }
       },
       {
-        path: 'teacher',
+        path: 'course',
         name: '课程管理',
-        component: () => import('@/views/teacher/teacher'),
+        component: () => import('@/views/courses/index'),
         meta: { title: '课程管理', icon: 'course' }
       },
       {
