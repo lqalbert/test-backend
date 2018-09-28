@@ -20,8 +20,11 @@
 
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
-                    <el-table-column prop="cid" label="所属公司"  align="center"></el-table-column>
-                    <el-table-column prop="room_id" label="所属直播间"  align="center"></el-table-column>
+                    <el-table-column prop="room_id" label="所属直播间"  align="center">
+                        <template scope="scope">
+                            {{ getRooms(scope.row.room_id, rooms) }}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="teacher_img" label="教师简介" width="120" align="center">
                         <template slot-scope="scope">
                             <img :src="url+scope.row.teacher_img" alt="" width="100px">
@@ -103,6 +106,13 @@
                 const canAddRooms = new VideoProxy({ college_id: this.$store.getters.company_id }, this.loadRooms, this)
                 canAddRooms.load()
             },
+            getRooms(id, arr){
+                for ( let i = 0; i <arr.length; i++){
+                    if (arr[i]['id']==id){
+                        return arr[i]['room_number'];
+                    }
+                }
+            }
         },
 
         created() {

@@ -20,10 +20,16 @@
 
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
-                    <el-table-column prop="content" label="通告内容"  align="center"></el-table-column>
-                    <el-table-column prop="announcement_time" label="通告日期"  align="center"></el-table-column>
-
-
+                    <el-table-column prop="room_id" label="所属直播间"  align="center">
+                        <template scope="scope">
+                            {{ getRooms(scope.row.room_id, rooms) }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="teacher_img" label="课程简介" width="120" align="center">
+                        <template slot-scope="scope">
+                            <img :src="url+scope.row.course_img" alt="" width="100px">
+                        </template>
+                    </el-table-column>
 
                     <el-table-column  fixed="right"  label="操作" align="center" width="180">
                         <template slot-scope="scope">
@@ -41,11 +47,13 @@
 
         <Add name="add-list"
              :ajax-proxy="ajaxProxy"
-             @submit-success="handleReload"/>
+             @submit-success="handleReload"
+             :rooms="rooms"/>
 
         <Edit name="edit-list"
               :ajax-proxy="ajaxProxy"
-              @submit-success="handleReload"/>
+              @submit-success="handleReload"
+              :rooms="rooms"/>
 
     </div>
 </template>
@@ -58,20 +66,22 @@
     import SearchTool from '../../mix/SearchTool';
     import DataTable from '../../mix/DataTable';
     import PageMix from '../../mix/Page';
-    import AnnouncementProxy from '../../packages/AnnouncementProxy';
-    import AnnouncementAjaxProxy from '../../api/announcement';
+    import CourseProxy from '../../packages/CourseProxy';
+    import VideoProxy from '../../packages/VideoProxy';
+    import CourseAjaxProxy from '../../api/course';
     import APP_CONST from '../../config/index'
 
     export default {
-        name:'announcement',
+        name:'courses',
         mixins: [SearchTool, DataTable, PageMix, config],
         components: {  Add, Edit, TableProxy },
         data(){
             return{
-
-                ajaxProxy:AnnouncementAjaxProxy,
-                mainurl:AnnouncementAjaxProxy.getUrl(),
-                mainparam:''
+                rooms:[],
+                ajaxProxy:CourseAjaxProxy,
+                mainurl:CourseAjaxProxy.getUrl(),
+                mainparam: '',
+                url: APP_CONST.BASE_URL
             }
         },
 
@@ -87,11 +97,27 @@
         },
             showEdit(row) {
                 this.$modal.show('edit-list', { model: row })
+            },
+            loadRooms(data) {
+                this.rooms = data.items
+                console.log(this.rooms)
+            },
+            getCanAddRooms() {
+                const canAddRooms = new VideoProxy({ college_id: this.$store.getters.company_id }, this.loadRooms, this)
+                canAddRooms.load()
+            },
+            getRooms(id, arr){
+                for ( let i = 0; i <arr.length; i++){
+                    if (arr[i]['id']==id){
+                        return arr[i]['room_number'];
+                    }
+                }
             }
         },
 
         created() {
             this.$on('search-tool-change', this.onSearchChange);
+            this.getCanAddRooms()
         }
 
 

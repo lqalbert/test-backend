@@ -37,7 +37,12 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="watch_time_total" label="观看总时长" width="180" align="center"></el-table-column>
-                    <el-table-column prop="watch_time_today" label="今日观看时长" width="180" align="center"></el-table-column>
+                    <el-table-column prop="watch_time_today" label="今日观看时长" width="180" align="center">
+                        <template scope="scope">
+                            {{ getTime(scope.row.watch_time_today,scope.row.last_watch_date) }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="last_watch_date" label="上次观看日期" width="180" align="center"></el-table-column>
                     <el-table-column prop="status" label="账号状态" width="180" align="center">
                         <template scope="scope">
                             {{ getStatus(scope.row.status) }}
@@ -273,6 +278,25 @@ export default {
                       }
                   ]
               }
+          },
+          getTime(watch_time_today,last_watch_date)
+          {
+            let date = new Date();
+            let year = date.getFullYear();
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
+            if (month < 10) {
+              month = "0" + month;
+            }
+            if (day < 10) {
+              day = "0" + day;
+            }
+            let today = year + "-" + month + "-" + day;
+            if(last_watch_date==today){
+                return watch_time_today;
+            }else{
+                return 0;
+            }
           }
 
 
