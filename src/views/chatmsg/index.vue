@@ -7,6 +7,7 @@
                         <el-button type="primary" size="small" icon="el-icon-refresh"
                                    @click="refresh">
                         </el-button>
+
                     </el-form-item>
                     <el-form-item label="直播间房间号" prop="room_number">
                         <!-- <el-input size="small" placeholder="S000001"   disabled ></el-input> -->
@@ -29,6 +30,10 @@
                         <el-button @click="searchToolReset('searchForm')"
                                    size="small" type="primary">重置
                         </el-button>
+                        <el-button @click="exportxls"
+                                   size="small" type="primary">导出文件
+                        </el-button>
+
                     </el-form-item>
                 </el-form>
             </el-col>
@@ -67,6 +72,7 @@
     import SearchTool from '@/mix/SearchTool'
     import DataTable from '@/mix/DataTable'
     import TableProxy from '@/components/Commontable/Table'
+    import ChatmsgProxy from '../../packages/ChatmsgProxy';
     import LivePasswordAjaxProxy from '@/api/chatmsg'
     import APP_CONST from '@/config/index'
 
@@ -114,6 +120,13 @@
                 }).catch(error=>{
 
                 });
+            },
+            exportxls(){
+                //访问export方法
+                ChatmsgProxy.exportxls().then(response=>{
+                    console.log(response);
+                    console.log(11111111);
+                })
             }
         },
         created() {
