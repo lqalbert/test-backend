@@ -1,6 +1,6 @@
 <template>
     <div>
-        <myDialog title="编辑通告" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <myDialog title="编辑教师简介" :name="name" :width="width" :height="height" @before-open="onOpen">
 
             <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
                 <el-form-item label="所属直播间" prop="room_id">
