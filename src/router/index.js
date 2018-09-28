@@ -89,12 +89,12 @@ export const constantRouterMap = [
         component: () => import('@/views/video/index'),
         meta: { title: '直播间列表', icon: 'livelist' }
       },
-	    {
+	    /*{
 		    path: 'my',
 		    name: '我的直播间',
 		    component: () => import('@/views/video/My'),
 		    meta: { title: '我的直播间', icon: 'mylive' }
-	    },
+	    },*/
 	    {
 		    path: 'password',
 		    name: '直播间密码',
