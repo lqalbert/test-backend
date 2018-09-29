@@ -6,7 +6,18 @@
                     <el-input class="name-input" size="small" v-model="editForm.name" ></el-input>
                 </el-form-item>
 
-                <el-form-item label="学院域名" prop="address">
+                <el-form-item label="学院域名" prop="domain_name">
+                    <el-select  placeholder="请选择" v-model="editForm.domain_name">
+                        <el-option
+                                v-for="item in domains"
+                                :key="item.id"
+                                :label="item.domain_name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
+                <el-form-item label="学院地址" prop="address">
                     <el-input class="name-input" size="small" v-model="editForm.address" ></el-input>
                 </el-form-item>
 
@@ -14,10 +25,32 @@
                     <el-input class="name-input" size="small" v-model="editForm.contact" ></el-input>
                 </el-form-item>
 
+                <el-form-item label="学院LOGO" prop="logo">
+                    <el-upload
+                            ref="upload"
+                            name="avatar"
+                            :data="liveDir"
+                            :auto-upload="false"
+                            class="avatar-uploader"
+                            :show-file-list="false"
+                            :action="uploadUrl"
+                            accept="image/gif, image/jpeg,image/jpg,image/png"
+                            :headers='myHeader'
+                            :on-preview="handlePictureCardPreview"
+                            :on-success="handleAvatarSuccess"
+                            :on-error="uploadError"
+                            :before-upload="beforeAvatarUpload"
+                            :on-change="changefileList"
+                    >
+                        <img v-if="imgURL" :src="imgURL" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </el-form-item>
+
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button size="small" @click="handleClose">取消</el-button>
-                <submit-button @click="formSubmit('editForm')"
+                <submit-button @click="beforeFormSubmit('editForm')"
                                :observer="dialogThis">
                     保存
                 </submit-button>
@@ -29,11 +62,18 @@
 <script>
     /* eslint-disable no-mixed-spaces-and-tabs */
 
+    import { getToken } from '../../utils/auth'
     import DialogForm from '../../mix/DialogForm'
+    import APP_CONST from '../../config/index'
     export default {
         name: 'editList',
         mixins: [DialogForm],
-
+        props: {
+            domains: {
+                type: Array,
+                default: []
+            }
+        },
         data() {
             return {
                 dialogThis: this,
@@ -44,6 +84,8 @@
                     name: '',
                     address: '',
                     contact: '',
+                    domain_name: '',
+                    logo: '',
                     created_at: '',
                     updated_at: ''
                 },
@@ -57,19 +99,96 @@
                     contact:[
                         { required: true, min: 1, max: 32, message: '长度在 1 到 32个字符', trigger: 'blur' },
                     ],
+                    domain_name: [
+                        { required: true, message: '请选择域名', trigger: 'change' }
+                    ],
 
                 },
-                model:''
+                model:'',
+                uploadUrl: APP_CONST.UPLOAD_BASE_URL,
+                url: APP_CONST.BASE_URL,
+                myHeader: {
+                    'Authorization': 'Bearer ' + getToken()
+                },
+                liveDir: {
+                    base: 'live'
+                },
+                fileList: [],
+                imgURL: '',
+                submit_stat: ''
             }
         },
         methods: {
-            getAjaxPromise(model){
-                return this.ajaxProxy.update(model.id, model);
-            },
             onOpen(param) {
                 this.model = param.params.model
-                console.log(this.model);
             },
+            getAjaxPromise(model) {
+                return this.ajaxProxy.update(model.id, model)
+            },
+            handleAvatarSuccess(res, file) {
+                const vmthis = this
+                if (res.code === 200) {
+                    vmthis.editForm.logo = res.data.url
+                    this.formSubmit('editForm')
+                } else {
+                    this.$message.error(res.data.msg)
+                }
+            },
+            beforeAvatarUpload(file) {
+                const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/gif'
+                const isLt2M = file.size / 1024 / 1024 < 2
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG、PNG、GIF、JPEG 格式!')
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!')
+                }
+                return isJPG && isLt2M
+            },
+            handlePictureCardPreview(file) {
+                this.url = ''
+                // this.editForm.img_url = file
+            },
+            uploadError(err, file, fileList) {
+                this.$message.error('上传出错：' + err.msg)
+                this.submit_state = -1
+                this.$refs['submit-button'].$emit('reset')
+            },
+            changefileList(file, fileList) {
+                this.fileList = fileList
+                this.imgURL = URL.createObjectURL(file.raw)
+            },
+            handleRemove(file, fileList) {},
+            beforeFormSubmit(name) {
+                this.submitUpload()
+                this.reals(name)
+            },
+            submitUpload() {
+                if (this.fileList.length === 0) {
+                    this.submit_stat = 2
+                } else {
+                    this.submit_stat = 1
+                    this.$refs.upload.submit()
+                }
+                // this.$refs.upload.submit()
+            },
+            reals(name) {
+                const vmthis = this
+                if (vmthis.d) {
+                    clearTimeout(vmthis.d)
+                }
+                if (vmthis.submit_stat === -1 || vmthis.submit_stat === 1) {
+                    return
+                }
+                vmthis.d = setTimeout(function() {
+                    if (vmthis.submit_stat === 2) {
+                        vmthis.formSubmit(name)
+                    } else {
+                        vmthis.reals(name)
+                    }
+                }, 2000)
+            }
         },
         watch: {
             model: function(val, oldVal) {
@@ -78,11 +197,10 @@
                         this.editForm[key] = val[key]
                     }
                 }
+                this.imgURL = this.url + this.editForm.logo
             }
         },
-
-        created(){
-
+        created() {
         }
     }
 </script>
