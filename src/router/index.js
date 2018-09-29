@@ -95,12 +95,6 @@ export const constantRouterMap = [
 		    component: () => import('@/views/video/My'),
 		    meta: { title: '我的直播间', icon: 'mylive' }
 	    },
-	    {
-		    path: 'password',
-		    name: '直播间密码',
-		    component: () => import('@/views/video/Password'),
-		    meta: { title: '直播间密码', icon: 'livepwd' }
-	    },
       {
         path: 'chatmsg',
         name: '直播互动',
@@ -108,23 +102,11 @@ export const constantRouterMap = [
         meta: { title: '直播互动', icon: 'chatmsg' }
       },
       {
-        path: 'wx_code',
-        name: '二维码管理',
-        component: () => import('@/views/wx_code/index'),
-        meta: { title: '二维码管理', icon: 'wx_code' }
-      },
-      {
         path: 'word',
         name: '敏感词汇管理',
         component: () => import('@/views/word/index'),
         meta: { title: '敏感词汇管理', icon: 'word' }
       },
-      {
-        path: 'online',
-        name: '在线列表',
-        component: () => import('@/views/online/index'),
-        meta: { title: '在线列表', icon: 'online' }
-      }
     ]
   },
 
@@ -159,12 +141,6 @@ export const constantRouterMap = [
             component: () => import('@/views/ads/Livead'),
             meta: { title: '直播间广告', icon: 'livead' }
           },
-          {
-            path: 'Livead',
-            name: '弹幕广告',
-            component: () => import('@/views/ads/Livead'),
-            meta: { title: '弹幕广告', icon: 'livead' }
-          }
         ]
       },
       {

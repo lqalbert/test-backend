@@ -2,11 +2,12 @@
     <div>
         <myDialog title="编辑直播间" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
-                 <el-form-item label="名称" prop="home_ad_name">
+                <el-form-item label="名称" prop="home_ad_name">
                     <el-input size="small" placeholder="名称" v-model="editForm.home_ad_name"></el-input>
                 </el-form-item>
-               
-
+                <el-form-item label="跳转链接" prop="url_addr">
+                    <el-input size="small" placeholder="跳转链接" v-model="editForm.url_addr"></el-input>
+                </el-form-item>
                 <el-form-item label="背景图" prop="url_img">
                     <el-upload
                             ref="upload"
@@ -28,8 +29,6 @@
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
-               
-              
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button size="small" @click="handleClose">取消</el-button>
@@ -111,21 +110,21 @@ export default {
             this.$refs['submit-button'].$emit('reset')
         },
         changefileList(file, fileList) {
-          this.fileList = fileList
-          this.imgURL = URL.createObjectURL(file.raw)
+            this.fileList = fileList
+            this.imgURL = URL.createObjectURL(file.raw)
         },
         handleRemove(file, fileList) {},
         beforeFormSubmit(name) {
-          this.submitUpload()
-          this.reals(name)
+            this.submitUpload()
+            this.reals(name)
         },
         submitUpload() {
-          if (this.fileList.length === 0) {
-            this.submit_stat = 2
-          } else {
-            this.submit_stat = 1
-            this.$refs.upload.submit()
-          }
+            if (this.fileList.length === 0) {
+                this.submit_stat = 2
+            } else {
+                this.submit_stat = 1
+                this.$refs.upload.submit()
+            }
         },
         reals(name) {
             const vmthis = this

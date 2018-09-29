@@ -11,6 +11,29 @@
                           :value="item.room_number">
                         </el-option>
                     </el-select>
+
+
+                </el-form-item>
+                <el-form-item label="客服二维码" prop="wx_code">
+                    <el-upload
+                            ref="upload"
+                            name="avatar"
+                            :data="liveDir"
+                            :auto-upload="false"
+                            class="avatar-uploader"
+                            :show-file-list="false"
+                            :action='actionUrl'
+                            accept="image/gif, image/jpeg,image/jpg,image/png"
+                            :headers='myHeader'
+                            :on-preview="handlePictureCardPreview"
+                            :on-success="handleAvatarSuccess"
+                            :on-error="uploadError"
+                            :before-upload="beforeAvatarUpload"
+                            :on-change="changefileList"
+                    >
+                        <img v-if="imgURL" :src="imgURL" class="avatar" style="max-width:300px">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
                 </el-form-item>
             
                 <el-form-item label="红包总金额" prop="total_money">
@@ -97,18 +120,80 @@ export default {
     }
   },
   methods: {
-    getAjaxPromise(model) {
+    getAjaxPromise() {
+      // if(this.addForm.min_money*this.addForm.total_num>=this.addForm.total_money||this.addForm.max_money>this.addForm.total_money){
+      //     this.alertShowError('数据错误，请重填');
+      //     // return;
+      // }
       return this.ajaxProxy.create(this.addForm)
     },
-    submitUpload() {            
-        this.$refs.addForm.submit()
+    alertShowSuccess(msg) {
+      this.$message({
+        message: msg,
+        type: 'success'
+      })
     },
-    beforeFormSubmit(name){
-        this.formSubmit(name)
+    alertShowError(msg) {
+      this.$message({
+        message: msg,
+        type: 'error'
+      })
     },
+    handleAvatarSuccess(res, file) {
+      const vmthis = this
+      if (res.code === 200) {
+        vmthis.addForm.wx_code = res.data.url
+        this.formSubmit('addForm')
+      } else {
+        this.$message.error(res.data.msg)
+      }
+    },
+    beforeAvatarUpload(file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
+    },
+    handlePictureCardPreview(file) {
+      this.url = ''
+      // this.editForm.img_url = file
+    },
+    uploadError(err, file, fileList) {
+      this.$message.error('上传出错：' + err.msg)
+    },
+    changefileList(file, fileList) {
+      this.fileList = fileList
+      this.imgURL = URL.createObjectURL(file.raw)
+    },
+    handleRemove(file, fileList) {},
+    beforeFormSubmit(name) {
+      if (this.fileList.length === 0) {
+        this.$message.error('未上传新图片')
+        return
+      } else {
+        this.$refs['addForm'].validate((valid) => {
+          if (valid) {
+            this.submitUpload()
+          } else {
+            this.$emit('submit-final', name)
+            console.log('error submit!!')
+            return false
+          }
+        })
+      }
+    },
+    submitUpload() {
+      this.$refs.upload.submit()
+    },
+
     onOpen(model){
         this.roomList=model.params.roomList;
-    },
+    }
 
   }
 }

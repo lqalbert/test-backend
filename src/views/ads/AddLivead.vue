@@ -5,6 +5,10 @@
                 <el-form-item label="名称" prop="live_ad_name">
                     <el-input size="small" placeholder="名称" v-model="addForm.live_ad_name"></el-input>
                 </el-form-item>
+                
+                <el-form-item label="跳转链接" prop="url_addr">
+                    <el-input size="small" placeholder="名称" v-model="addForm.url_addr"></el-input>
+                </el-form-item>
 
                 <el-form-item label="直播间" prop="room_number">
                     <el-select v-model="addForm.room_number" placeholder="请选择">
@@ -38,7 +42,7 @@
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
-               
+                <span>请注意图片规格最好为：1400x170</span>
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button size="small" @click="handleClose">取消</el-button>
@@ -68,6 +72,7 @@ export default {
                 live_ad_name: '',
                 room_number:'',
                 url_img: '',
+                url_addr:'',
             },
             roomList:[],
             rules: {
