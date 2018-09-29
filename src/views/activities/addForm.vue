@@ -1,31 +1,19 @@
 <template>
     <div>
-        <myDialog title="添加学院" :name="name" :width="width" :height="height">
+        <myDialog title="添加教师简介" :name="name" :width="width" :height="height">
             <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
-                <el-form-item label="学院名称" prop="name">
-                    <el-input class="name-input" size="small" v-model="addForm.name" ></el-input>
-                </el-form-item>
-
-                <el-form-item label="学院域名" prop="domain_name">
-                    <el-select  clearable placeholder="请选择" v-model="addForm.domain_name">
+                <el-form-item label="所属直播间" prop="room_id">
+                    <el-select  placeholder="请选择" v-model="addForm.room_id">
                         <el-option
-                                v-for="item in domains"
+                                v-for="item in rooms"
                                 :key="item.id"
-                                :label="item.domain_name"
+                                :label="item.room_number"
                                 :value="item.id">
                         </el-option>
                     </el-select>
                 </el-form-item>
 
-                <el-form-item label="学院地址" prop="address">
-                    <el-input class="name-input" size="small" v-model="addForm.address" ></el-input>
-                </el-form-item>
-
-                <el-form-item label="负责人" prop="contact">
-                    <el-input class="name-input" size="small" v-model="addForm.contact" ></el-input>
-                </el-form-item>
-
-                <el-form-item label="学院LOGO" prop="logo">
+                <el-form-item label="教师简介" prop="teacher_img">
                     <el-upload
                             ref="upload"
                             name="avatar"
@@ -45,6 +33,7 @@
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
+
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button  @click="handleClose">取消</el-button>
@@ -67,7 +56,7 @@
         name: 'addList',
         mixins: [DialogForm],
         props: {
-            domains: {
+            rooms: {
                 type: Array,
                 default: []
             }
@@ -78,28 +67,15 @@
                 labelPosition: 'right',
                 labelWidth: '120px',
                 addForm: {
-                    name: '',
-                    address: '',
-                    domain_name: '',
-                    logo: '',
-                    contact: ''
-                },
-                rules: {
-                    name:[
-                        { required: true, min: 1, max: 32, message: '长度在 1 到 32个字符', trigger: 'blur' },
-                    ],
-                    address:[
-                        { required: true, min: 1, max: 32, message: '长度在 1 到 32个字符', trigger: 'blur' },
-                    ],
-                    contact:[
-                        { required: true, min: 1, max: 32, message: '长度在 1 到 32个字符', trigger: 'blur' },
-                    ],
-                    domain_name: [
-                        { required: true, message: '请选择域名', trigger: 'change' }
-                    ],
-
+                    room_id: '',
+                    teacher_img:''
                 },
                 url: APP_CONST.UPLOAD_BASE_URL,
+                rules: {
+                    room_id: [
+                        { required: true, message: '请选择直播间', trigger: 'change' }
+                    ]
+                },
                 imgURL: '',
                 liveDir: {
                     base: 'live'
@@ -111,14 +87,13 @@
             }
         },
         methods: {
-            getAjaxPromise(model) {
-                // console.log(model);
-                return this.ajaxProxy.create(model)
+            getAjaxPromise(model){
+                return this.ajaxProxy.create(model);
             },
             handleAvatarSuccess(res, file) {
                 const vmthis = this
                 if (res.code === 200) {
-                    vmthis.addForm.logo = res.data.url
+                    vmthis.addForm.teacher_img = res.data.url
                     this.formSubmit('addForm')
                 } else {
                     this.$message.error(res.data.msg)
@@ -164,7 +139,7 @@
             submitUpload() {
                 this.$refs.upload.submit()
             }
-        }
+        },
 
 
 

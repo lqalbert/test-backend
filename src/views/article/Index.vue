@@ -64,9 +64,9 @@
                         </template>
                     </el-table-column>
 
-                    <div slot="buttonbar">
+                    <!--<div slot="buttonbar">
                         <el-button size="small" type="primary" @click="showAdd">添加文章</el-button>
-                    </div>
+                    </div>-->
                 </TableProxy>
             </el-col>
         </el-row>

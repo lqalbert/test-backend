@@ -169,15 +169,15 @@ export const constantRouterMap = [
       },
       {
         path: 'teacher',
-        name: '名师管理',
+        name: '名师简介',
         component: () => import('@/views/teachers/index'),
-        meta: { title: '名师管理', icon: 'teacher' }
+        meta: { title: '名师简介', icon: 'teacher' }
       },
       {
         path: 'course',
-        name: '课程管理',
+        name: '课程简介',
         component: () => import('@/views/courses/index'),
-        meta: { title: '课程管理', icon: 'course' }
+        meta: { title: '课程简介', icon: 'course' }
       },
       {
         path: '/article',
@@ -226,6 +226,12 @@ export const constantRouterMap = [
         meta: { title: '重要通告', icon: 'announcement' }
       },
       {
+          path: 'curriculum',
+          name: '课程表管理',
+          component: () => import('@/views/curriculum/Index'),
+          meta: { title: '课程表管理', icon: 'curriculum' }
+      },
+      {
         path: 'answer',
         name: '咨询问答',
         component: () => import('@/views/robot/Answer'),
@@ -268,12 +274,12 @@ export const constantRouterMap = [
           }
         ]
 	    },
-      {
-        path: 'activity',
-        name: '活动',
-        component: () => import('@/views/sale/Activity'),
-        meta: { title: '活动', icon: 'activity' }
-      }
+        {
+            path: 'activity',
+            name: '活动管理',
+            component: () => import('@/views/activities/Index'),
+            meta: { title: '活动管理', icon: 'activity' }
+        },
     ]
   },
   {

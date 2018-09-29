@@ -22,13 +22,24 @@
 
                     <el-table-column prop="name" label="学院名称"  align="center" width="180"></el-table-column>
 
-                    <el-table-column prop="address" label="学院域名"  align="center" width="180"></el-table-column>
+                    <el-table-column prop="domain_name" label="学院域名"  align="center" width="180">
+                        <template scope="scope">
+                            {{ getName(scope.row.domain_name, domains) }}
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column prop="address" label="学院地址"  align="center" width="180"></el-table-column>
 
                     <el-table-column prop="contact" label="负责人" width="100" align="center"></el-table-column>
 
                     <el-table-column prop="level_type" label="会员等级类型" width="120" align="center">
                         <template scope="scope">
                             {{ getType(scope.row.level_type, options) }}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="logo" label="学院LOGO" width="120" align="center">
+                        <template slot-scope="scope">
+                            <img :src="url+scope.row.logo" alt="" width="100px">
                         </template>
                     </el-table-column>
 
@@ -53,11 +64,13 @@
 
         <Add name="add-list"
              :ajax-proxy="ajaxProxy"
-             @submit-success="handleReload"/>
+             @submit-success="handleReload"
+             :domains="domains"/>
 
         <Edit name="edit-list"
               :ajax-proxy="ajaxProxy"
-              @submit-success="handleReload"/>
+              @submit-success="handleReload"
+              :domains="domains"/>
 
     </div>
 </template>
@@ -71,9 +84,10 @@
     import DataTable from '../../mix/DataTable';
     import PageMix from '../../mix/Page';
     import CollegeProxy from '../../packages/CollegeProxy';
+    import DomainProxy from '../../packages/DomainProxy';
     import CollegeAjaxProxy from '../../api/college';
     import APP_CONST from '../../config/index'
-
+    import { mapActions,mapGetters } from 'vuex';
 
     export default {
         name:'college',
@@ -87,6 +101,7 @@
                 ajaxProxy:CollegeAjaxProxy,
                 mainurl:CollegeAjaxProxy.getUrl(),
                 mainparam:'',
+                domains:[],
                 options:[
                     {
                         id: '1',
@@ -96,7 +111,8 @@
                         id: '2',
                         type_name: '类型二'
                     }
-                ]
+                ],
+                url: APP_CONST.BASE_URL
 
             }
         },
@@ -114,6 +130,14 @@
             showEdit(row) {
                 this.$modal.show('edit-list', { model: row })
             },
+            loadRoles(data) {
+                this.domains = data.items
+                console.log(this.domains)
+            },
+            getCanAddDomains() {
+                const canAddDomains = new DomainProxy({}, this.loadRoles, this)
+                canAddDomains.load()
+            },
             getType(id, arr){
                 for ( var i = 0; i <arr.length; i++){
                     if (arr[i]['id']==id){
@@ -121,11 +145,19 @@
                     }
                 }
             },
+            getName(id, arr){
+                for ( var i = 0; i <arr.length; i++){
+                    if (arr[i]['id']==id){
+                        return arr[i]['domain_name'];
+                    }
+                }
+            }
 
         },
 
         created() {
             this.$on('search-tool-change', this.onSearchChange);
+            this.getCanAddDomains()
         }
 
 

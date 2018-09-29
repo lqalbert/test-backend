@@ -18,6 +18,19 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15">
 
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
+                    <el-table-column prop="is_use" label="是否启用" align="center">
+                        <template slot-scope="scope">
+                            <el-switch
+                                    v-model="scope.row.is_use"
+                                    active-value="y"
+                                    inactive-value="n"
+                                    active-color="#13ce66"
+                                    inactive-color="#ff4949"
+                                    @change="switchHandle1(scope.row)">
+                            </el-switch>
+
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="username" label="用户名" width="180" align="center"></el-table-column>
                     <el-table-column prop="nickname" label="昵称" width="180" align="center"></el-table-column>
                     <el-table-column prop="level" label="等级" width="180" align="center">
@@ -36,6 +49,7 @@
                             {{ getRole(scope.row.role_id, options) }}
                         </template>
                     </el-table-column>
+                    <el-table-column prop="pid" label="账号创建者" width="180" align="center"></el-table-column>
                     <el-table-column prop="watch_time_total" label="观看总时长" width="180" align="center"></el-table-column>
                     <el-table-column prop="watch_time_today" label="今日观看时长" width="180" align="center">
                         <template scope="scope">
@@ -57,9 +71,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="front_login" label="前台登录时间" width="180" align="center"></el-table-column>
-                    <el-table-column prop="front_logout" label="前台登出时间" width="180" align="center"></el-table-column>
                     <el-table-column prop="login_time" label="后台登录时间" width="180" align="center"></el-table-column>
-                    <el-table-column prop="logout_time" label="后台登出时间" width="180" align="center"></el-table-column>
 
                     <el-table-column prop="created_at" label="注册时间" align="center" width="180"></el-table-column>
 

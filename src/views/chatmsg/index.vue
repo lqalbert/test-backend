@@ -20,8 +20,6 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                   
-
 
                     <el-form-item>
                         <el-button type="primary" size="small" icon="search"
@@ -55,7 +53,6 @@
                     <el-table-column prop="content" label="内容" align="center" ></el-table-column>
                     <el-table-column prop="send_time" label="发送时间" align="center" ></el-table-column>
 
-                    
                 </TableProxy>
             </el-col>
         </el-row>
@@ -72,7 +69,6 @@
     import SearchTool from '@/mix/SearchTool'
     import DataTable from '@/mix/DataTable'
     import TableProxy from '@/components/Commontable/Table'
-    import ChatmsgProxy from '../../packages/ChatmsgProxy';
     import LivePasswordAjaxProxy from '@/api/chatmsg'
     import APP_CONST from '@/config/index'
 
@@ -123,10 +119,8 @@
             },
             exportxls(){
                 //访问export方法
-                ChatmsgProxy.exportxls().then(response=>{
-                    console.log(response);
-                    console.log(11111111);
-                })
+                //LivePasswordAjaxProxy.exportxls()
+                window.open("/admin/chatmsg-exportxls");
             }
         },
         created() {
