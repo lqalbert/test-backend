@@ -48,6 +48,7 @@
                 >
                     <el-table-column label="序号" align="center" type="index" width="65px"></el-table-column>
                     <el-table-column prop="home_ad_name" label="名称" align="center" width="200px"> </el-table-column>
+                    <el-table-column prop="url_addr" label="跳转链接" align="center" width="200px"> </el-table-column>
                     <el-table-column prop="url_img" label="广告图"  align="center">
                         <template slot-scope="scope">
                             <img :src="scope.row.url_img" alt="" width="100px">

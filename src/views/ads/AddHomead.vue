@@ -5,8 +5,9 @@
                 <el-form-item label="名称" prop="home_ad_name">
                     <el-input size="small" placeholder="名称" v-model="addForm.home_ad_name"></el-input>
                 </el-form-item>
-
-
+                <el-form-item label="跳转链接" prop="url_addr">
+                    <el-input size="small" placeholder="名称" v-model="addForm.url_addr"></el-input>
+                </el-form-item>
                 <el-form-item label="广告图" prop="url_img">
                     <el-upload
                             ref="upload"
@@ -27,6 +28,7 @@
                         <img v-if="url_img" :src="url_img" class="avatar" style="max-width:300px">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
+                    <span>请注意图片规格最好为：250x440</span>
                 </el-form-item>
                
             </el-form>
@@ -57,6 +59,7 @@ export default {
             addForm: {
                 home_ad_name: '',
                 url_img: '',
+                url_addr:'',
             },
           
             rules: {
