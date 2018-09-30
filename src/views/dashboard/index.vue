@@ -199,7 +199,7 @@ export default {
       // const model = this[name]
     },
     loadMsg() {
-      const video = new VideoProxy({ userMessage: this.$store.getters.user_id }, this.initMsg, this)
+      const video = new VideoProxy({ userMessage: this.$store.getters.company_id }, this.initMsg, this)
       this.videoProxy = video
       this.videoProxy.load()
     },
@@ -212,7 +212,7 @@ export default {
         }
       }
       this.editForm.videoUrl = msg.company.address
-      this.editForm.pushName = msg.users.username
+      this.editForm.pushName = 'dml'
       if (msg.pop_url !== null) {
         this.imgURL = this.url + msg.pop_url
       }
