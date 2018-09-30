@@ -20,14 +20,15 @@
 
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
-                    <el-table-column prop="room_id" label="所属直播间"  align="center">
-                        <template scope="scope">
-                            {{ getRooms(scope.row.room_id, rooms) }}
+                    <el-table-column prop="index_act" label="活动首页" width="120" align="center">
+                        <template slot-scope="scope">
+                            <img :src="url+scope.row.index_act" alt="" width="100px">
                         </template>
                     </el-table-column>
-                    <el-table-column prop="teacher_img" label="教师简介" width="120" align="center">
+
+                    <el-table-column prop="detail_act" label="活动详情" width="120" align="center">
                         <template slot-scope="scope">
-                            <img :src="url+scope.row.teacher_img" alt="" width="100px">
+                            <img :src="url+scope.row.detail_act" alt="" width="100px">
                         </template>
                     </el-table-column>
 
@@ -47,13 +48,11 @@
 
         <Add name="add-list"
              :ajax-proxy="ajaxProxy"
-             @submit-success="handleReload"
-             :rooms="rooms"/>
+             @submit-success="handleReload"/>
 
         <Edit name="edit-list"
               :ajax-proxy="ajaxProxy"
-              @submit-success="handleReload"
-              :rooms="rooms"/>
+              @submit-success="handleReload"/>
 
     </div>
 </template>
@@ -66,20 +65,18 @@
     import SearchTool from '../../mix/SearchTool';
     import DataTable from '../../mix/DataTable';
     import PageMix from '../../mix/Page';
-    import TeacherProxy from '../../packages/TeacherProxy';
-    import VideoProxy from '../../packages/VideoProxy';
-    import TeacherAjaxProxy from '../../api/teacher';
+    import ActivityProxy from '../../packages/ActivityProxy';
+    import ActivityAjaxProxy from '../../api/activity';
     import APP_CONST from '../../config/index'
 
     export default {
-        name:'teachers',
+        name:'activities',
         mixins: [SearchTool, DataTable, PageMix, config],
         components: {  Add, Edit, TableProxy },
         data(){
             return{
-                rooms:[],
-                ajaxProxy:TeacherAjaxProxy,
-                mainurl:TeacherAjaxProxy.getUrl(),
+                ajaxProxy:ActivityAjaxProxy,
+                mainurl:ActivityAjaxProxy.getUrl(),
                 mainparam: '',
                 url: APP_CONST.BASE_URL
             }
@@ -98,26 +95,11 @@
             showEdit(row) {
                 this.$modal.show('edit-list', { model: row })
             },
-            loadRooms(data) {
-                this.rooms = data.items
-                console.log(this.rooms)
-            },
-            getCanAddRooms() {
-                const canAddRooms = new VideoProxy({ college_id: this.$store.getters.company_id }, this.loadRooms, this)
-                canAddRooms.load()
-            },
-            getRooms(id, arr){
-                for ( let i = 0; i <arr.length; i++){
-                    if (arr[i]['id']==id){
-                        return arr[i]['room_number'];
-                    }
-                }
-            }
+
         },
 
         created() {
             this.$on('search-tool-change', this.onSearchChange);
-            this.getCanAddRooms()
         }
 
 

@@ -1,20 +1,9 @@
 <template>
     <div>
-        <myDialog title="编辑教师简介" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <myDialog title="编辑活动" :name="name" :width="width" :height="height" @before-open="onOpen">
 
             <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
-                <el-form-item label="所属直播间" prop="room_id">
-                    <el-select  placeholder="请选择" v-model="editForm.room_id">
-                        <el-option
-                                v-for="item in rooms"
-                                :key="item.id"
-                                :label="item.room_number"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
-
-                <el-form-item label="教师简介" prop="teacher_img">
+                <el-form-item label="活动首页" prop="index_act">
                     <el-upload
                             ref="upload"
                             name="avatar"
@@ -22,16 +11,37 @@
                             :auto-upload="false"
                             class="avatar-uploader"
                             :show-file-list="false"
-                            :action="uploadUrl"
+                            :action="url"
                             accept="image/gif, image/jpeg,image/jpg,image/png"
                             :headers='myHeader'
                             :on-preview="handlePictureCardPreview"
                             :on-success="handleAvatarSuccess"
                             :on-error="uploadError"
                             :before-upload="beforeAvatarUpload"
-                            :on-change="changefileList"
-                    >
+                            :on-change="changefileList">
                         <img v-if="imgURL" :src="imgURL" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </el-form-item>
+
+
+                <el-form-item label="活动详情" prop="detail_act">
+                    <el-upload
+                            ref="upload"
+                            name="avatar"
+                            :data="liveDir"
+                            :auto-upload="false"
+                            class="avatar-uploader"
+                            :show-file-list="false"
+                            :action="url"
+                            accept="image/gif, image/jpeg,image/jpg,image/png"
+                            :headers='myHeader'
+                            :on-preview="handlePictureCardPreview"
+                            :on-success="handleAvatarSuccess1"
+                            :on-error="uploadError"
+                            :before-upload="beforeAvatarUpload"
+                            :on-change="changefileList1">
+                        <img v-if="imgURL1" :src="imgURL1" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
@@ -57,12 +67,7 @@
     export default {
         name: 'editList',
         mixins: [DialogForm],
-        props: {
-            rooms: {
-                type: Array,
-                default: []
-            }
-        },
+
         data() {
             return {
                 dialogThis: this,
@@ -80,6 +85,7 @@
                 model:'',
                 fileList: [],
                 imgURL: '',
+                imgURL1: '',
                 submit_stat: '',
                 uploadUrl: APP_CONST.UPLOAD_BASE_URL,
                 url: APP_CONST.BASE_URL,
@@ -102,7 +108,16 @@
             handleAvatarSuccess(res, file) {
                 const vmthis = this
                 if (res.code === 200) {
-                    vmthis.editForm.teacher_img = res.data.url
+                    vmthis.editForm.index_act = res.data.url
+                    this.formSubmit('editForm')
+                } else {
+                    this.$message.error(res.data.msg)
+                }
+            },
+            handleAvatarSuccess1(res, file) {
+                const vmthis = this
+                if (res.code === 200) {
+                    vmthis.editForm.detail_act = res.data.url
                     this.formSubmit('editForm')
                 } else {
                     this.$message.error(res.data.msg)
@@ -132,6 +147,10 @@
             changefileList(file, fileList) {
                 this.fileList = fileList
                 this.imgURL = URL.createObjectURL(file.raw)
+            },
+            changefileList1(file, fileList) {
+                this.fileList = fileList
+                this.imgURL1 = URL.createObjectURL(file.raw)
             },
             handleRemove(file, fileList) {},
             beforeFormSubmit(name) {
@@ -171,7 +190,8 @@
                         this.editForm[key] = val[key]
                     }
                 }
-                this.imgURL = this.url + this.editForm.teacher_img
+                this.imgURL = this.url + this.editForm.index_act
+                this.imgURL1 = this.url + this.editForm.detail_act
             }
         },
         created(){
