@@ -138,12 +138,12 @@
                 ],
                 punishmentType: [
                     {
-                        id: 1,
-                        item: '封号'
-                    },
-                    {
                         id: 2,
                         item: '禁言'
+                    },
+                    {
+                        id: 3,
+                        item: '封号'
                     }
                 ],
 

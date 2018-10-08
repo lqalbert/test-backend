@@ -6,6 +6,39 @@
                     <el-input v-model="searchForm.username" size="small" placeholder="用户名"></el-input>
                 </el-form-item>
 
+                <el-form-item label="学院" prop="cid">
+                    <el-select v-model="searchForm.cid" placeholder="请选择">
+                        <el-option
+                                v-for="item in colleges"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
+                <el-form-item label="角色" prop="role_id">
+                    <el-select v-model="searchForm.role_id" placeholder="请选择">
+                        <el-option
+                                v-for="item in options"
+                                :key="item.id"
+                                :label="item.role_comment"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
+                <el-form-item label="等级" prop="level">
+                    <el-select v-model="searchForm.level" placeholder="请选择">
+                        <el-option
+                                v-for="item in leveloption"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
                 <el-form-item>
                     <el-button type="primary" size="small" icon="search" @click="searchToolChange('searchForm')">查询
                     </el-button>
@@ -44,12 +77,16 @@
                             {{ getCollege(scope.row.cid, colleges) }}
                         </template>
                     </el-table-column>
-                    <el-table-column  align="center" prop="role_id" label="账号类型" width="180">
+                    <el-table-column  align="center" prop="role_id" label="角色" width="180">
                         <template scope="scope">
                             {{ getRole(scope.row.role_id, options) }}
                         </template>
                     </el-table-column>
-                    <el-table-column prop="pid" label="账号创建者" width="180" align="center"></el-table-column>
+                    <el-table-column prop="pid" label="账号创建者" width="180" align="center">
+                        <template scope="scope">
+                            {{ getUserName(scope.row.pid, users) }}
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="watch_time_total" label="观看总时长" width="180" align="center"></el-table-column>
                     <el-table-column prop="watch_time_today" label="今日观看时长" width="180" align="center">
                         <template scope="scope">
@@ -154,16 +191,36 @@ export default {
       data() {
         return {
           searchForm: {
-            username: ''
+            cid: '',
+            username: '',
+            role_id: '',
+            level: '',
+            sockpuppet:"n"
           },
           ajaxProxy: UserAjaxProxy,
           mainurl: UserAjaxProxy.getUrl(),
-          mainparam: '',
+          mainparam: '{"sockpuppet":"n"}',
           show:false,
           options: [],
           colleges: [],
           levels: [],
+          users: [],
           leveloption: [],
+          status:
+          [
+              {
+                  id:1,
+                  item:'正常'
+              },
+              {
+                  id:2,
+                  item:'禁言'
+              },
+              {
+                  id:3,
+                  item:'封号'
+              }
+          ],
           url: APP_CONST.BASE_URL
         }
       },
@@ -184,6 +241,10 @@ export default {
         loadRoles(data) {
           this.options = data.items
           console.log(this.options)
+        },
+        loadUsers(data) {
+            this.users = data.items
+            console.log(this.users)
         },
         loadColleges(data) {
           this.colleges = data.items
@@ -207,6 +268,10 @@ export default {
               const canAddLevels = new LevelProxy({}, this.loadLevels, this)
               canAddLevels.load()
           },
+          getCanAddUsers() {
+              const canAddUsers = new UserProxy({}, this.loadUsers, this)
+              canAddUsers.load()
+          },
 
         switchHandle1(row) {
           this.ajaxProxy.update(row.id, { is_use: row.is_use }).then((response) => {
@@ -224,6 +289,16 @@ export default {
               }
           }
         },
+          getUserName(pid, arr){
+              for ( let i = 0; i <arr.length; i++){
+                  if (pid==arr[i]['id']){
+                      return arr[i]['username'];
+                  }
+              }
+              if(pid==1){
+                  return "超级管理员";
+              }
+          },
           getLevel(level, cid, levels, colleges){
               let level_type = '';
               let res = '';
@@ -250,12 +325,13 @@ export default {
 
           getStatus(status){
               if(status==1){
-                  return '封号中'
+                  return '正常'
               }
               if(status==2){
-                  return '禁言中'
-              }else{
-                  return '正常'
+                  return '禁言'
+              }
+              if(status==3){
+                  return '封号'
               }
           },
           getCanAddLevelOptions(){
@@ -320,7 +396,7 @@ export default {
         this.getCanAddColleges()
         this.getCanAddLevels()
         this.getCanAddLevelOptions()
-
+        this.getCanAddUsers()
     }
 
     }

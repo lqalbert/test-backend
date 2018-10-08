@@ -156,6 +156,7 @@
     import DialogForm from '../../mix/DialogForm'
     import { getToken } from '../../utils/auth'
     import APP_CONST from '../../config/index'
+    import { mapActions,mapGetters } from 'vuex';
     export default {
       name: 'addList',
       mixins: [DialogForm],
@@ -191,8 +192,9 @@
             email: '',
             phone: '',
             address: '',
+            sockpuppet: 'n',
             cid: '',
-            pid: '0'
+            pid: this.$store.getters.user_id
           },
           url: APP_CONST.UPLOAD_BASE_URL,
           rules: {
