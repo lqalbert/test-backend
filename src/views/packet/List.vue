@@ -74,9 +74,19 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="room_number" label="直播间号" align="center"></el-table-column>
-                    <el-table-column prop="create_time" label="创建时间" align="center" width="100px"></el-table-column>
-                    <el-table-column prop="start_time" label="开始时间" align="center" width="100px"></el-table-column>
-                    <el-table-column prop="end_time" label="结束时间" align="center" width="100px"></el-table-column>
+                    <el-table-column prop="create_time" label="创建时间" align="center" width="104px"></el-table-column>
+                    <el-table-column prop="start_time" label="开始时间" align="center" width="104px">
+                        <template slot-scope="scope">
+                            <div v-if="scope.row.start_time">{{scope.row.start_time}}</div>
+                            <div v-if="!scope.row.start_time">-</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="end_time" label="结束时间" align="center" width="104px">
+                        <template slot-scope="scope">
+                            <div v-if="scope.row.end_time">{{scope.row.end_time}}</div>
+                            <div v-if="!scope.row.end_time">-</div>                    
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="packet_status" label="状态" align="center">
                         <template slot-scope="scope">
                             <div>{{statusList[scope.row.packet_status]}}</div>
