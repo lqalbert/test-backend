@@ -37,7 +37,7 @@
                         accept="image/gif, image/jpeg,image/jpg,image/png"
                         :headers='myHeader'
                         :on-preview="handlePictureCardPreview"
-                        :on-success="handleAvatarSuccess1"
+                        :on-success="handleAvatarSuccess"
                         :on-error="uploadError"
                         :before-upload="beforeAvatarUpload"
                         :on-change="changefileList1">
@@ -99,20 +99,25 @@
                 const vmthis = this
                 if (res.code === 200) {
                     vmthis.addForm.index_act = res.data.url
-                    //this.formSubmit('addForm')
+                    console.log(1111111111)
+                    console.log(res.data.url)
+                    this.formSubmit('addForm')
                 } else {
+                    console.log(33333333333)
                     this.$message.error(res.data.msg)
                 }
             },
-            handleAvatarSuccess1(res, file) {
+            /*handleAvatarSuccess1(res, file) {
                 const vmthis = this
                 if (res.code === 200) {
                     vmthis.addForm.detail_act = res.data.url
+                    console.log(22222222222)
+                    console.log(res.data.url)
                     this.formSubmit('addForm')
                 } else {
                     this.$message.error(res.data.msg)
                 }
-            },
+            },*/
             beforeAvatarUpload(file) {
                 const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/gif'
                 const isLt2M = file.size / 1024 / 1024 < 2

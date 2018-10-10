@@ -2,8 +2,15 @@
     <div>
         <myDialog title="添加" :name="name" :width="width" :height="height" >
             <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
+
                 <el-form-item label="用户昵称" prop="nickname">
-                    <el-input v-model="addForm.nickname" ></el-input>
+                    <el-autocomplete
+                            class="inline-input"
+                            v-model="addForm.nickname"
+                            :fetch-suggestions="querySearch"
+                            placeholder="请输入内容"
+                            @select="handleSelect"
+                    ></el-autocomplete>
                 </el-form-item>
 
                 <el-form-item label="直播间房号" prop="room_id">
@@ -85,6 +92,10 @@
             roomType:{
                     type:Array,
                     default:[]
+                },
+            users:{
+                    type:Array,
+                    default:[]
                 }
             },
 
@@ -108,16 +119,21 @@
         },
         methods: {
             getAjaxPromise(model){
-                //console.log(model);
                 return this.ajaxProxy.create(model);
             },
-            /*onOpen(param){
-                console.log(param);
-                /!*this.causeType = param.params.extra.cause;
-                this.punishmentType = param.params.extra.punishment;
-                this.periodType = param.params.extra.period;
-                this.RoomType = param.params.extra.Room;*!/
-            },*/
+            querySearch(queryString, cb) {
+                let users = this.users;
+                let results = queryString ? users.filter(this.createFilter(queryString)) : users;
+                cb(results);
+            },
+            createFilter(queryString) {
+                return (user) => {
+                    return (user.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+                };
+            },
+            handleSelect(item) {
+                console.log(item);
+            }
         },
 
 
