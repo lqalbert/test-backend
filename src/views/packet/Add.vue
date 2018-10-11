@@ -42,6 +42,9 @@
                 <el-form-item label="红包总个数" prop="total_num">
                     <el-input size="small" placeholder="红包总个数" v-model="addForm.total_num"></el-input>
                 </el-form-item>
+                <el-form-item label="" prop="">
+                    <span>若不填最大金额与最小金额  则默认为平均</span>
+                </el-form-item>
                 <el-form-item label="最大金额" prop="max_money">
                     <el-input size="small" placeholder="最大金额" v-model="addForm.max_money"></el-input>
                 </el-form-item>
