@@ -21,7 +21,7 @@
 
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
-                    <el-table-column prop="nick_id" label="用户昵称" width="180" align="center"></el-table-column>
+                    <el-table-column prop="user_id" label="用户昵称" width="180" align="center"></el-table-column>
 
                     <el-table-column  align="center" prop="cause_id" label="处罚原因" width="100">
                         <template scope="scope">
@@ -74,19 +74,13 @@
              :causeType="causeType"
              :punishmentType="punishmentType"
              :periodType="periodType"
-             :roomType="roomType"/>
-
-        <!--<Edit name="edit-list"
-              :ajax-proxy="ajaxProxy"
-              @submit-success="handleReload"
-              :options="options"/>-->
-
+             :roomType="roomType"
+             :users="users"/>
     </div>
 </template>
 
 <script>
     import Add from './addForm'
-    //import Edit from './Edit'
     import TableProxy from '../../components/Commontable/Table'
     import config from '../../mix/Delete'
     import SearchTool from '../../mix/SearchTool';
@@ -96,6 +90,8 @@
     import VideoProxy from '../../packages/VideoProxy';
     import ViolationAjaxProxy from '../../api/violation';
     import VideoAjaxProxy from '../../api/video'
+    import UserProxy from '../../packages/UserProxy'
+    import UserAjaxProxy from '../../api/user'
 
 
     export default {
@@ -110,6 +106,7 @@
                 ajaxProxy: ViolationAjaxProxy,
                 mainurl: ViolationAjaxProxy.getUrl(),
                 mainparam: '',
+                users:[],
                 causeType: [
                     {
                         id: 1,
@@ -137,10 +134,6 @@
                     }
                 ],
                 punishmentType: [
-                    {
-                        id: 1,
-                        item: '封号'
-                    },
                     {
                         id: 2,
                         item: '禁言'
@@ -256,9 +249,23 @@
             loadRooms(data){
                 this.roomType = data.items;
             },
+            //处理users数据，将需要展示的数据的健名改为value
+            loadUsers(data){
+                let arr = data.items;
+                for (var index in arr){
+                    console.log(arr[index]);
+                    arr[index]['value']=arr[index]['nickname'];
+                }
+                this.users = arr;
+                console.log(arr);
+            },
             getCanAddRooms(){
-                let canAddRooms = new VideoProxy({}, this.loadRooms, this);
+                let canAddRooms = new VideoProxy({'college_id':this.$store.getters.company_id}, this.loadRooms, this);
                 canAddRooms.load();
+            },
+            getCanAddUsers(){
+                let canAddUsers = new UserProxy({'role_id':'5'}, this.loadUsers, this);
+                canAddUsers.load();
             },
             getType(id, arr){
                 for ( var i = 0; i <arr.length; i++){
@@ -289,6 +296,7 @@
         created() {
             this.$on('search-tool-change', this.onSearchChange);
             this.getCanAddRooms();
+            this.getCanAddUsers();
         },
 
 

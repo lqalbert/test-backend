@@ -6,7 +6,7 @@
                     <el-input v-model="addForm.live_title"></el-input>
                 </el-form-item>
 
-                <el-form-item label="直播日期" prop="live_time" >
+                <!--<el-form-item label="直播日期" prop="live_time" >
                     <el-date-picker
                             v-model="addForm.live_time"
                             type="datetime"
@@ -15,7 +15,20 @@
                             :editable="false"
                             @change="timeChange">
                     </el-date-picker>
+                </el-form-item>-->
+
+                <el-form-item label="直播日期" prop="live_time" >
+                    <el-time-picker
+                            is-range
+                            v-model="addForm.live_time"
+                            range-separator="至"
+                            start-placeholder="开始时间"
+                            end-placeholder="结束时间"
+                            placeholder="选择时间范围">
+                    </el-time-picker>
                 </el-form-item>
+
+
 
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
@@ -48,7 +61,7 @@
                 },
                 rules: {
                     live_title:[
-                        { required: true,  trigger: 'blur' },
+                        { required: true, message: '长度在 1 到 32个字符', trigger: 'blur' },
                         { min: 1, max: 10, message: '长度在 1 到 32个字符', trigger: 'blur' }
                     ],
                 },

@@ -8,15 +8,15 @@
                     <!-- <el-input articleType="hidden" v-model="addForm.id"></el-input>-->
                 </el-form-item>
 
-                <el-form-item label="日期" prop="live_time" >
-                    <el-date-picker
+                <el-form-item label="直播日期" prop="live_time" >
+                    <el-time-picker
+                            is-range
                             v-model="editForm.live_time"
-                            type="datetime"
-                            placeholder="选择日期"
-                            :picker-options="pickerOptions"
-                            :editable="false"
-                            @change="timeChange">
-                    </el-date-picker>
+                            range-separator="-"
+                            start-placeholder="开始时间"
+                            end-placeholder="结束时间"
+                            placeholder="选择时间范围">
+                    </el-time-picker>
                 </el-form-item>
             </el-form>
 

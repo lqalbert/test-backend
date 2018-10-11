@@ -20,17 +20,17 @@
 
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
-                    <el-table-column prop="name" label="学院名称"  align="center" width="180"></el-table-column>
+                    <el-table-column prop="name" label="学院名称"  align="center"></el-table-column>
 
-                    <el-table-column prop="domain_name" label="学院域名"  align="center" width="180">
+                    <el-table-column prop="domain_name" label="学院域名"  align="center" >
                         <template scope="scope">
                             {{ getName(scope.row.domain_name, domains) }}
                         </template>
                     </el-table-column>
 
-                    <el-table-column prop="address" label="学院地址"  align="center" width="180"></el-table-column>
+                    <el-table-column prop="address" label="学院地址"  align="center" ></el-table-column>
 
-                    <el-table-column prop="contact" label="负责人" width="100" align="center"></el-table-column>
+                    <el-table-column prop="contact" label="负责人" align="center"></el-table-column>
 
                     <el-table-column prop="level_type" label="会员等级类型" width="120" align="center">
                         <template scope="scope">

@@ -21,7 +21,11 @@
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
                     <el-table-column prop="live_title" label="直播标题"  align="center"></el-table-column>
-                    <el-table-column prop="live_time" label="直播日期"  align="center"></el-table-column>
+                    <el-table-column prop="live_time" label="直播日期"  align="center">
+                        <template scope="scope">
+                            {{ getTime(scope.row.live_time) }}
+                        </template>
+                    </el-table-column>
 
                     <el-table-column  fixed="right"  label="操作" align="center" width="180">
                         <template slot-scope="scope">
@@ -85,6 +89,32 @@
         },
             showEdit(row) {
                 this.$modal.show('edit-list', { model: row })
+            },
+            getTime(time){
+                let s_date = new Date(time['0']);
+                let e_date = new Date(time['1']);
+                let hour=s_date.getHours();
+                let minute=s_date.getMinutes();
+                if(hour<10){
+                    hour = "0" + hour;
+                }
+                if(minute<10){
+                    minute = "0" + minute;
+                }
+
+                let hour1=e_date.getHours();
+                let minute1=e_date.getMinutes();
+                if(hour1<10){
+                    hour1 = "0" + hour1;
+                }
+                if(minute1<10){
+                    minute1 = "0" + minute1;
+                }
+
+                let start_time = hour + ':' + minute;
+                let end_time = hour1 + ':' + minute1;
+
+                return start_time + ' - ' + end_time;
             }
         },
 
