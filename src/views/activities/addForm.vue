@@ -37,7 +37,7 @@
                         accept="image/gif, image/jpeg,image/jpg,image/png"
                         :headers='myHeader'
                         :on-preview="handlePictureCardPreview"
-                        :on-success="handleAvatarSuccess"
+                        :on-success="handleAvatarSuccess1"
                         :on-error="uploadError"
                         :before-upload="beforeAvatarUpload"
                         :on-change="changefileList1">
