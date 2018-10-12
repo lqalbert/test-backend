@@ -62,47 +62,43 @@
     import Edit from './Edit'
     import TableProxy from '../../components/Commontable/Table'
     import config from '../../mix/Delete'
-    import SearchTool from '../../mix/SearchTool';
-    import DataTable from '../../mix/DataTable';
-    import PageMix from '../../mix/Page';
-    import ActivityProxy from '../../packages/ActivityProxy';
-    import ActivityAjaxProxy from '../../api/activity';
-    import APP_CONST from '../../config/index'
-
+    import SearchTool from '../../mix/SearchTool'
+import DataTable from '../../mix/DataTable'
+import PageMix from '../../mix/Page'
+import ActivityProxy from '../../packages/ActivityProxy'
+import ActivityAjaxProxy from '../../api/activity'
+import APP_CONST from '../../config/index'
     export default {
-        name:'activities',
-        mixins: [SearchTool, DataTable, PageMix, config],
-        components: {  Add, Edit, TableProxy },
-        data(){
-            return{
-                ajaxProxy:ActivityAjaxProxy,
-                mainurl:ActivityAjaxProxy.getUrl(),
-                mainparam: '',
-                url: APP_CONST.BASE_URL
-            }
-        },
+      name: 'activities',
+      mixins: [SearchTool, DataTable, PageMix, config],
+      components: { Add, Edit, TableProxy },
+      data() {
+        return {
+          ajaxProxy: ActivityAjaxProxy,
+          mainurl: ActivityAjaxProxy.getUrl(),
+          mainparam: '',
+          url: APP_CONST.BASE_URL
+        }
+      },
 
-        methods:{
-            getAjaxProxy(){
-                return this.ajaxProxy;
-            },
-            onSearchChange(param) {
-                this.mainparam = JSON.stringify(param);
-            },
-            showAdd() {
-                this.$modal.show('add-list')
+      methods: {
+        getAjaxProxy() {
+          return this.ajaxProxy
         },
-            showEdit(row) {
-                this.$modal.show('edit-list', { model: row })
-            },
-
+        onSearchChange(param) {
+          this.mainparam = JSON.stringify(param)
         },
-
-        created() {
-            this.$on('search-tool-change', this.onSearchChange);
+        showAdd() {
+          this.$modal.show('add-list')
+        },
+        showEdit(row) {
+          this.$modal.show('edit-list', { model: row })
         }
 
-
+      },
+      created() {
+        this.$on('search-tool-change', this.onSearchChange)
+      }
     }
 </script>
 
