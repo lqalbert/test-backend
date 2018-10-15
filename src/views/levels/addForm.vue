@@ -4,8 +4,8 @@
             <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
                 <el-form-item label="等级类型"  prop="type_name">
                     <el-radio-group v-model="addForm.type_name">
-                        <el-radio label="1" border>类型一</el-radio>
-                        <el-radio label="2" border>类型二</el-radio>
+                        <el-radio :label="1" border>类型一</el-radio>
+                        <el-radio :label="2" border>类型二</el-radio>
                     </el-radio-group>
                 </el-form-item>
 
@@ -28,14 +28,19 @@
     export default {
         name: 'addList',
         mixins: [DialogForm],
-
+        props: {
+            typeId: {
+                type: Number,
+                default: null
+            }
+        },
         data() {
             return {
                 dialogThis: this,
                 labelPosition: 'right',
                 labelWidth: '120px',
                 addForm: {
-                    type_name: ''
+                    type_name: this.typeId
                 },
                 rules: {}
             }
@@ -45,8 +50,6 @@
                 return this.ajaxProxy.create(model);
             }
         },
-
-
 
     }
 </script>

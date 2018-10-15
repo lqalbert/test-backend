@@ -38,7 +38,7 @@ export const asyncRouterMap = [
     component: Layout,
     redirect: 'dashboard/index',
     name: '首页面板',
-    hidden: true,
+    hidden: false,
     meta: { role: ['admin', 'teacher-assistant', 'salesman'] },
     children: [
       {

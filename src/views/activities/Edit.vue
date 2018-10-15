@@ -27,7 +27,7 @@
 
                 <el-form-item label="活动详情" prop="detail_act">
                     <el-upload
-                            ref="upload"
+                            ref="upload1"
                             name="avatar"
                             :data="liveDir"
                             :auto-upload="false"
@@ -75,15 +75,15 @@
                 labelWidth: '120px',
                 editForm: {
                     id:'',
-                    room_id: '',
-                    teacher_img:''
+                    index_act: '',
+                    detail_act:''
                 },
                 rules: {
-
 
                 },
                 model:'',
                 fileList: [],
+                fileList1: [],
                 imgURL: '',
                 imgURL1: '',
                 submit_stat: '',
@@ -109,7 +109,7 @@
                 const vmthis = this
                 if (res.code === 200) {
                     vmthis.editForm.index_act = res.data.url
-                    this.formSubmit('editForm')
+                    //this.formSubmit('editForm')
                 } else {
                     this.$message.error(res.data.msg)
                 }

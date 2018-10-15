@@ -40,6 +40,7 @@
 
         <Add name="add-list"
              :ajax-proxy="ajaxProxy"
+             :type-id="typeId"
              @submit-success="handleReload"/>
 
     </div>
@@ -55,7 +56,7 @@
     import LevelProxy from '../../packages/LevelProxy';
     import LevelAjaxProxy from '../../api/Level';
     import APP_CONST from '../../config/index'
-
+    import { mapActions,mapGetters } from 'vuex';
 
     export default {
         name:'Level',
@@ -66,7 +67,8 @@
                 index:1,
                 ajaxProxy:LevelAjaxProxy,
                 mainurl:LevelAjaxProxy.getUrl(),
-                mainparam:''
+                mainparam:'',
+                typeId:this.$store.getters.level_type
             }
         },
 
@@ -85,6 +87,8 @@
 
         created() {
             this.$on('search-tool-change', this.onSearchChange);
+            console.log(111222)
+            console.log(this.$store.getters.level_type)
         }
 
 

@@ -6,7 +6,7 @@
                     <el-input v-model="searchForm.username" size="small" placeholder="用户名"></el-input>
                 </el-form-item>
 
-                <el-form-item label="学院" prop="cid">
+                <el-form-item label="学院" prop="cid" v-if="showCollege">
                     <el-select v-model="searchForm.cid" placeholder="请选择">
                         <el-option
                                 v-for="item in colleges"
@@ -71,7 +71,7 @@
                             {{ getLevel(scope.row.level, scope.row.cid, levels, colleges) }}
                         </template>
                     </el-table-column>
-                    <el-table-column prop="invitation_code" label="邀请码" width="180" align="center"></el-table-column>
+                    <!--<el-table-column prop="invitation_code" label="邀请码" width="180" align="center"></el-table-column>-->
                     <el-table-column  align="center" prop="cid" label="用户所属学院" width="180">
                         <template scope="scope">
                             {{ getCollege(scope.row.cid, colleges) }}
@@ -118,7 +118,7 @@
                         </template>-->
                     </el-table-column>
 
-                    <el-table-column prop="is_use" label="是否启用" align="center">
+                    <!--<el-table-column prop="is_use" label="是否启用" align="center">
                         <template slot-scope="scope">
                             <el-switch
                                     v-model="scope.row.is_use"
@@ -130,7 +130,7 @@
                             </el-switch>
 
                         </template>
-                    </el-table-column>
+                    </el-table-column>-->
 
                     <el-table-column  fixed="right" label="操作" align="center" width="220">
                         <template slot-scope="scope">
@@ -201,6 +201,7 @@ export default {
           mainurl: UserAjaxProxy.getUrl(),
           mainparam: '{"sockpuppet":"n"}',
           show:false,
+          showCollege:false,
           options: [],
           colleges: [],
           levels: [],
@@ -385,6 +386,12 @@ export default {
             }else{
                 return 0;
             }
+          },
+          getShowCollege(){
+            if(this.$store.getters.roles['0']=='administrator'){
+                return this.showCollege=true;
+            }
+
           }
 
 
@@ -397,6 +404,7 @@ export default {
         this.getCanAddLevels()
         this.getCanAddLevelOptions()
         this.getCanAddUsers()
+        this.getShowCollege()
     }
 
     }

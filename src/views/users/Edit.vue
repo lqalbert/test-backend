@@ -37,9 +37,9 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="邀请码" prop="invitation_code">
+                <!--<el-form-item label="邀请码" prop="invitation_code">
                     <el-input class="name-input" v-model="editForm.invitation_code"></el-input>
-                </el-form-item>
+                </el-form-item>-->
                 <el-form-item label="邮箱" prop="email">
                     <el-input size="small"  v-model="editForm.email"></el-input>
                 </el-form-item>
@@ -106,7 +106,7 @@
                     phone: '',
                     level: '',
                     address: '',
-                    invitation_code: '',
+                    /*invitation_code: '',*/
                     is_use: ''
                 },
                 rules: {
@@ -116,11 +116,11 @@
                         //{ pattern: /^[\u4E00-\u9FA5]+$/, message: '用户名只能为中文'}
                         { pattern: /^([A-Za-z0-9_-]){1,32}$/, message: '只能输入1-32个字母、数字、下划线'}
                     ],
-                    invitation_code: [
+                    /*invitation_code: [
                         { required: true, message: '请输入1-6个数字或字母', trigger: 'blur' },
                         { min: 1, max: 6, message: '长度在 1 到 6个字符', trigger: 'blur' },
                         { pattern: /^([A-Za-z0-9]){1,6}$/, message: '只能输入1-6个数字或字母' }
-                    ],
+                    ],*/
                     is_use: [
                         { required: true, message: '请选择是否启用', trigger: 'change' }
                     ],
