@@ -99,10 +99,7 @@
           const vmthis = this
           if (res.code === 200) {
             vmthis.addForm.index_act = res.data.url
-            console.log(1111111111)
-            console.log(res.data.url)
           } else {
-            console.log(33333333333)
             this.$message.error(res.data.msg)
           }
         },
@@ -110,8 +107,6 @@
           const vmthis = this
           if (res.code === 200) {
             vmthis.addForm.detail_act = res.data.url
-            console.log(22222222222)
-            console.log(res.data.url)
             this.formSubmit('addForm')
           } else {
             this.$message.error(res.data.msg)

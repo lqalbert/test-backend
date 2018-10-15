@@ -118,7 +118,7 @@
                         </template>-->
                     </el-table-column>
 
-                    <el-table-column prop="is_use" label="是否启用" align="center">
+                    <!--<el-table-column prop="is_use" label="是否启用" align="center">
                         <template slot-scope="scope">
                             <el-switch
                                     v-model="scope.row.is_use"
@@ -130,7 +130,7 @@
                             </el-switch>
 
                         </template>
-                    </el-table-column>
+                    </el-table-column>-->
 
                     <el-table-column  fixed="right" label="操作" align="center" width="220">
                         <template slot-scope="scope">
