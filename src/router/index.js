@@ -100,7 +100,7 @@ export const constantRouterMap = [
         name: '敏感词汇管理',
         component: () => import('@/views/word/index'),
         meta: { title: '敏感词汇管理', icon: 'word' }
-      },
+      }
     ]
   },
 
@@ -134,7 +134,7 @@ export const constantRouterMap = [
             name: '直播间广告',
             component: () => import('@/views/ads/Livead'),
             meta: { title: '直播间广告', icon: 'livead' }
-          },
+          }
         ]
       },
       {
@@ -196,10 +196,10 @@ export const constantRouterMap = [
         meta: { title: '重要通告', icon: 'announcement' }
       },
       {
-          path: 'curriculum',
-          name: '课程表管理',
-          component: () => import('@/views/curriculum/Index'),
-          meta: { title: '课程表管理', icon: 'curriculum' }
+        path: 'curriculum',
+        name: '课程表管理',
+        component: () => import('@/views/curriculum/Index'),
+        meta: { title: '课程表管理', icon: 'curriculum' }
       },
       {
         path: 'answer',
@@ -258,12 +258,12 @@ export const constantRouterMap = [
           }
         ]
 	    },
-        {
-            path: 'activity',
-            name: '活动管理',
-            component: () => import('@/views/activities/Index'),
-            meta: { title: '活动管理', icon: 'activity' }
-        },
+      {
+        path: 'activity',
+        name: '活动管理',
+        component: () => import('@/views/activities/Index'),
+        meta: { title: '活动管理', icon: 'activity' }
+      }
     ]
   },
   {
