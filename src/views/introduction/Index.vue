@@ -20,7 +20,15 @@
 
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
 
-                    <el-table-column prop="content" label="学校简介"  align="center">
+                    <!--<el-table-column prop="content" label="学校首页简介"  align="center">
+                        <template slot-scope="scope">
+                            <div v-html="scope.row.index_content">
+                                {{scope.row.index_content}}
+                            </div>
+                        </template>
+                    </el-table-column>-->
+
+                    <el-table-column prop="content" label="学校简介详情"  align="center">
                         <template slot-scope="scope">
                             <div v-html="scope.row.content">
                                 {{scope.row.content}}
