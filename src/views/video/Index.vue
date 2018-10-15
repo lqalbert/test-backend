@@ -55,8 +55,8 @@
                         <template slot-scope="scope">
                             <el-switch
                                     v-model="scope.row.status"
-                                    active-value="1"
-                                    inactive-value="0"
+                                    active-value="y"
+                                    inactive-value="n"
                                     active-color="#13ce66"
                                     inactive-color="#ff4949"
                                     @change="changeStatus(scope.row)"
