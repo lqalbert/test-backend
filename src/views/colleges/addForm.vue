@@ -6,7 +6,7 @@
                     <el-input class="name-input" size="small" v-model="addForm.name" ></el-input>
                 </el-form-item>
 
-                <el-form-item label="学院域名" prop="domain_name">
+                <!--<el-form-item label="学院域名" prop="domain_name">
                     <el-select  clearable placeholder="请选择" v-model="addForm.domain_name">
                         <el-option
                                 v-for="item in domains"
@@ -15,6 +15,10 @@
                                 :value="item.id">
                         </el-option>
                     </el-select>
+                </el-form-item>-->
+
+                <el-form-item label="学院域名" prop="domain_name">
+                    <el-input class="name-input" size="small" v-model="addForm.domain_name" ></el-input>
                 </el-form-item>
 
                 <el-form-item label="学院地址" prop="address">
@@ -94,8 +98,8 @@
                     contact:[
                         { required: true, min: 1, max: 32, message: '长度在 1 到 32个字符', trigger: 'blur' },
                     ],
-                    domain_name: [
-                        { required: true, message: '请选择域名', trigger: 'change' }
+                    domain_name:[
+                        { required: true, min: 1, max: 32, message: '长度在 1 到 32个字符', trigger: 'blur' },
                     ],
 
                 },

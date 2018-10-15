@@ -23,9 +23,9 @@
                     <el-table-column prop="name" label="学院名称"  align="center"></el-table-column>
 
                     <el-table-column prop="domain_name" label="学院域名"  align="center" >
-                        <template scope="scope">
+                        <!--<template scope="scope">
                             {{ getName(scope.row.domain_name, domains) }}
-                        </template>
+                        </template>-->
                     </el-table-column>
 
                     <el-table-column prop="address" label="学院地址"  align="center" ></el-table-column>

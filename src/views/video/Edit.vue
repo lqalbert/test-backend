@@ -35,14 +35,8 @@
                 <!--<el-form-item label="所属公司" prop="college_id">
                     <el-input size="small" placeholder="所属公司" v-model="editForm.company.name" disabled></el-input>
                 </el-form-item>-->
-                <el-form-item label="所属老师" prop="user_id">
-                    <el-input size="small" placeholder="所属老师" v-model="editForm.users.username" disabled></el-input>
-                </el-form-item>
                 <el-form-item label="在线人数" prop="user_number">
                     <el-input size="small" placeholder="在线人数" v-model="editForm.user_number"></el-input>
-                </el-form-item>
-                <el-form-item label="关注人数" prop="focus_number">
-                    <el-input size="small" placeholder="所属老师" v-model="editForm.focus_number"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
@@ -85,10 +79,9 @@ export default {
           img_url: '',
           company: '',
           college_id: '',
-          user_id: '',
-          users: '',
-          user_number: '',
-          focus_number: ''
+          base_number: '',
+          active_number: '',
+          user_number: ''
         },
         rules: {},
         model: '',

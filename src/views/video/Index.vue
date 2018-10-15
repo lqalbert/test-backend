@@ -48,13 +48,9 @@
                             <div>{{scope.row.company.name}}</div>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="users" label="所属老师" align="center">
-                        <template slot-scope="scope">
-                            <div>{{scope.row.users.username}}</div>
-                        </template>
-                    </el-table-column>
                     <el-table-column prop="user_number" label="在线人数" align="center"></el-table-column>
-                    <el-table-column prop="focus_number" label="关注人数" align="center"></el-table-column>
+                    <el-table-column prop="base_number" label="基准人数" align="center"></el-table-column>
+                    <el-table-column prop="active_number" label="动态增减" align="center"></el-table-column>
                     <el-table-column prop="status" label="直播间启用" width="120px" align="center">
                         <template slot-scope="scope">
                             <el-switch

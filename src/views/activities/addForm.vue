@@ -27,7 +27,7 @@
 
                 <el-form-item label="活动详情" prop="detail_act">
                 <el-upload
-                        ref="upload"
+                        ref="upload1"
                         name="avatar"
                         :data="liveDir"
                         :auto-upload="false"
@@ -37,7 +37,7 @@
                         accept="image/gif, image/jpeg,image/jpg,image/png"
                         :headers='myHeader'
                         :on-preview="handlePictureCardPreview"
-                        :on-success="handleAvatarSuccess"
+                        :on-success="handleAvatarSuccess1"
                         :on-error="uploadError"
                         :before-upload="beforeAvatarUpload"
                         :on-change="changefileList1">
@@ -65,107 +65,105 @@
     import { getToken } from '../../utils/auth'
     import APP_CONST from '../../config/index'
     export default {
-        name: 'addList',
-        mixins: [DialogForm],
+      name: 'addList',
+      mixins: [DialogForm],
 
-        data() {
-            return {
-                dialogThis: this,
-                labelPosition: 'right',
-                labelWidth: '120px',
-                addForm: {
-                    index_act: '',
-                    detail_act:''
-                },
-                url: APP_CONST.UPLOAD_BASE_URL,
-                rules: {},
-                imgURL: '',
-                imgURL1: '',
-                liveDir: {
-                    base: 'live'
-                },
-                myHeader: {
-                    'Authorization': 'Bearer ' + getToken()
-                },
-                fileList: [],
-                fileList1: []
-            }
+      data() {
+        return {
+          dialogThis: this,
+          labelPosition: 'right',
+          labelWidth: '120px',
+          addForm: {
+            index_act: '',
+            detail_act: ''
+          },
+          url: APP_CONST.UPLOAD_BASE_URL,
+          rules: {},
+          imgURL: '',
+          imgURL1: '',
+          liveDir: {
+            base: 'live'
+          },
+          myHeader: {
+            'Authorization': 'Bearer ' + getToken()
+          },
+          fileList: [],
+          fileList1: [],
+        }
+      },
+      methods: {
+        getAjaxPromise(model) {
+          return this.ajaxProxy.create(model)
         },
-        methods: {
-            getAjaxPromise(model){
-                return this.ajaxProxy.create(model);
-            },
-            handleAvatarSuccess(res, file) {
-                const vmthis = this
-                if (res.code === 200) {
-                    vmthis.addForm.index_act = res.data.url
-                    console.log(1111111111)
-                    console.log(res.data.url)
-                    this.formSubmit('addForm')
-                } else {
-                    console.log(33333333333)
-                    this.$message.error(res.data.msg)
-                }
-            },
-            /*handleAvatarSuccess1(res, file) {
-                const vmthis = this
-                if (res.code === 200) {
-                    vmthis.addForm.detail_act = res.data.url
-                    console.log(22222222222)
-                    console.log(res.data.url)
-                    this.formSubmit('addForm')
-                } else {
-                    this.$message.error(res.data.msg)
-                }
-            },*/
-            beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/gif'
-                const isLt2M = file.size / 1024 / 1024 < 2
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG、PNG、GIF、JPEG 格式!')
-                }
-                if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 2MB!')
-                }
-                return isJPG && isLt2M
-            },
-            handlePictureCardPreview(file) {
-                this.url = ''
-            },
-            uploadError(err, file, fileList) {
-                this.$message.error('上传出错：' + err.msg)
-            },
-
-            changefileList(file, fileList) {
-                this.fileList = fileList
-                this.imgURL = URL.createObjectURL(file.raw)
-            },
-            changefileList1(file, fileList) {
-                this.fileList1 = fileList
-                this.imgURL1 = URL.createObjectURL(file.raw)
-            },
-            handleRemove(file, fileList) {},
-            beforeFormSubmit(name) {
-                if (this.fileList.length === 0) {
-                    this.formSubmit('addForm')
-                } else {
-                    this.$refs['addForm'].validate((valid) => {
-                        if (valid) {
-                            this.submitUpload()
-                        } else {
-                            this.$emit('submit-final', name)
-                            console.log('error submit!!')
-                            return false
-                        }
-                    })
-                }
-            },
-            submitUpload() {
-                this.$refs.upload.submit()
-            }
+        handleAvatarSuccess(res, file) {
+          const vmthis = this
+          if (res.code === 200) {
+            vmthis.addForm.index_act = res.data.url
+            console.log(1111111111)
+            console.log(res.data.url)
+          } else {
+            console.log(33333333333)
+            this.$message.error(res.data.msg)
+          }
+        },
+        handleAvatarSuccess1(res, file) {
+          const vmthis = this
+          if (res.code === 200) {
+            vmthis.addForm.detail_act = res.data.url
+            console.log(22222222222)
+            console.log(res.data.url)
+            this.formSubmit('addForm')
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        },
+        beforeAvatarUpload(file) {
+          const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/gif'
+          const isLt2M = file.size / 1024 / 1024 < 2
+          if (!isJPG) {
+            this.$message.error('上传头像图片只能是 JPG、PNG、GIF、JPEG 格式!')
+          }
+          if (!isLt2M) {
+            this.$message.error('上传头像图片大小不能超过 2MB!')
+          }
+          return isJPG && isLt2M
+        },
+        handlePictureCardPreview(file) {
+          this.url = ''
+        },
+        uploadError(err, file, fileList) {
+          this.$message.error('上传出错：' + err.msg)
         },
 
-
+        changefileList(file, fileList) {
+          this.fileList = fileList
+          this.imgURL = URL.createObjectURL(file.raw)
+        },
+        changefileList1(file, fileList) {
+          this.fileList1 = fileList
+          this.imgURL1 = URL.createObjectURL(file.raw)
+        },
+        handleRemove(file, fileList) {},
+        beforeFormSubmit(name) {
+          if (this.fileList.length === 0) {
+            this.formSubmit('addForm')
+          } else {
+            this.$refs['addForm'].validate((valid) => {
+              if (valid) {
+                this.submitUpload()
+              } else {
+                this.$emit('submit-final', name)
+                console.log('error submit!!')
+                return false
+              }
+            })
+          }
+        },
+        submitUpload() {
+          this.$refs.upload.submit()
+          this.$refs.upload1.submit()
+        }
+      }
 
     }
 </script>

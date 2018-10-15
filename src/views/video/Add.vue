@@ -35,22 +35,14 @@
                 <!--<el-form-item label="所属公司" prop="college_id">
                     <el-input size="small" placeholder="所属公司" v-model="addForm.college_id" disabled></el-input>
                 </el-form-item>-->
-                <el-form-item label="所属老师" prop="user_id">
-                    <!--<el-input size="small" placeholder="所属老师" v-model="addForm.user_id" disabled></el-input>-->
-                    <el-select v-model="addForm.user_id" placeholder="请选择">
-                        <el-option
-                                v-for="item in userArray"
-                                :key="item.id"
-                                :label="item.username"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>
                 <el-form-item label="在线人数" prop="user_number">
                     <el-input size="small" placeholder="在线人数" v-model="addForm.user_number" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="关注人数" prop="focus_number">
-                    <el-input size="small" placeholder="所属老师" v-model="addForm.focus_number" disabled></el-input>
+                <el-form-item label="基准人数" prop="base_number">
+                    <el-input size="small" placeholder="在线人数" v-model="addForm.base_number" value="1000"></el-input>
+                </el-form-item>
+                <el-form-item label="增减人数" prop="active_number">
+                    <el-input size="small" placeholder="在线人数" v-model="addForm.active_number" value="1000"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
@@ -89,9 +81,9 @@ export default {
         room_number: '',
         img_url: '',
         college_id: this.$store.getters.company_id,
-        user_id: this.$store.getters.user_id,
         user_number: '0',
-        focus_number: '0'
+        active_number: '0',
+        base_number: '0'
       },
       rules: {
         name: [

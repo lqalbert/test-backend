@@ -1,73 +1,76 @@
 <template>
   <div class="dashboard-container">
+
     <div class="dashboard-text">name:{{name}}</div>
     <div class="dashboard-text">roles:<span v-for='role in roles' :key='role'>{{role}}</span></div>
-    <el-form ref="editForm" v-loading="dataLoad" :model="editForm" label-width="140px">
-      <el-form-item label="">
-        <div style="height: 40px;line-height: 40px"></div>
-      </el-form-item>
-      <el-form-item label="直播推流地址" prop="pushUrl">
-        <div>{{editForm.push_url}}</div>
-      </el-form-item>
-      <el-form-item label="直播推流名称" prop="pushName">
-        <div>{{editForm.pushName}}</div>
-      </el-form-item>
-      <el-form-item label="企业宣传片地址" prop="videoUrl">
-        <el-input
-                style="width: 500px"
-                placeholder="请输入内容"
-                v-model="editForm.videoUrl"
-                clearable>
-        </el-input>
-      </el-form-item>
-      <el-form-item label="观看码设置" prop="liveCode">
-        <el-input
-                style="width: 200px"
-                placeholder="请输入内容"
-                v-model="editForm.live_code">
-        </el-input>
-      </el-form-item>
-      <el-form-item label="是否直播" prop="isLive">
-        <el-switch
-                v-model="editForm.status"
-                active-value="y"
-                inactive-value="n"
-                active-color="#13ce66"
-                inactive-color="#ff4949">
-        </el-switch>
-      </el-form-item>
-      <el-form-item label="直播弹窗时间" prop="liveTime">
-        <el-input-number v-model="editForm.pop_time" @change="handleChanges" :min="0" :max="10" label="描述文字"></el-input-number>&nbsp;&nbsp;分钟
-        <span style="color: red;font-size: 14px">*设置为0则不出现弹窗</span>
-      </el-form-item>
-      <el-form-item label="弹窗图片" prop="pop_url">
-        <el-upload
-                ref="upload"
-                name="avatar"
-                :data="liveDir"
-                :auto-upload="false"
-                id="avatar-upload"
-                class="avatar-uploader"
-                :show-file-list="false"
-                :action='actionUrl'
-                accept="image/gif, image/jpeg,image/jpg,image/png"
-                :headers='myHeader'
-                :on-preview="handlePictureCardPreview"
-                :on-success="handleAvatarSuccess"
-                :on-error="uploadError"
-                :before-upload="beforeAvatarUpload"
-                :on-change="changefileList"
-        >
-          <img v-if="imgURL" :src="imgURL" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-        </el-upload>
-      </el-form-item>
-      <el-form-item>
-        <submit-button @click="beforeFormSubmit" :observer="dialogThis">
-          保存
-        </submit-button>
-      </el-form-item>
-    </el-form>
+    <div v-if="canShow">
+      <el-form ref="editForm" v-loading="dataLoad" :model="editForm" label-width="140px">
+        <el-form-item label="">
+          <div style="height: 40px;line-height: 40px"></div>
+        </el-form-item>
+        <el-form-item label="直播推流地址" prop="pushUrl">
+          <div>{{editForm.push_url}}</div>
+        </el-form-item>
+        <el-form-item label="直播推流名称" prop="pushName">
+          <div>{{editForm.pushName}}</div>
+        </el-form-item>
+        <el-form-item label="企业宣传片地址" prop="videoUrl">
+          <el-input
+                  style="width: 500px"
+                  placeholder="请输入内容"
+                  v-model="editForm.videoUrl"
+                  clearable>
+          </el-input>
+        </el-form-item>
+        <el-form-item label="观看码设置" prop="liveCode">
+          <el-input
+                  style="width: 200px"
+                  placeholder="请输入内容"
+                  v-model="editForm.live_code">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="是否直播" prop="isLive">
+          <el-switch
+                  v-model="editForm.status"
+                  active-value="y"
+                  inactive-value="n"
+                  active-color="#13ce66"
+                  inactive-color="#ff4949">
+          </el-switch>
+        </el-form-item>
+        <el-form-item label="直播弹窗时间" prop="liveTime">
+          <el-input-number v-model="editForm.pop_time" @change="handleChanges" :min="0" :max="10" label="描述文字"></el-input-number>&nbsp;&nbsp;分钟
+          <span style="color: red;font-size: 14px">*设置为0则不出现弹窗</span>
+        </el-form-item>
+        <el-form-item label="弹窗图片" prop="pop_url">
+          <el-upload
+                  ref="upload"
+                  name="avatar"
+                  :data="liveDir"
+                  :auto-upload="false"
+                  id="avatar-upload"
+                  class="avatar-uploader"
+                  :show-file-list="false"
+                  :action='actionUrl'
+                  accept="image/gif, image/jpeg,image/jpg,image/png"
+                  :headers='myHeader'
+                  :on-preview="handlePictureCardPreview"
+                  :on-success="handleAvatarSuccess"
+                  :on-error="uploadError"
+                  :before-upload="beforeAvatarUpload"
+                  :on-change="changefileList"
+          >
+            <img v-if="imgURL" :src="imgURL" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item>
+          <submit-button @click="beforeFormSubmit" :observer="dialogThis">
+            保存
+          </submit-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -111,6 +114,7 @@ export default {
       actionUrl: APP_CONST.UPLOAD_BASE_URL,
       fileList: [],
       unChange: true,
+      canShow: false,
       arr: {}
     }
   },
@@ -217,7 +221,12 @@ export default {
         this.imgURL = this.url + msg.pop_url
       }
       this.dataLoad = false
-    }
+    },
+      setAdmin(){
+          if(this.roles['0']=='administrator' || this.roles['0']=='admin'){
+              this.canShow = true;
+          }
+      }
   },
   computed: {
     ...mapGetters([
@@ -227,6 +236,7 @@ export default {
   },
   created() {
     this.loadMsg()
+    this.setAdmin()
   }
 }
 </script>
