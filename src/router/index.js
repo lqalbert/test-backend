@@ -225,10 +225,25 @@ export const asyncRouterMap = [
     meta: { title: '营销工具', icon: 'sale', role: ['admin'] },
     children: [
       {
-        path: 'index',
+        path: '/sale',
         name: '抽奖',
         component: () => import('@/views/sale/Index'),
-        meta: { title: '抽奖', icon: 'prize', role: ['admin'] }
+        meta: { title: '抽奖', icon: 'prize' },
+        children: [
+          {
+            path: 'lottery_draws',
+            name: '奖励列表',
+            component: () => import('@/views/sale/lottery_draws'),
+            meta: { title: '奖励列表', icon: 'prize' }
+          },
+          {
+            path: 'lottery_history',
+            name: '历史记录',
+            component: () => import('@/views/sale/lottery_history'),
+            meta: { title: '历史记录', icon: 'prize' }
+          }
+        ]
+
       },
       {
         path: '/packet',
