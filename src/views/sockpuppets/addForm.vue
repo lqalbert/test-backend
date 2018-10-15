@@ -65,7 +65,7 @@
                 },
                 rules: {
                     nickname: [
-                        { required: true,  trigger: 'blur' },
+                        { required: true, message: '长度在 1 到 10个字符', trigger: 'blur' },
                         { min: 1, max: 10, message: '长度在 1 到 10个字符', trigger: 'blur' }
                     ],
                     level: [
