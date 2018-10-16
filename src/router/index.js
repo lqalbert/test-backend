@@ -79,7 +79,7 @@ export const asyncRouterMap = [
         path: 'college',
         name: '学院列表',
         component: () => import('@/views/colleges/index'),
-        meta: { title: '学院列表', icon: 'college', role: ['admin'] }
+        meta: { title: '学院列表', icon: 'college', role: [] }
       }
     ]
   },

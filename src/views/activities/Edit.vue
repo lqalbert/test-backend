@@ -3,6 +3,7 @@
         <myDialog title="编辑活动" :name="name" :width="width" :height="height" @before-open="onOpen">
 
             <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
+
                 <el-form-item label="活动首页" prop="index_act">
                     <el-upload
                             ref="upload"
@@ -11,19 +12,19 @@
                             :auto-upload="false"
                             class="avatar-uploader"
                             :show-file-list="false"
-                            :action="url"
+                            :action="uploadUrl"
                             accept="image/gif, image/jpeg,image/jpg,image/png"
                             :headers='myHeader'
                             :on-preview="handlePictureCardPreview"
                             :on-success="handleAvatarSuccess"
                             :on-error="uploadError"
                             :before-upload="beforeAvatarUpload"
-                            :on-change="changefileList">
+                            :on-change="changefileList"
+                    >
                         <img v-if="imgURL" :src="imgURL" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
-
 
                 <el-form-item label="活动详情" prop="detail_act">
                     <el-upload
@@ -33,14 +34,15 @@
                             :auto-upload="false"
                             class="avatar-uploader"
                             :show-file-list="false"
-                            :action="url"
+                            :action="uploadUrl"
                             accept="image/gif, image/jpeg,image/jpg,image/png"
                             :headers='myHeader'
                             :on-preview="handlePictureCardPreview"
                             :on-success="handleAvatarSuccess1"
                             :on-error="uploadError"
                             :before-upload="beforeAvatarUpload"
-                            :on-change="changefileList1">
+                            :on-change="changefileList1"
+                    >
                         <img v-if="imgURL1" :src="imgURL1" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
@@ -67,7 +69,6 @@
     export default {
         name: 'editList',
         mixins: [DialogForm],
-
         data() {
             return {
                 dialogThis: this,
@@ -76,9 +77,10 @@
                 editForm: {
                     id:'',
                     index_act: '',
-                    detail_act:''
+                    detail_act: ''
                 },
                 rules: {
+
 
                 },
                 model:'',
@@ -148,8 +150,9 @@
                 this.fileList = fileList
                 this.imgURL = URL.createObjectURL(file.raw)
             },
+
             changefileList1(file, fileList) {
-                this.fileList = fileList
+                this.fileList1 = fileList
                 this.imgURL1 = URL.createObjectURL(file.raw)
             },
             handleRemove(file, fileList) {},
@@ -158,11 +161,12 @@
                 this.reals(name)
             },
             submitUpload() {
-                if (this.fileList.length === 0) {
+                if (this.fileList.length === 0 && this.fileList1.length === 0) {
                     this.submit_stat = 2
                 } else {
                     this.submit_stat = 1
                     this.$refs.upload.submit()
+                    this.$refs.upload1.submit()
                 }
                 // this.$refs.upload.submit()
             },
