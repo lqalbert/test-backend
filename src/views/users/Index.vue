@@ -199,7 +199,7 @@ export default {
           },
           ajaxProxy: UserAjaxProxy,
           mainurl: UserAjaxProxy.getUrl(),
-          mainparam: '{"sockpuppet":"n"}',
+          mainparam: '{"sockpuppet":"n","cid":' + this.$store.getters.company_id + '}',
           show:false,
           showCollege:false,
           options: [],
