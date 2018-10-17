@@ -5,6 +5,7 @@ const user = {
   state: {
     token: getToken(),
     name: '',
+    nickname: '',
     avatar: '',
     roles: [],
     user_id: '',
@@ -20,6 +21,9 @@ const user = {
     },
     SET_NAME: (state, name) => {
       state.name = name
+    },
+    SET_NICKNAME: (state, nickname) => {
+        state.nickname = nickname
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -71,6 +75,7 @@ const user = {
             reject('getInfo: 用户角色未设置 !')
           }
           commit('SET_NAME', data.name)
+          commit('SET_NICKNAME', data.nickname)
           commit('SET_AVATAR', data.avatar)
           commit('SET_USER_ID', data.user_id)
           commit('SET_COMPANY_ID', data.company_id)

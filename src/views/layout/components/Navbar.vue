@@ -4,7 +4,8 @@
     <breadcrumb></breadcrumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <img class="user-avatar" :src="url+avatar">
+        {{nickname}}
+        <!--<img class="user-avatar" :src="url+avatar">-->
         <i class="el-icon-caret-bottom"></i>
       </div>
       <el-dropdown-menu class="user-dropdown" slot="dropdown">
@@ -21,7 +22,8 @@
   </el-menu>
 </template>
 
-<script>import { mapGetters } from 'vuex'
+<script>
+import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import APP_CONST from '../../../config/index'
@@ -33,13 +35,15 @@ export default {
   },
   data() {
     return {
+      nickname:this.$store.getters.nickname,
       url: APP_CONST.BASE_URL
     }
   },
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+
     ])
   },
   methods: {
@@ -51,7 +55,11 @@ export default {
         location.reload() // 为了重新实例化vue-router对象 避免bug
       })
     }
-  }
+  },
+    created(){
+      console.log(this.$store.getters);
+      console.log(11111);
+    }
 }
 </script>
 
