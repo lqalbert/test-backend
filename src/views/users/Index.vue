@@ -102,11 +102,11 @@
                     <el-table-column prop="email" label="用户邮箱" width="180" align="center"></el-table-column>
                     <el-table-column prop="phone" label="用户手机" width="180" align="center"></el-table-column>
                     <el-table-column prop="address" label="用户地址" width="180" align="center"></el-table-column>
-                    <el-table-column prop="user_img" label="头像" width="120" align="center">
+                    <!--<el-table-column prop="user_img" label="头像" width="120" align="center">
                         <template slot-scope="scope">
                             <img :src="url+scope.row.user_img" alt="" width="100px">
                         </template>
-                    </el-table-column>
+                    </el-table-column>-->
                     <el-table-column prop="front_login" label="前台登录时间" width="180" align="center"></el-table-column>
                     <el-table-column prop="login_time" label="后台登录时间" width="180" align="center"></el-table-column>
 
@@ -191,7 +191,7 @@ export default {
       data() {
         return {
           searchForm: {
-            cid: '',
+            cid: this.$store.getters.company_id,
             username: '',
             role_id: '',
             level: '',

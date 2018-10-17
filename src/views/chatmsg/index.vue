@@ -120,7 +120,7 @@
             exportxls(){
                 //访问export方法
                 //LivePasswordAjaxProxy.exportxls()
-                window.open("/admin/chatmsg-exportxls");
+                window.open("/admin/chatmsg-exportxls?id="+this.$store.getters.company_id);
             }
         },
         created() {

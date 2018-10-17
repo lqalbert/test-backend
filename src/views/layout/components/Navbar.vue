@@ -22,7 +22,8 @@
   </el-menu>
 </template>
 
-<script>import { mapGetters } from 'vuex'
+<script>
+import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import APP_CONST from '../../../config/index'
@@ -34,6 +35,7 @@ export default {
   },
   data() {
     return {
+      nickname: this.$store.getters.nickname,
       url: APP_CONST.BASE_URL
     }
   },
@@ -53,6 +55,10 @@ export default {
         location.reload() // 为了重新实例化vue-router对象 避免bug
       })
     }
+  },
+  created() {
+    console.log(this.$store.getters)
+    console.log(11111)
   }
 }
 </script>

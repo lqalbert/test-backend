@@ -29,6 +29,11 @@
                                     <el-input class="name-input" v-model="addForm.invitation_code"></el-input>
                                 </el-form-item>
                             </el-col>-->
+                            <el-col :span="12">
+                                <el-form-item label="昵称" prop="nickname">
+                                    <el-input class="name-input" v-model="addForm.nickname" auto-complet="off"></el-input>
+                                </el-form-item>
+                            </el-col>
 
                             <el-col :span="12">
                                 <el-form-item label="角色" prop="role_id">
@@ -37,6 +42,23 @@
                                                 v-for="item in options"
                                                 :key="item.id"
                                                 :label="item.role_comment"
+                                                :value="item.id">
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+
+
+                        </el-row>
+
+                        <el-row>
+                            <el-col :span="12">
+                                <el-form-item label="所属学院" prop="cid">
+                                    <el-select  clearable placeholder="请选择" v-model="addForm.cid">
+                                        <el-option
+                                                v-for="item in colleges"
+                                                :key="item.id"
+                                                :label="item.name"
                                                 :value="item.id">
                                         </el-option>
                                     </el-select>
@@ -56,21 +78,7 @@
                                 </el-form-item>
                             </el-col>
                         </el-row>
-
                         <el-row>
-                            <el-col :span="12">
-                                <el-form-item label="所属学院" prop="cid">
-                                    <el-select  clearable placeholder="请选择" v-model="addForm.cid">
-                                        <el-option
-                                                v-for="item in colleges"
-                                                :key="item.id"
-                                                :label="item.name"
-                                                :value="item.id">
-                                        </el-option>
-                                    </el-select>
-                                </el-form-item>
-                            </el-col>
-
                             <el-col :span="12">
                                 <el-form-item label="是否启用" prop="is_use">
                                     <el-radio-group v-model="addForm.is_use">
@@ -115,19 +123,20 @@
                                     <el-input class="name-input" v-model="addForm.email"  auto-complete="off"></el-input>
                                 </el-form-item>
                             </el-col>
-                            <el-col :span="12">
+                            <!--<el-col :span="12">
                                 <el-form-item label="昵称" prop="nickname">
                                     <el-input class="name-input" v-model="addForm.nickname" auto-complet="off"></el-input>
                                 </el-form-item>
-                            </el-col>
-                        </el-row>
-
-                        <el-row>
+                            </el-col>-->
                             <el-col :span="12">
                                 <el-form-item label="手机" prop="phone">
                                     <el-input class="name-input" v-model="addForm.phone"  auto-complete="off"></el-input>
                                 </el-form-item>
                             </el-col>
+                        </el-row>
+
+                        <el-row>
+
                             <el-col :span="12">
                                 <el-form-item label="地址" prop="address">
                                     <el-input class="name-input" v-model="addForm.address" auto-complet="off"></el-input>
@@ -214,7 +223,7 @@
                   { pattern: /^([A-Za-z0-9]){1,6}$/, message: '只能输入1-6个数字或字母' }
               ],*/
               nickname:[
-                  { min: 1, max: 32, message: '长度在 1 到 32个字符', trigger: 'blur' },
+                  { required: true, min: 1, max: 32, message: '长度在 1 到 32个字符', trigger: 'blur' },
               ],
               email:[
                   { min: 1, max: 32, message: '长度在 1 到 32个字符', trigger: 'blur' },

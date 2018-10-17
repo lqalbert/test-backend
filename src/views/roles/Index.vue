@@ -28,6 +28,7 @@
                      <el-table-column prop="is_use" label="是否启用" align="center">
                       <template slot-scope="scope">
                           <el-switch
+                                  disabled
                                   v-model="scope.row.is_use"
                                   active-value="y"
                                   inactive-value="n"
@@ -41,6 +42,7 @@
                     <el-table-column prop="is_backend" label="是否可登录后台" align="center">
                         <template slot-scope="scope">
                             <el-switch
+                                    disabled
                                     v-model="scope.row.is_backend"
                                     active-value="y"
                                     inactive-value="n"
@@ -51,12 +53,12 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column  fixed="right"  label="操作" align="center" width="220">
+                    <!--<el-table-column  fixed="right"  label="操作" align="center" width="220">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
-                            <!--<el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>-->
+                            &lt;!&ndash;<el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>&ndash;&gt;
                         </template>
-                    </el-table-column>
+                    </el-table-column>-->
 
                     <!--<div slot="buttonbar">
                         <el-button size="small" type="primary" @click="showAdd">添加角色</el-button>
