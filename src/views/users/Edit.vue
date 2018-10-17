@@ -128,7 +128,7 @@
                 model: '',
                 fileList: [],
                 imgURL: '',
-                submit_stat: ''
+                submit_stat: '',
             }
         },
         methods: {

@@ -73,7 +73,8 @@ export default {
             },
             model: '',
             imgURL: '',
-            submit_stat: ''
+            submit_stat: '',
+            fileList:[],
         }
     },
     methods: {
