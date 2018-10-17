@@ -4,17 +4,18 @@
     <breadcrumb></breadcrumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
+        <div class="username">{{name}}</div>
         <img class="user-avatar" :src="url+avatar">
         <i class="el-icon-caret-bottom"></i>
       </div>
       <el-dropdown-menu class="user-dropdown" slot="dropdown">
         <router-link class="inlineBlock" to="/">
           <el-dropdown-item>
-            Home
+            主页
           </el-dropdown-item>
         </router-link>
         <el-dropdown-item divided>
-          <span @click="logout" style="display:block;">LogOut</span>
+          <span @click="logout" style="display:block;">登出</span>
         </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
@@ -39,7 +40,8 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      'avatar',
+      'name'
     ])
   },
   methods: {
@@ -81,6 +83,11 @@ export default {
       cursor: pointer;
       margin-top: 5px;
       position: relative;
+      .username{
+        position: absolute;
+        top: 0;
+        left: -40px;
+      }
       .user-avatar {
         width: 40px;
         height: 40px;
