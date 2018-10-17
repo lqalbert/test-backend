@@ -51,7 +51,7 @@
                     <el-table-column prop="url_addr" label="跳转链接" align="center" width="200px"> </el-table-column>
                     <el-table-column prop="url_img" label="广告图"  align="center">
                         <template slot-scope="scope">
-                            <img :src="scope.row.url_img" alt="" width="100px">
+                            <img :src="imgLink+scope.row.url_img" alt="" width="100px">
                         </template>
                     </el-table-column>
 
