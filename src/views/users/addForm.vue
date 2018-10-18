@@ -53,7 +53,7 @@
 
                         <el-row>
                             <el-col :span="12">
-                                <el-form-item label="所属学院" prop="cid">
+                                <el-form-item label="所属学院" prop="cid" v-if="showCollege">
                                     <el-select  clearable placeholder="请选择" v-model="addForm.cid">
                                         <el-option
                                                 v-for="item in colleges"
@@ -77,8 +77,7 @@
                                     </el-select>
                                 </el-form-item>
                             </el-col>
-                        </el-row>
-                        <el-row>
+
                             <el-col :span="12">
                                 <el-form-item label="是否启用" prop="is_use">
                                     <el-radio-group v-model="addForm.is_use">
@@ -87,8 +86,8 @@
                                     </el-radio-group>
                                 </el-form-item>
                             </el-col>
-
                         </el-row>
+
                     </el-tab-pane>
 
                     <el-tab-pane label="其它信息" name="second">
@@ -181,6 +180,10 @@
           leveloption: {
               type: Array,
               default: []
+          },
+          showCollege: {
+              type: Boolean,
+              default: false
           }
       },
 

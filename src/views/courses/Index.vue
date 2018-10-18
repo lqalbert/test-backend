@@ -31,6 +31,12 @@
                         </template>
                     </el-table-column>
 
+                    <el-table-column  align="center" prop="cid" label="所属学院" v-if="showCollege">
+                        <template scope="scope">
+                            {{ getCollege(scope.row.cid, colleges) }}
+                        </template>
+                    </el-table-column>
+
                     <el-table-column  fixed="right"  label="操作" align="center" width="180">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
@@ -68,6 +74,7 @@
     import PageMix from '../../mix/Page';
     import CourseProxy from '../../packages/CourseProxy';
     import VideoProxy from '../../packages/VideoProxy';
+    import CollegeProxy from '../../packages/CollegeProxy';
     import CourseAjaxProxy from '../../api/course';
     import APP_CONST from '../../config/index'
 
@@ -81,6 +88,8 @@
                 ajaxProxy:CourseAjaxProxy,
                 mainurl:CourseAjaxProxy.getUrl(),
                 mainparam: '',
+                colleges: [],
+                showCollege:false,
                 url: APP_CONST.BASE_URL
             }
         },
@@ -102,9 +111,24 @@
                 this.rooms = data.items
                 console.log(this.rooms)
             },
+            loadColleges(data) {
+                this.colleges = data.items
+                console.log(this.colleges)
+            },
             getCanAddRooms() {
                 const canAddRooms = new VideoProxy({ college_id: this.$store.getters.company_id }, this.loadRooms, this)
                 canAddRooms.load()
+            },
+            getCanAddColleges() {
+                const canAddColleges = new CollegeProxy({}, this.loadColleges, this)
+                canAddColleges.load()
+            },
+            getCollege(id, arr){
+                for ( let i = 0; i <arr.length; i++){
+                    if (arr[i]['id']==id){
+                        return arr[i]['name'];
+                    }
+                }
             },
             getRooms(id, arr){
                 for ( let i = 0; i <arr.length; i++){
@@ -112,12 +136,20 @@
                         return arr[i]['room_number'];
                     }
                 }
+            },
+            getShowCollege(){
+                if(this.$store.getters.roles['0']=='administrator'){
+                    return this.showCollege=true;
+                }
+
             }
         },
 
         created() {
             this.$on('search-tool-change', this.onSearchChange);
             this.getCanAddRooms()
+            this.getCanAddColleges()
+            this.getShowCollege()
         }
 
 
