@@ -10,6 +10,7 @@ const getters = {
   live_url: state => state.user.live_url,
   live_key: state => state.user.live_key,
   company_id: state => state.user.company_id,
+  company_name: state => state.user.company_name,
   level_type: state => state.user.level_type,
   permission_routers: state => state.permission.routers,
   addRouters: state => state.permission.addRouters,

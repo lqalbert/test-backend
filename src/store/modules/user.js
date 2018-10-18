@@ -12,7 +12,8 @@ const user = {
     live_url: 'rtmp://192.168.121.130/lives',
     live_key: '（密匙已过期请重新设置）',
     company_id: '',
-    level_type: ''
+    level_type: '',
+    company_name: ''
   },
 
   mutations: {
@@ -23,7 +24,7 @@ const user = {
       state.name = name
     },
     SET_NICKNAME: (state, nickname) => {
-        state.nickname = nickname
+      state.nickname = nickname
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -44,7 +45,10 @@ const user = {
       state.company_id = company_id
     },
     SET_LEVEL_TYPE: (state, level_type) => {
-        state.level_type = level_type
+      state.level_type = level_type
+    },
+    SET_COMPANY_NAME: (state, company_name) => {
+      state.company_name = company_name
     }
   },
 
@@ -80,6 +84,7 @@ const user = {
           commit('SET_USER_ID', data.user_id)
           commit('SET_COMPANY_ID', data.company_id)
           commit('SET_LEVEL_TYPE', data.level_type)
+          commit('SET_COMPANY_NAME', data.company_name)
           resolve(response)
         }).catch(error => {
           reject(error)

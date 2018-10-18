@@ -35,8 +35,11 @@
                 <!--<el-form-item label="所属公司" prop="college_id">
                     <el-input size="small" placeholder="所属公司" v-model="editForm.company.name" disabled></el-input>
                 </el-form-item>-->
-                <el-form-item label="在线人数" prop="user_number">
-                    <el-input size="small" placeholder="在线人数" v-model="editForm.user_number"></el-input>
+                <el-form-item label="基准人数" prop="base_number">
+                    <el-input size="small" placeholder="基准人数" v-model="editForm.base_number"></el-input>
+                </el-form-item>
+                <el-form-item label="增减人数" prop="active_number">
+                    <el-input size="small" placeholder="增减人数" v-model="editForm.active_number"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">

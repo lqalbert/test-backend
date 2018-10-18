@@ -4,7 +4,7 @@
     <div class="dashboard-text">name:{{name}}</div>
     <div class="dashboard-text">roles:<span v-for='role in roles' :key='role'>{{role}}</span></div>
     <div v-if="canShow">
-      <el-form ref="editForm" v-loading="dataLoad" :model="editForm" label-width="140px">
+      <el-form ref="editForm" v-loading="dataLoad" :model="editForm" :rules="rules" label-width="140px">
         <el-form-item label="">
           <div style="height: 40px;line-height: 40px"></div>
         </el-form-item>
@@ -22,14 +22,14 @@
                   clearable>
           </el-input>
         </el-form-item>
-        <el-form-item label="观看码设置" prop="liveCode">
+        <el-form-item label="观看码设置" prop="live_code">
           <el-input
                   style="width: 200px"
                   placeholder="请输入内容"
                   v-model="editForm.live_code">
           </el-input>
         </el-form-item>
-        <el-form-item label="是否直播" prop="isLive">
+        <el-form-item label="是否直播" prop="status">
           <el-switch
                   v-model="editForm.status"
                   active-value="y"
@@ -38,7 +38,7 @@
                   inactive-color="#ff4949">
           </el-switch>
         </el-form-item>
-        <el-form-item label="直播弹窗时间" prop="liveTime">
+        <el-form-item label="直播弹窗时间" prop="pop_time">
           <el-input-number v-model="editForm.pop_time" @change="handleChanges" :min="0" :max="10" label="描述文字"></el-input-number>&nbsp;&nbsp;分钟
           <span style="color: red;font-size: 14px">*设置为0则不出现弹窗</span>
         </el-form-item>
@@ -115,7 +115,13 @@ export default {
       fileList: [],
       unChange: true,
       canShow: false,
-      arr: {}
+      arr: {},
+      rules: {
+        live_code: [
+          { required: false, message: '房间验证码非必填', trigger: 'blur' },
+          { min: 4, max: 4, message: '4位数字', trigger: 'blur' }
+        ]
+      }
     }
   },
   methods: {
@@ -155,12 +161,22 @@ export default {
     handleRemove(file, fileList) {},
     beforeFormSubmit(name) {
       if (this.fileList.length === 0) {
-        this.formSubmit('editForm')
+      	this.$refs['editForm'].validate((valid) => {
+          if (valid) {
+          	this.formSubmit('editForm')
+          } else {
+            this.$message.error('观看码为4位数字或者为空')
+            this.$emit('submit-final', name)
+            console.log('error submit!!')
+            return false
+          }
+        })
       } else {
         this.$refs['editForm'].validate((valid) => {
           if (valid) {
             this.submitUpload()
           } else {
+            this.$message.error('观看码为4位数字或者为空')
             this.$emit('submit-final', name)
             console.log('error submit!!')
             return false
@@ -209,7 +225,6 @@ export default {
     },
     initMsg(data) {
       const msg = data.items[0]
-      console.log(msg)
       for (const x in this.editForm) {
       	if (this.editForm.hasOwnProperty(x) && msg.hasOwnProperty(x)) {
           this.editForm[x] = msg[x]
@@ -222,11 +237,11 @@ export default {
       }
       this.dataLoad = false
     },
-      setAdmin(){
-          if(this.roles['0']=='administrator' || this.roles['0']=='admin'){
-              this.canShow = true;
-          }
+    setAdmin() {
+      if (this.roles['0'] == 'administrator' || this.roles['0'] == 'admin') {
+        this.canShow = true
       }
+    }
   },
   computed: {
     ...mapGetters([

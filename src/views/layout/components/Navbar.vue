@@ -4,7 +4,10 @@
     <breadcrumb></breadcrumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
-        <div class="username">{{name}}</div>
+        <div class="userBox">
+          <div class="users users1">{{company_name}}</div>
+          <div class="users users2" :title="name">{{name}}</div>
+        </div>
         <img class="user-avatar" :src="url+avatar">
         <i class="el-icon-caret-bottom"></i>
       </div>
@@ -43,7 +46,8 @@ export default {
     ...mapGetters([
       'sidebar',
       'avatar',
-      'name'
+      'name',
+      'company_name'
     ])
   },
   methods: {
@@ -89,10 +93,26 @@ export default {
       cursor: pointer;
       margin-top: 5px;
       position: relative;
-      .username{
+      .userBox{
+        width: 400px;
+        line-height: 40px;
+        overflow: hidden;
         position: absolute;
         top: 0;
-        left: -60px;
+        left: -400px;
+        .users{
+          float: left;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+        .users1{
+          width: 300px;
+        }
+        .users2{
+          width: 100px;
+          padding-right: 10px;
+        }
       }
       .user-avatar {
         width: 40px;
