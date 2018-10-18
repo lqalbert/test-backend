@@ -340,30 +340,30 @@ export default {
             if(this.$store.getters.level_type==1){
                 this.leveloption=[
                     {
-                        id:'1',
+                        id:1,
                         name:'普通'
                     },
                     {
-                        id:'2',
+                        id:2,
                         name:'中级'
                     },
                     {
-                        id:'3',
+                        id:3,
                         name:'高级'
                     }
                 ]
             }else if(this.$store.getters.level_type==2){
                   this.leveloption=[
                       {
-                          id:'1',
+                          id:1,
                           name:'白银'
                       },
                       {
-                          id:'2',
+                          id:2,
                           name:'黄金'
                       },
                       {
-                          id:'3',
+                          id:3,
                           name:'砖石'
                       }
                   ]
