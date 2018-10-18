@@ -92,7 +92,7 @@ export default {
       .username{
         position: absolute;
         top: 0;
-        left: -40px;
+        left: -60px;
       }
       .user-avatar {
         width: 40px;
