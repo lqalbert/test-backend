@@ -72,7 +72,7 @@
                         </template>
                     </el-table-column>
                     <!--<el-table-column prop="invitation_code" label="邀请码" width="180" align="center"></el-table-column>-->
-                    <el-table-column  align="center" prop="cid" label="用户所属学院" width="180">
+                    <el-table-column  align="center" prop="cid" label="用户所属学院" width="180" v-if="showCollege">
                         <template scope="scope">
                             {{ getCollege(scope.row.cid, colleges) }}
                         </template>
