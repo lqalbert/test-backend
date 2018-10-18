@@ -27,7 +27,7 @@
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
-                <el-form-item label="用户等级" prop="level">
+                <el-form-item label="用户等级" >
                     <el-select  v-model="editForm.level">
                         <el-option
                                 v-for="item in leveloption"
