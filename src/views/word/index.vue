@@ -29,6 +29,8 @@
                     <el-table-column  label="操作" align="center" width="300">
                         <template slot-scope="scope">
                             <el-button type="success" size="mini" round @click="editWord(scope.row)" >修改</el-button>
+                             <br>
+                            <span v-if="scope.row.name">(所属公司：{{scope.row.name }})</span>
                             <!-- <el-button type="primary" size="mini" round @click="deleWord(scope.row.id)" >删除</el-button> -->
                         </template>
                     </el-table-column>
