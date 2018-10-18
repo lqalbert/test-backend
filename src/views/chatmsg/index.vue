@@ -126,7 +126,6 @@
         created() {
             this.$on('search-tool-change', this.onSearchChange)
             this.getRoomList();
-
         },
         mounted() {
 
