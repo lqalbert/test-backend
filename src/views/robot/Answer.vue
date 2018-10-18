@@ -52,6 +52,8 @@
                         <template slot-scope="scope">
                             <el-button type="success" size="mini" round @click="editAnswer(scope.row)" >修改</el-button>
                             <el-button type="primary" size="mini" round @click="deleAnswer(scope.row.id)" >删除</el-button>
+                            <br>
+                            <span v-if="scope.row.name">(所属公司：{{scope.row.name }})</span>
                         </template>
                     </el-table-column>
                 </TableProxy>
