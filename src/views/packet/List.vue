@@ -66,7 +66,7 @@
                     <el-table-column prop="max_money" label="最大金额" align="center"></el-table-column>
                     <el-table-column prop="min_money" label="最小金额" align="center"></el-table-column>
                     
-                    <el-table-column prop="nickname" label="创建人" align="center"></el-table-column>
+                    <!-- <el-table-column prop="nickname" label="创建人" align="center"></el-table-column> -->
                     <el-table-column prop="wx_code" label="客服二维码" align="center">
                         <template slot-scope="scope">
                             <img :src="imgLink+scope.row.wx_code" alt="" width="100px" >

@@ -54,6 +54,7 @@
                             <img :src="imgLink+scope.row.url_img" alt="" width="100px">
                         </template>
                     </el-table-column>
+                    
 
                     <el-table-column prop="status" label="广告启用" align="center" width="100px">
                       <template slot-scope="scope">
@@ -76,6 +77,8 @@
                             <el-button type="primary" size="mini" round @click="editCourse(scope.row)" >修改</el-button>
                             <el-button type="danger" size="mini" round @click="deleCourse(scope.row.id,scope.row.status)" >删除</el-button>
                             <span  v-if="scope.row.packet_status==3">已结束</span>
+                            <br>
+                            <span v-if="scope.row.name">(所属公司：{{scope.row.name }})</span>
                         </template>
                     </el-table-column>
                 </TableProxy>
