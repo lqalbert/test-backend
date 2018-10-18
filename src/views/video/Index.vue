@@ -55,8 +55,8 @@
                         <template slot-scope="scope">
                             <el-switch
                                     v-model="scope.row.status"
-                                    active-value="1"
-                                    inactive-value="0"
+                                    active-value="y"
+                                    inactive-value="n"
                                     active-color="#13ce66"
                                     inactive-color="#ff4949"
                                     @change="changeStatus(scope.row)"
@@ -74,7 +74,8 @@
                     <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">
                             <el-button type="primary" size="mini" round @click="editRoom(scope.row)">编辑</el-button>
-                            <el-button type="danger" size="mini" round @click="handleDelete(scope.row.id)">删除</el-button>
+                            <!--<el-button type="danger" size="mini" round @click="handleDelete(scope.row.id)">删除</el-button>-->
+                            <el-button type="danger" size="mini" round @click="deleteRoom(scope.row)">删除</el-button>
                         </template>
                     </el-table-column>
                 </TableProxy>
@@ -86,6 +87,7 @@
         <Add name="add-list"
              :ajax-proxy="ajaxProxy"
              :user-array="users"
+             :college-array="college"
              @submit-success="handleReload"/>
     </div>
 </template>
@@ -102,6 +104,7 @@
   import Add from './Add'
   import APP_CONST from '../../config/index'
   import UserProxy from '../../packages/UserProxy'
+  import CollegeArray from '../../packages/CollegeProxy'
 export default {
   name: 'Videos',
   mixins: [PageMix, DataTable, config, SearchTool, VideoAjaxProxy],
@@ -118,7 +121,8 @@ export default {
           room_number: ''
         },
         imgLink: APP_CONST.BASE_URL,
-        users: []
+        users: [],
+        college: []
       }
   },
   methods: {
@@ -171,17 +175,25 @@ export default {
     },
     initUser(data) {
       this.users = data.items
-      console.log(this.users)
     },
     loadUser() {
       const user = new UserProxy({ pid: this.$store.getters.company_id }, this.initUser, this)
       this.usersProxy = user
       this.usersProxy.load()
+    },
+    initCollege(data) {
+      this.college = data.items
+    },
+    loadCollege() {
+      const college = new CollegeArray({},this.initCollege,this)
+      this.collegeProxy = college
+      this.collegeProxy.load()
     }
   },
   created() {
   	this.$on('search-tool-change', this.onSearchChange)
     this.loadUser()
+    this.loadCollege()
   },
   mounted() {
   }

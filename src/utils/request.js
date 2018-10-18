@@ -57,7 +57,7 @@ service.interceptors.response.use(
   error => {
     console.log('err' + error)// for debug
     Message({
-      message: error.message,
+      message: '登录失败，账号或者密码错误！',
       type: 'error',
       duration: 5 * 1000
     })

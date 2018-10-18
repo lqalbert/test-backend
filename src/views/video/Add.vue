@@ -32,9 +32,19 @@
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
-                <!--<el-form-item label="所属公司" prop="college_id">
-                    <el-input size="small" placeholder="所属公司" v-model="addForm.college_id" disabled></el-input>
-                </el-form-item>-->
+                <el-form-item label="所属公司" prop="college_id">
+                    <el-select v-model="addForm.college_id" placeholder="请选择">
+                        <el-option
+                                v-for="item in collegeArray"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="推流地址" prop="push_url">
+                    <el-input size="small" placeholder="推流地址" v-model="addForm.push_url" value="rtmp://yanggang112.51vip.biz/lives?key=asd123456"></el-input>
+                </el-form-item>
                 <el-form-item label="在线人数" prop="user_number">
                     <el-input size="small" placeholder="在线人数" v-model="addForm.user_number" disabled></el-input>
                 </el-form-item>
@@ -68,6 +78,10 @@ export default {
   	userArray: {
       type: Array,
       default: null
+    },
+    collegeArray: {
+      type: Array,
+      defaule: null
     }
   },
   data() {
@@ -83,7 +97,8 @@ export default {
         college_id: this.$store.getters.company_id,
         user_number: '0',
         active_number: '0',
-        base_number: '0'
+        base_number: '0',
+        push_url: 'rtmp://yanggang112.51vip.biz/lives/dml?key=asd123456'
       },
       rules: {
         name: [
@@ -91,11 +106,16 @@ export default {
           { max: 50, message: '最长50个字符', trigger: 'blur' }
         ],
         room_number: [
-          { required: true, message: '房间号必填，列如：S00021', trigger: 'change' }
+          { required: true, message: '房间号必填，列如：S00021', trigger: 'blur' },
+          { min: 6, max: 6, message: '只能为6个字符', trigger: 'blur' }
         ],
         describe: [
           { required: true, message: '房间描述必填', trigger: 'blur' },
           { max: 200, message: '最长200个字符', trigger: 'blur' }
+        ],
+        push_url: [
+          { required: true, message: '推流地址必填', trigger: 'blur' },
+          { min: 10, max: 200, message: '最长200个字符', trigger: 'blur' }
         ]
       },
       imgURL: '',

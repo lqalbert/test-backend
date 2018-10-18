@@ -6,7 +6,7 @@
                     <el-input class="name-input" size="small" placeholder="直播间名字" v-model="editForm.name" ></el-input>
                 </el-form-item>
                 <el-form-item label="直播间房间号" prop="room_number">
-                    <el-input size="small" placeholder="直播间房间号" v-model="editForm.room_number" ></el-input>
+                    <el-input size="small" :disabled="true" placeholder="直播间房间号" v-model="editForm.room_number" ></el-input>
                 </el-form-item>
                 <el-form-item label="直播间描述" prop="describe">
                     <el-input type="textarea" size="small" :autosize="{ minRows:3, maxRows:20}" placeholder="请输入内容" v-model="editForm.describe"></el-input>

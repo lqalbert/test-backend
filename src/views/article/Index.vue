@@ -89,83 +89,79 @@
     import Edit from './Edit'
     import TableProxy from '../../components/Commontable/Table'
     import config from '../../mix/Delete'
-    import SearchTool from '../../mix/SearchTool';
-    import DataTable from '../../mix/DataTable';
-    import PageMix from '../../mix/Page';
-    import ArticleProxy from '../../packages/ArticleProxy';
-    import ArticleAjaxProxy from '../../api/article';
-    import ArticleTypeProxy from '../../packages/ArticleTypeProxy';
-    import ArticleTypeAjaxProxy from '../../api/articleType';
-    import APP_CONST from '../../config/index'
-
+    import SearchTool from '../../mix/SearchTool'
+import DataTable from '../../mix/DataTable'
+import PageMix from '../../mix/Page'
+import ArticleProxy from '../../packages/ArticleProxy'
+import ArticleAjaxProxy from '../../api/article'
+import ArticleTypeProxy from '../../packages/ArticleTypeProxy'
+import ArticleTypeAjaxProxy from '../../api/articleType'
+import APP_CONST from '../../config/index'
 
     export default {
-        name:'Wenzhang',
-        mixins: [SearchTool, DataTable, PageMix, config],
-        components: {  Add, Edit, TableProxy },
-        data(){
-            return{
-                searchForm: {
-                    title: '',
-                    author:'',
-                    type_id:''
-                },
-                ajaxProxy:ArticleAjaxProxy,
-                mainurl:ArticleAjaxProxy.getUrl(),
-                mainparam:'',
-                options: [],
-                imgLink: APP_CONST.BASE_URL
+      name: 'Wenzhang',
+      mixins: [SearchTool, DataTable, PageMix, config],
+      components: { Add, Edit, TableProxy },
+      data() {
+        return {
+          searchForm: {
+            title: '',
+            author: '',
+            type_id: ''
+          },
+          ajaxProxy: ArticleAjaxProxy,
+          mainurl: ArticleAjaxProxy.getUrl(),
+          mainparam: '',
+          options: [],
+          imgLink: APP_CONST.BASE_URL
+        }
+      },
+
+      methods: {
+        getAjaxProxy() {
+          return this.ajaxProxy
+        },
+        onSearchChange(param) {
+          this.mainparam = JSON.stringify(param)
+        },
+        showAdd() {
+          this.$modal.show('add-list')
+        },
+        showEdit(row) {
+          this.$modal.show('edit-list', { model: row })
+        },
+        loadTypes(data) {
+          this.options = data.items
+          console.log(this.options)
+        },
+        getCanAddTypes() {
+          const canAddTypes = new ArticleTypeProxy({}, this.loadTypes, this)
+          canAddTypes.load()
+        },
+
+        switchHandle1(row) {
+          this.ajaxProxy.update(row.id, { publish: row.publish }).then((response) => {
+            this.$message.success('设置成功')
+          }).catch((response) => {
+            this.$message.error('更新失败')
+            row.publish = row.publish == 'y' ? 'n' : 'y'
+          })
+    },
+
+        getType(id, arr) {
+          for (var i = 0; i < arr.length; i++) {
+            if (arr[i]['id'] == id) {
+              return arr[i]['name']
             }
-        },
-
-        methods:{
-            getAjaxProxy(){
-                return this.ajaxProxy;
-            },
-            onSearchChange(param) {
-                this.mainparam = JSON.stringify(param);
-            },
-            showAdd() {
-                this.$modal.show('add-list')
-            },
-            showEdit(row) {
-                this.$modal.show('edit-list', { model: row })
-            },
-            loadTypes(data){
-                this.options = data.items;
-                console.log(this.options)
-            },
-            getCanAddTypes(){
-                let canAddTypes = new ArticleTypeProxy({}, this.loadTypes, this);
-                canAddTypes.load();
-            },
-
-            switchHandle1(row){
-                this.ajaxProxy.update(row.id, {publish:row.publish}).then((response)=>{
-                    this.$message.success('设置成功');
-                }).catch((response)=>{
-                    this.$message.error('更新失败');
-                    row.publish = row.publish == 'y' ? 'n' : 'y' ;
-                });
-            },
-
-            getType(id, arr){
-                for ( var i = 0; i <arr.length; i++){
-                    if (arr[i]['id']==id){
-                        return arr[i]['name'];
-                    }
-                }
-            },
-
-
-
-        },
-
-        created() {
-            this.$on('search-tool-change', this.onSearchChange);
-            this.getCanAddTypes();
+          }
         }
 
+      },
+
+      created() {
+        this.$on('search-tool-change', this.onSearchChange)
+        //this.getCanAddTypes()
+    }
 
     }
 </script>
