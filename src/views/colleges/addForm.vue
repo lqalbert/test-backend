@@ -6,17 +6,6 @@
                     <el-input class="name-input" size="small" v-model="addForm.name" ></el-input>
                 </el-form-item>
 
-                <!--<el-form-item label="学院域名" prop="domain_name">
-                    <el-select  clearable placeholder="请选择" v-model="addForm.domain_name">
-                        <el-option
-                                v-for="item in domains"
-                                :key="item.id"
-                                :label="item.domain_name"
-                                :value="item.id">
-                        </el-option>
-                    </el-select>
-                </el-form-item>-->
-
                 <el-form-item label="学院域名" prop="domain_name">
                     <el-input class="name-input" size="small" v-model="addForm.domain_name" ></el-input>
                 </el-form-item>
@@ -169,9 +158,6 @@
                 this.$refs.upload.submit()
             }
         }
-
-
-
     }
 </script>
 

@@ -2,8 +2,6 @@
     <div>
         <myDialog title="添加活动" :name="name" :width="width" :height="height">
             <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
-
-
                 <el-form-item label="活动首页" prop="index_act">
                     <el-upload
                             ref="upload"

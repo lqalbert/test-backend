@@ -28,6 +28,12 @@
                         </template>
                     </el-table-column>
 
+                    <el-table-column  align="center" prop="cid" label="所属学院" v-if="showCollege">
+                        <template scope="scope">
+                            {{ getCollege(scope.row.cid, colleges) }}
+                        </template>
+                    </el-table-column>
+
 
                     <el-table-column  fixed="right"  label="操作" align="center" width="180">
                         <template slot-scope="scope">
@@ -63,6 +69,7 @@
     import DataTable from '../../mix/DataTable';
     import PageMix from '../../mix/Page';
     import HistoryProxy from '../../packages/HistoryProxy';
+    import CollegeProxy from '../../packages/CollegeProxy';
     import HistoryAjaxProxy from '../../api/history';
     import APP_CONST from '../../config/index'
 
@@ -76,6 +83,8 @@
 
                 ajaxProxy:HistoryAjaxProxy,
                 mainurl:HistoryAjaxProxy.getUrl(),
+                colleges: [],
+                showCollege:false,
                 mainparam:''
             }
         },
@@ -92,11 +101,34 @@
             },
             showEdit(row) {
                 this.$modal.show('edit-list', { model: row })
+            },
+            loadColleges(data) {
+                this.colleges = data.items
+                console.log(this.colleges)
+            },
+            getCanAddColleges() {
+                const canAddColleges = new CollegeProxy({}, this.loadColleges, this)
+                canAddColleges.load()
+            },
+            getCollege(id, arr){
+                for ( let i = 0; i <arr.length; i++){
+                    if (arr[i]['id']==id){
+                        return arr[i]['name'];
+                    }
+                }
+            },
+            getShowCollege(){
+                if(this.$store.getters.roles['0']=='administrator'){
+                    return this.showCollege=true;
+                }
+
             }
         },
 
         created() {
             this.$on('search-tool-change', this.onSearchChange);
+            this.getCanAddColleges()
+            this.getShowCollege()
         }
 
 

@@ -27,6 +27,12 @@
                         </template>
                     </el-table-column>
 
+                    <el-table-column  align="center" prop="cid" label="所属学院" v-if="showCollege">
+                        <template scope="scope">
+                            {{ getCollege(scope.row.cid, colleges) }}
+                        </template>
+                    </el-table-column>
+
                     <el-table-column  fixed="right"  label="操作" align="center" width="180">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
@@ -61,6 +67,7 @@
     import DataTable from '../../mix/DataTable';
     import PageMix from '../../mix/Page';
     import CurriculumProxy from '../../packages/CurriculumProxy';
+    import CollegeProxy from '../../packages/CollegeProxy';
     import CurriculumAjaxProxy from '../../api/curriculum';
     import APP_CONST from '../../config/index'
 
@@ -70,10 +77,11 @@
         components: {  Add, Edit, TableProxy },
         data(){
             return{
-
                 ajaxProxy:CurriculumAjaxProxy,
                 mainurl:CurriculumAjaxProxy.getUrl(),
-                mainparam:''
+                mainparam:'',
+                colleges: [],
+                showCollege:false
             }
         },
 
@@ -115,11 +123,34 @@
                 let end_time = hour1 + ':' + minute1;
 
                 return start_time + ' - ' + end_time;
+            },
+            loadColleges(data) {
+                this.colleges = data.items
+                console.log(this.colleges)
+            },
+            getCanAddColleges() {
+                const canAddColleges = new CollegeProxy({}, this.loadColleges, this)
+                canAddColleges.load()
+            },
+            getCollege(id, arr){
+                for ( let i = 0; i <arr.length; i++){
+                    if (arr[i]['id']==id){
+                        return arr[i]['name'];
+                    }
+                }
+            },
+            getShowCollege(){
+                if(this.$store.getters.roles['0']=='administrator'){
+                    return this.showCollege=true;
+                }
+
             }
         },
 
         created() {
             this.$on('search-tool-change', this.onSearchChange);
+            this.getCanAddColleges()
+            this.getShowCollege()
         }
 
 

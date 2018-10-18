@@ -1,9 +1,7 @@
 <template>
     <div>
         <myDialog title="编辑活动" :name="name" :width="width" :height="height" @before-open="onOpen">
-
             <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
-
                 <el-form-item label="活动首页" prop="index_act">
                     <el-upload
                             ref="upload"
