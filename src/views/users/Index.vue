@@ -153,6 +153,7 @@
              @submit-success="handleReload"
              :options="options"
              :colleges="colleges"
+             :showCollege="showCollege"
              :leveloption="leveloption"/>
 
         <Edit name="edit-list"

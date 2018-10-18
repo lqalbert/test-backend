@@ -2,8 +2,8 @@
     <div>
         <myDialog title="编辑用户信息" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
-                <el-form-item label="账户" prop="username">
-                    <el-input class="name-input" size="small" v-model="editForm.username" ></el-input>
+                <el-form-item label="账户" prop="username" >
+                    <el-input disabled class="name-input" size="small" v-model="editForm.username" ></el-input>
                 </el-form-item>
 
                 <el-form-item label="头像" prop="user_img">
