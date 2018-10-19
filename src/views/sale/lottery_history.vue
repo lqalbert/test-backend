@@ -48,7 +48,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="nickname" label="所属用户" align="center"></el-table-column>
-                    <el-table-column prop="name" label="所属学院" align="center"></el-table-column>
+                    <el-table-column prop="name" label="所属学院" align="center" v-if="showCollege"></el-table-column>
                     <el-table-column prop="created_at" label="抢到时间" align="center"></el-table-column>
 
                     <el-table-column  label="操作" align="center" width="200">
@@ -98,7 +98,9 @@
                     1: '未兑换',
                     2: '已兑现',
                     3: '异常,取消',
-                }
+                },
+                showCollege:false
+
             }
         },
         methods:{
@@ -160,6 +162,11 @@
             addPacket(){
                 console.log('dsad');
             },
+            getShowCollege(){
+                if(this.$store.getters.roles['0']=='administrator'){
+                    return this.showCollege=true;
+                }
+            }
             // searchToolReset(){
             //  this.searchForm={}
             //  this.refresh()
@@ -167,6 +174,7 @@
         },
         created() {
             this.$on('search-tool-change', this.onSearchChange)
+            this.getShowCollege()
         },
         mounted() {
 

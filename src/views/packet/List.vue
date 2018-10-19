@@ -74,6 +74,8 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="room_number" label="直播间号" align="center"></el-table-column>
+                    <el-table-column prop="name" label="所属学院" align="center" v-if="showCollege"></el-table-column>
+                    
                     <el-table-column prop="create_time" label="创建时间" align="center" width="104px"></el-table-column>
                     <el-table-column prop="start_time" label="开始时间" align="center" width="104px">
                         <template slot-scope="scope">
@@ -148,7 +150,9 @@
             3: '已结束'
           },
           roomList: [],
-          imgLink: APP_CONST.BASE_URL
+          imgLink: APP_CONST.BASE_URL,
+          showCollege:false
+
         }
       },
       methods: {
@@ -223,12 +227,18 @@
           }).catch(error => {
 
           })
+        },
+        getShowCollege(){
+            if(this.$store.getters.roles['0']=='administrator'){
+                return this.showCollege=true;
+            }
         }
       },
       created() {
         this.$on('search-tool-change', this.onSearchChange)
         // this.searchForm.user_id=this.$store.getters.user_id;
         this.getRoomList()
+        this.getShowCollege()
       },
       mounted() {
 

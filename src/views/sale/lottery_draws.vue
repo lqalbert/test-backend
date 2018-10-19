@@ -46,7 +46,7 @@
                             <!-- <img style="height:20px;" src="http://www.boroboromi.com/images/qr-code.png" alt=""> -->
                         </template>
                     </el-table-column>
-                    <el-table-column prop="name" label="所属学院" align="center"></el-table-column>
+                    <el-table-column prop="name" label="所属学院" align="center" v-if="showCollege"></el-table-column>
                     
                     <el-table-column prop="created_at" label="创建时间" align="center" width="101px"></el-table-column>
                     
@@ -99,7 +99,8 @@
             room_number: ''
             // user_id:'',
           },
-          imgLink: APP_CONST.BASE_URL
+          imgLink: APP_CONST.BASE_URL,
+          showCollege:false
         }
       },
       methods: {
@@ -159,10 +160,16 @@
           // }).catch(error => {
 
           // })
+        },
+        getShowCollege(){
+            if(this.$store.getters.roles['0']=='administrator'){
+                return this.showCollege=true;
+            }
         }
       },
       created() {
         this.$on('search-tool-change', this.onSearchChange)
+        this.getShowCollege()
         // this.searchForm.user_id=this.$store.getters.user_id;
         // this.getRoomList()
       },

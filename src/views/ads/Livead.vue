@@ -83,6 +83,7 @@
                       </template>
 
                     </el-table-column>
+                    <el-table-column prop="name" label="名称" align="center" width="200px" v-if="showCollege"> </el-table-column>
                     
                    
                     <el-table-column  label="操作" align="center" width="200">
@@ -90,8 +91,6 @@
                             <el-button type="primary" size="mini" round @click="editCourse(scope.row)" >修改</el-button>
                             <el-button type="danger" size="mini" round @click="deleCourse(scope.row.id,scope.row.status)" >删除</el-button>
                             <span  v-if="scope.row.packet_status==3">已结束</span>
-                            <br>
-                            <span v-if="scope.row.name">(所属公司：{{scope.row.name }})</span>
                         </template>
                     </el-table-column>
                 </TableProxy>
@@ -140,7 +139,8 @@
             y: '启用中',
             n: '未启用',
           },
-          imgLink: APP_CONST.BASE_URL
+          imgLink: APP_CONST.BASE_URL,
+          showCollege:false
         }
       },
       methods: {
@@ -227,9 +227,15 @@
         editCourseSucess() {
             this.refresh();
         },
+        getShowCollege(){
+            if(this.$store.getters.roles['0']=='administrator'){
+                return this.showCollege=true;
+            }
+        }
       },
       created() {
         this.$on('search-tool-change', this.onSearchChange)
+        this.getShowCollege()
         this.getRoomList();
 
       },
