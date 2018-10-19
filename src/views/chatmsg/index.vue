@@ -72,64 +72,61 @@
     import LivePasswordAjaxProxy from '@/api/chatmsg'
     import APP_CONST from '@/config/index'
 
-
-
-
     export default {
-        name: 'Videos',
-        mixins: [PageMix, DataTable, config, SearchTool, LivePasswordAjaxProxy],
-        components: { TableProxy },
-        data() {
-            return {
-                ajaxProxy: LivePasswordAjaxProxy,
-                mainurl: LivePasswordAjaxProxy.getUrl(),
-                mainparam: '',
-                total: '100',
-                dataLoad: false,
-                searchForm: {
-                    room_number:'',
-                },
-                roomList:[],
-                imgLink: APP_CONST.BASE_URL
-            }
+      name: 'Videos',
+      mixins: [PageMix, DataTable, config, SearchTool, LivePasswordAjaxProxy],
+      components: { TableProxy },
+      data() {
+        return {
+          ajaxProxy: LivePasswordAjaxProxy,
+          mainurl: LivePasswordAjaxProxy.getUrl(),
+          mainparam: '',
+          total: '100',
+          dataLoad: false,
+          searchForm: {
+            room_number: ''
+          },
+          roomList: [],
+          imgLink: APP_CONST.BASE_URL
+        }
+      },
+      methods: {
+        getAjaxProxy() {
+          return this.ajaxProxy
         },
-        methods:{
-            getAjaxProxy() {
-                return this.ajaxProxy
-            },
-            actionThis(row) {
-                // this.$modal.show('edit-list', { model: row })
-            },
-            onSearchChange(param) {
-                this.mainparam = JSON.stringify(param);
-            },
-            onSearchReset() {
-                this.videoProxy.load()
-            },
-            refresh(){
-                this.dataTableReload++;
-            },
-            getRoomList(){
-                // console.log('getRoomList')
-                LivePasswordAjaxProxy.find('1').then(response=>{
-                    this.roomList=response.data;
-                }).catch(error=>{
+        actionThis(row) {
+          // this.$modal.show('edit-list', { model: row })
+        },
+        onSearchChange(param) {
+          this.mainparam = JSON.stringify(param)
+        },
+        onSearchReset() {
+          this.videoProxy.load()
+        },
+        refresh() {
+          this.dataTableReload++
+        },
+        getRoomList() {
+          // console.log('getRoomList')
+          LivePasswordAjaxProxy.find('1').then(response => {
+            this.roomList = response.data
+          }).catch(error => {
 
-                });
-            },
-            exportxls(){
-                //访问export方法
-                //LivePasswordAjaxProxy.exportxls()
-                window.open("/admin/chatmsg-exportxls?id="+this.$store.getters.company_id);
-            }
+          })
         },
-        created() {
-            this.$on('search-tool-change', this.onSearchChange)
-            this.getRoomList();
-        },
-        mounted() {
+        exportxls() {
+          // 访问export方法
+          // LivePasswordAjaxProxy.exportxls()
+          window.open(APP_CONST.BASE_URL + '/admin/chatmsg-exportxls?id=' + this.$store.getters.company_id)
+        }
+      },
+      created() {
+        this.$on('search-tool-change', this.onSearchChange)
+        this.getRoomList()
+    },
+      mounted() {
 
-        },
+      }
 
     }
 </script>
