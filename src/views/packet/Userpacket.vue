@@ -43,6 +43,8 @@
                     <el-table-column prop="packet_num" label="红包编号" align="center"></el-table-column>
                     <el-table-column prop="cash_code" label="兑换码" align="center"></el-table-column>
                     <el-table-column prop="nickname" label="用户" align="center"></el-table-column>
+                    <el-table-column prop="name" label="所属学院" align="center" v-if="showCollege"></el-table-column>
+
                     <el-table-column prop="money" label="抢到红包金额" align="center"></el-table-column>
                     <el-table-column prop="get_time" label="抢到时间" align="center"></el-table-column>
                     <el-table-column prop="cash_time" label="兑现时间" align="center"></el-table-column>
@@ -96,7 +98,9 @@
                     1: '未兑换',
                     2: '已兑现',
                     3: '异常,取消',
-                }
+                },
+                showCollege:false
+
             }
         },
         methods:{
@@ -155,13 +159,15 @@
             addPacket(){
                 console.log('dsad');
             },
-            // searchToolReset(){
-            //  this.searchForm={}
-            //  this.refresh()
-            // }
+            getShowCollege(){
+                if(this.$store.getters.roles['0']=='administrator'){
+                    return this.showCollege=true;
+                }
+            }
         },
         created() {
             this.$on('search-tool-change', this.onSearchChange)
+            this.getShowCollege()
         },
         mounted() {
 

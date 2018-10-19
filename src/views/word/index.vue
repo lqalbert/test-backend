@@ -25,7 +25,9 @@
                       <template slot-scope="scope">
                         <el-tag class="el-tag" v-for="(item, index) of scope.row.search_keys ">{{item}}</el-tag>
                         </template>
-                    </el-table-column>                    
+                    </el-table-column> 
+                    <el-table-column prop="name" label="名称" align="center" width="200px" v-if="showCollege"> </el-table-column>
+
                     <el-table-column  label="操作" align="center" width="300">
                         <template slot-scope="scope">
                             <el-button type="success" size="mini" round @click="editWord(scope.row)" >修改</el-button>
@@ -67,7 +69,8 @@
                 total: '100',
                 dataLoad: false,
                 searchForm:[],
-                imgLink: APP_CONST.BASE_URL
+                imgLink: APP_CONST.BASE_URL,
+                showCollege:false
             }
         },
         methods:{
@@ -94,9 +97,15 @@
             editWordSucess(){
               this.refresh()
             },
+            getShowCollege(){
+                if(this.$store.getters.roles['0']=='administrator'){
+                    return this.showCollege=true;
+                }
+            }
         },
         created() {
             this.$on('search-tool-change', this.onSearchChange)
+            this.getShowCollege()
         },
         mounted() {
 
