@@ -218,7 +218,7 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/',
+    path: '',
     component: Layout,
     redirect: '/sale/index',
     name: '营销工具',
@@ -268,7 +268,7 @@ export const asyncRouterMap = [
         ]
 	    },
       {
-        path: 'activity',
+        path: 'sale/activity',
         name: '活动管理',
         component: () => import('@/views/activities/Index'),
         meta: { title: '活动管理', icon: 'activity', role: ['admin'] }
