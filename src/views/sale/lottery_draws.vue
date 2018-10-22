@@ -12,11 +12,7 @@
                         <el-button type="primary" size="small" icon="search"
                                    @click="createLotteryDraw">添加奖品
                         </el-button>
-                    </el-form-item>
-                    
-                    
-
-
+                    </el-form-item>                    
                     <el-form-item>
                         <!-- <el-button type="primary" size="small" icon="search"
                                    @click="searchToolChange('searchForm')">查询
@@ -47,7 +43,6 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="name" label="所属学院" align="center" v-if="showCollege"></el-table-column>
-                    
                     <el-table-column prop="created_at" label="创建时间" align="center" width="101px"></el-table-column>
                     
                     <el-table-column  label="操作" align="center" width="200">

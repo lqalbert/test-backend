@@ -162,6 +162,7 @@ export default {
     },
     onOpen(model){
         this.roomList=model.params.List[0];
+        this.url_img=""
     }
 
   }

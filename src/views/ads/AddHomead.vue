@@ -25,7 +25,7 @@
                             :before-upload="beforeAvatarUpload"
                             :on-change="changefileList"
                     >
-                        <img v-if="url_img" :src="url_img" class="avatar" style="max-width:300px">
+                        <img   v-if="url_img" :src="url_img" class="avatar" style="max-width:300px">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                     <span>请注意图片规格最好为：250x440</span>
@@ -82,81 +82,83 @@ export default {
             actionUrl: APP_CONST.UPLOAD_BASE_URL
     }
   },
-  methods: {
-    getAjaxPromise() {
-        return this.ajaxProxy.create(this.addForm)
-    },
-    alertShowSuccess(msg) {
-        this.$message({
+    methods: {
+        getAjaxPromise() {
+            return this.ajaxProxy.create(this.addForm)
+        },
+        alertShowSuccess(msg) {
+            this.$message({
+                message: msg,
+                type: 'success'
+            })
+        },
+        alertShowError(msg) {
+          this.$message({
             message: msg,
-            type: 'success'
-        })
-    },
-    alertShowError(msg) {
-      this.$message({
-        message: msg,
-        type: 'error'
-      })
-    },
-    handleAvatarSuccess(res, file) {
-      const vmthis = this
-      if (res.code === 200) {
-        vmthis.addForm.url_img = res.data.url
-        this.formSubmit('addForm')
-      } else {
-        this.$message.error(res.data.msg)
-      }
-    },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
-      }
-      return isJPG && isLt2M
-    },
-    handlePictureCardPreview(file) {
-      this.url = ''
-      // this.editForm.img_url = file
-    },
-    uploadError(err, file, fileList) {
-      this.$message.error('上传出错：' + err.msg)
-    },
-    changefileList(file, fileList) {
-      this.fileList = fileList
-      this.url_img = URL.createObjectURL(file.raw)
-    },
-    handleRemove(file, fileList) {},
-    beforeFormSubmit(name) {
-      if (this.fileList.length === 0) {
-        this.$message.error('未上传新图片')
-        return
-      } else {
-        this.$refs['addForm'].validate((valid) => {
-          if (valid) {
-            this.submitUpload()
+            type: 'error'
+          })
+        },
+        handleAvatarSuccess(res, file) {
+          const vmthis = this
+          if (res.code === 200) {
+            vmthis.addForm.url_img = res.data.url
+            this.formSubmit('addForm')
           } else {
-            this.$emit('submit-final', name)
-            console.log('error submit!!')
-            return false
+            this.$message.error(res.data.msg)
           }
-        })
-      }
+        },
+        beforeAvatarUpload(file) {
+          const isJPG = file.type === 'image/jpeg'
+          const isLt2M = file.size / 1024 / 1024 < 2
+          if (!isJPG) {
+            this.$message.error('上传头像图片只能是 JPG 格式!')
+          }
+          if (!isLt2M) {
+            this.$message.error('上传头像图片大小不能超过 2MB!')
+          }
+          return isJPG && isLt2M
+        },
+        handlePictureCardPreview(file) {
+          this.url = ''
+          // this.editForm.img_url = file
+        },
+        uploadError(err, file, fileList) {
+          this.$message.error('上传出错：' + err.msg)
+        },
+        changefileList(file, fileList) {
+          this.fileList = fileList
+          this.url_img = URL.createObjectURL(file.raw)
+        },
+        handleRemove(file, fileList) {},
+        beforeFormSubmit(name) {
+          if (this.fileList.length === 0) {
+            this.$message.error('未上传新图片')
+            return
+          } else {
+            this.$refs['addForm'].validate((valid) => {
+              if (valid) {
+                this.submitUpload()
+              } else {
+                this.$emit('submit-final', name)
+                console.log('error submit!!')
+                return false
+              }
+            })
+          }
+        },
+        submitUpload() {
+          this.$refs.upload.submit()
+        },
+        onOpen(model){
+            this.typeList=model.params.List[0];
+            this.branchList=model.params.List[1];
+            this.teacherList=model.params.List[2];
+            this.url_img=""
+        }
     },
-    submitUpload() {
-      this.$refs.upload.submit()
-    },
-
-    onOpen(model){
-        this.typeList=model.params.List[0];
-        this.branchList=model.params.List[1];
-        this.teacherList=model.params.List[2];
+    created() {
     }
 
-  }
 }
 </script>
 

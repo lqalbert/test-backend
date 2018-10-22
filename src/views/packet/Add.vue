@@ -193,9 +193,9 @@ export default {
     submitUpload() {
       this.$refs.upload.submit()
     },
-
     onOpen(model){
         this.roomList=model.params.roomList;
+        this.imgURL=""
     }
 
   }

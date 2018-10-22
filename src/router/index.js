@@ -218,7 +218,7 @@ export const asyncRouterMap = [
     ]
   },
   {
-    path: '/sale',
+    path: '/',
     component: Layout,
     redirect: '/sale/index',
     name: '营销工具',
