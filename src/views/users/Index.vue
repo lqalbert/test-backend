@@ -84,7 +84,7 @@
                     </el-table-column>
                     <el-table-column prop="pid" label="账号创建者" width="180" align="center">
                         <template scope="scope">
-                            {{ getUserName(scope.row.pid, users) }}
+                            {{ getUserName(scope.row.pid, users)? getUserName(scope.row.pid, users):username }}
                         </template>
                     </el-table-column>
                     <el-table-column prop="watch_time_total" label="观看总时长" width="180" align="center"></el-table-column>
@@ -207,6 +207,7 @@ export default {
           colleges: [],
           levels: [],
           users: [],
+          username: this.$store.getters.name,
           leveloption: [],
           status:
           [
@@ -291,13 +292,14 @@ export default {
               }
           }
         },
-          getUserName(pid, arr){
+          getUserName(id, arr){
+
               for ( let i = 0; i <arr.length; i++){
-                  if (pid==arr[i]['id']){
+                  if (id==arr[i]['id']){
                       return arr[i]['username'];
                   }
               }
-              if(pid==1){
+              if(id==1){
                   return "超级管理员";
               }
           },
