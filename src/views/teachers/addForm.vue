@@ -53,95 +53,93 @@
     import { getToken } from '../../utils/auth'
     import APP_CONST from '../../config/index'
     export default {
-        name: 'addList',
-        mixins: [DialogForm],
-        props: {
-            rooms: {
-                type: Array,
-                default: []
-            }
+      name: 'addList',
+      mixins: [DialogForm],
+      props: {
+        rooms: {
+          type: Array,
+          default: []
+        }
+      },
+      data() {
+        return {
+          dialogThis: this,
+          labelPosition: 'right',
+          labelWidth: '120px',
+          addForm: {
+            room_id: '',
+            teacher_img: ''
+          },
+          url: APP_CONST.UPLOAD_BASE_URL,
+          rules: {
+            room_id: [
+              { required: true, message: '请选择直播间', trigger: 'change' }
+            ]
+          },
+          imgURL: '',
+          liveDir: {
+            base: 'live'
+          },
+          myHeader: {
+            'Authorization': 'Bearer ' + getToken()
+          },
+          fileList: []
+        }
+      },
+      methods: {
+        getAjaxPromise(model) {
+          return this.ajaxProxy.create(model)
         },
-        data() {
-            return {
-                dialogThis: this,
-                labelPosition: 'right',
-                labelWidth: '120px',
-                addForm: {
-                    room_id: '',
-                    teacher_img:''
-                },
-                url: APP_CONST.UPLOAD_BASE_URL,
-                rules: {
-                    room_id: [
-                        { required: true, message: '请选择直播间', trigger: 'change' }
-                    ]
-                },
-                imgURL: '',
-                liveDir: {
-                    base: 'live'
-                },
-                myHeader: {
-                    'Authorization': 'Bearer ' + getToken()
-                },
-                fileList: []
-            }
+        handleAvatarSuccess(res, file) {
+          const vmthis = this
+          if (res.code === 200) {
+            vmthis.addForm.teacher_img = res.data.url
+            this.formSubmit('addForm')
+          } else {
+            this.$message.error(res.data.msg)
+          }
         },
-        methods: {
-            getAjaxPromise(model){
-                return this.ajaxProxy.create(model);
-            },
-            handleAvatarSuccess(res, file) {
-                const vmthis = this
-                if (res.code === 200) {
-                    vmthis.addForm.teacher_img = res.data.url
-                    this.formSubmit('addForm')
-                } else {
-                    this.$message.error(res.data.msg)
-                }
-            },
-            beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/gif'
-                const isLt2M = file.size / 1024 / 1024 < 2
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG、PNG、GIF、JPEG 格式!')
-                }
-                if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 2MB!')
-                }
-                return isJPG && isLt2M
-            },
-            handlePictureCardPreview(file) {
-                this.url = ''
-            },
-            uploadError(err, file, fileList) {
-                this.$message.error('上传出错：' + err.msg)
-            },
-            changefileList(file, fileList) {
-                this.fileList = fileList
-                this.imgURL = URL.createObjectURL(file.raw)
-            },
-            handleRemove(file, fileList) {},
-            beforeFormSubmit(name) {
-                if (this.fileList.length === 0) {
-                    this.formSubmit('addForm')
-                } else {
-                    this.$refs['addForm'].validate((valid) => {
-                        if (valid) {
-                            this.submitUpload()
-                        } else {
-                            this.$emit('submit-final', name)
-                            console.log('error submit!!')
-                            return false
-                        }
-                    })
-                }
-            },
-            submitUpload() {
-                this.$refs.upload.submit()
-            }
+        beforeAvatarUpload(file) {
+          const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/gif'
+          const isLt2M = file.size / 1024 / 1024 < 2
+          if (!isJPG) {
+            this.$message.error('上传头像图片只能是 JPG、PNG、GIF、JPEG 格式!')
+          }
+          if (!isLt2M) {
+            this.$message.error('上传头像图片大小不能超过 2MB!')
+          }
+          return isJPG && isLt2M
         },
-
-
+        handlePictureCardPreview(file) {
+          this.url = ''
+        },
+        uploadError(err, file, fileList) {
+          this.$message.error('上传出错：' + err.msg)
+        },
+        changefileList(file, fileList) {
+          this.fileList = fileList
+          this.imgURL = URL.createObjectURL(file.raw)
+        },
+        handleRemove(file, fileList) {},
+        beforeFormSubmit(name) {
+          if (this.fileList.length === 0) {
+            this.formSubmit('addForm')
+          } else {
+            this.$refs['addForm'].validate((valid) => {
+              if (valid) {
+                this.submitUpload()
+              } else {
+                this.$emit('submit-final', name)
+                console.log('error submit!!')
+                return false
+              }
+            })
+          }
+        },
+        submitUpload() {
+          this.$refs.upload.submit()
+        }
+      }
 
     }
 </script>

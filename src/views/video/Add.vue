@@ -1,6 +1,6 @@
 <template>
     <div>
-        <myDialog title="添加直播间" :name="name" :width="width" :height="height">
+        <myDialog title="添加直播间" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
                 <el-form-item label="直播间标题" prop="name">
                     <el-input class="name-input" size="small" placeholder="直播间名字" v-model="addForm.name" ></el-input>
@@ -138,9 +138,13 @@ export default {
       if (res.code === 200) {
         vmthis.addForm.img_url = res.data.url
         this.formSubmit('addForm')
+        this.$refs.upload.clearFiles()
       } else {
         this.$message.error(res.data.msg)
       }
+    },
+    onOpen() {
+      this.imgURL = ''
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
@@ -172,6 +176,7 @@ export default {
       } else {
         this.$refs['addForm'].validate((valid) => {
           if (valid) {
+          	console.log(120)
             this.submitUpload()
           } else {
             this.$emit('submit-final', name)
@@ -182,6 +187,7 @@ export default {
       }
     },
     submitUpload() {
+      console.log(121)
       this.$refs.upload.submit()
     }
   }
