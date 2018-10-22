@@ -116,12 +116,7 @@ export default {
       unChange: true,
       canShow: false,
       arr: {},
-      rules: {
-        live_code: [
-          { required: false, message: '房间验证码非必填', trigger: 'blur' },
-          { min: 4, max: 4, message: '4位数字', trigger: 'blur' }
-        ]
-      }
+      rules: {}
     }
   },
   methods: {
