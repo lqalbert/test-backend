@@ -149,9 +149,10 @@ export default {
             }, 2000)
         },
         onOpen(model){
-            console.log(model.params.List);
             this.editForm=model.params.List[0];
             this.imgURL=this.editForm.url_img
+            this.model=model.params.List[0];
+
         }
     },
     watch: {
@@ -161,7 +162,7 @@ export default {
                     this.editForm[key] = val[key]
                 }
             }
-            this.imgURL = this.url + this.editForm.back_img
+            this.imgURL = this.url + this.editForm.url_img
         }
     },
     created() {
