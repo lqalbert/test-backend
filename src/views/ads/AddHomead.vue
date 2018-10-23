@@ -45,13 +45,13 @@
 
 <script>
     /* eslint-disable no-mixed-spaces-and-tabs */
-import { getToken } from '@/utils/auth'
-import APP_CONST from '@/config/index'
+    import { getToken } from '@/utils/auth'
+    import APP_CONST from '@/config/index'
     import DialogForm from '@/mix/DialogForm'
-export default {
-  name: 'addList',
-  mixins: [DialogForm],
-  data() {
+    export default {
+    name: 'addList',
+    mixins: [DialogForm],
+    data() {
         return {
             dialogThis: this,
             labelPosition: 'right',
@@ -68,9 +68,6 @@ export default {
                     { max: 10, message: '最长10位' }
 
                 ],
-                // url_img: [
-                //     { required: true, message: '必须填写', trigger: 'blur' },
-                // ],
             },
             url_img: '',
             liveDir: {
@@ -79,9 +76,12 @@ export default {
             myHeader: {
                 'Authorization': 'Bearer ' + getToken()
             },
-            actionUrl: APP_CONST.UPLOAD_BASE_URL
-    }
-  },
+            actionUrl: APP_CONST.UPLOAD_BASE_URL,
+            submit_state: '1',
+            fileList:[],
+            uploadImg: ''
+        }
+    },
     methods: {
         getAjaxPromise() {
             return this.ajaxProxy.create(this.addForm)
@@ -99,13 +99,16 @@ export default {
           })
         },
         handleAvatarSuccess(res, file) {
-          const vmthis = this
-          if (res.code === 200) {
-            vmthis.addForm.url_img = res.data.url
-            this.formSubmit('addForm')
-          } else {
-            this.$message.error(res.data.msg)
-          }
+            const vmthis = this
+            if (res.code === 200) {
+                vmthis.addForm.url_img = res.data.url
+                this.uploadImg = res.data.url
+                this.formSubmit('addForm')
+                this.submit_state = 2
+
+            } else {
+                this.$message.error(res.data.msg)
+            }
         },
         beforeAvatarUpload(file) {
           const isJPG = file.type === 'image/jpeg'
@@ -123,7 +126,8 @@ export default {
           // this.editForm.img_url = file
         },
         uploadError(err, file, fileList) {
-          this.$message.error('上传出错：' + err.msg)
+            this.submit_state = -1
+            this.$message.error('上传出错：' + err.msg)
         },
         changefileList(file, fileList) {
           this.fileList = fileList
@@ -131,29 +135,51 @@ export default {
         },
         handleRemove(file, fileList) {},
         beforeFormSubmit(name) {
-          if (this.fileList.length === 0) {
-            this.$message.error('未上传新图片')
-            return
-          } else {
+            if (this.fileList.length === 0) {
+                this.$message.error('未上传新图片')
+                return
+            } else {
             this.$refs['addForm'].validate((valid) => {
-              if (valid) {
-                this.submitUpload()
-              } else {
-                this.$emit('submit-final', name)
-                console.log('error submit!!')
-                return false
-              }
+                if (valid) {
+                    if (this.submit_state === 2) {
+                        this.real(name)
+                    } else {
+                        this.submitUpload()
+                    }
+                } else {
+                    this.$emit('submit-final', name)
+                    console.log('error submit!!')
+                    return false
+                }
             })
           }
         },
         submitUpload() {
-          this.$refs.upload.submit()
+            this.submit_state = 1
+            this.$refs.upload.submit()
         },
         onOpen(model){
             this.typeList=model.params.List[0];
             this.branchList=model.params.List[1];
             this.teacherList=model.params.List[2];
-            this.url_img=""
+            // this.url_img=""
+        },
+        real(name) {
+            const vmthis = this
+            if (vmthis.d) {
+                clearTimeout(vmthis.d)
+            }
+            if (vmthis.submit_state === -1 || vmthis.submit_state === 1) {
+                return
+            }
+            vmthis.d = setTimeout(function() {
+                if (vmthis.submit_state === 2) {
+                    vmthis.addForm.url_img = vmthis.uploadImg
+                    vmthis.formSubmit('addForm')
+                } else {
+                    vmthis.real(name)
+                }
+            },1000)
         }
     },
     created() {

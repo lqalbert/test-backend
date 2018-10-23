@@ -14,12 +14,6 @@
                         </el-button>
                     </el-form-item>                    
                     <el-form-item>
-                        <!-- <el-button type="primary" size="small" icon="search"
-                                   @click="searchToolChange('searchForm')">查询
-                        </el-button>
-                        <el-button @click="searchToolReset('searchForm')"
-                                   size="small" type="primary">重置
-                        </el-button> -->
                     </el-form-item>
                 </el-form>
             </el-col>

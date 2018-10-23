@@ -53,7 +53,7 @@ export default {
       labelWidth: '120px',
       addForm: {
         content: '',
-        content: '',
+        img_url: '',
       },
       roomList: [],
       rules: {
@@ -69,16 +69,15 @@ export default {
       myHeader: {
         'Authorization': 'Bearer ' + getToken()
       },
-      actionUrl: APP_CONST.UPLOAD_BASE_URL
+      actionUrl: APP_CONST.UPLOAD_BASE_URL,
+      submit_state: '1',
+      fileList:[],
+      uploadImg: ''
     }
   },
   methods: {
     getAjaxPromise() {
-      // if(this.addForm.min_money*this.addForm.total_num>=this.addForm.total_money||this.addForm.max_money>this.addForm.total_money){
-      //     this.alertShowError('数据错误，请重填');
-      //     // return;
-      // }
-      return this.ajaxProxy.create(this.addForm)
+        return this.ajaxProxy.create(this.addForm)
     },
     alertShowSuccess(msg) {
       this.$message({
@@ -97,6 +96,8 @@ export default {
       if (res.code === 200) {
         vmthis.addForm.img_url = res.data.url
         this.formSubmit('addForm')
+        this.uploadImg = res.data.url
+        this.submit_state = 2
       } else {
         this.$message.error(res.data.msg)
       }
@@ -131,7 +132,11 @@ export default {
       } else {
         this.$refs['addForm'].validate((valid) => {
           if (valid) {
-            this.submitUpload()
+                if (this.submit_state === 2) {
+                    this.real(name)
+                } else {
+                    this.submitUpload()
+                }
           } else {
             this.$emit('submit-final', name)
             console.log('error submit!!')
@@ -141,11 +146,28 @@ export default {
       }
     },
     submitUpload() {
+        this.submit_state = 1
       this.$refs.upload.submit()
     },
     onOpen(model){
         this.roomList=model.params.roomList;
-        this.imgURL=""
+    },
+    real(name) {
+        const vmthis = this
+        if (vmthis.d) {
+            clearTimeout(vmthis.d)
+        }
+        if (vmthis.submit_state === -1 || vmthis.submit_state === 1) {
+            return
+        }
+        vmthis.d = setTimeout(function() {
+            if (vmthis.submit_state === 2) {
+                vmthis.addForm.img_url = vmthis.uploadImg
+                vmthis.formSubmit('addForm')
+            } else {
+                vmthis.real(name)
+            }
+        },1000)
     }
 
   }
