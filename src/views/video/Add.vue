@@ -1,6 +1,6 @@
 <template>
     <div>
-        <myDialog title="添加直播间" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <myDialog title="添加直播间" :name="name" :width="width" :height="height">
             <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
                 <el-form-item label="直播间标题" prop="name">
                     <el-input class="name-input" size="small" placeholder="直播间名字" v-model="addForm.name" ></el-input>
@@ -126,7 +126,9 @@ export default {
         'Authorization': 'Bearer ' + getToken()
       },
       actionUrl: APP_CONST.UPLOAD_BASE_URL,
-      fileList: []
+      fileList: [],
+      submit_state: '1',
+      uploadImg: ''
     }
   },
   methods: {
@@ -137,14 +139,12 @@ export default {
       const vmthis = this
       if (res.code === 200) {
         vmthis.addForm.img_url = res.data.url
+        this.uploadImg = res.data.url
         this.formSubmit('addForm')
-        this.$refs.upload.clearFiles()
+        this.submit_state = 2
       } else {
         this.$message.error(res.data.msg)
       }
-    },
-    onOpen() {
-      this.imgURL = ''
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type === 'image/jpeg'
@@ -158,10 +158,12 @@ export default {
       return isJPG && isLt2M
     },
     handlePictureCardPreview(file) {
+    	console.log('预览')
       this.url = ''
 		  // this.editForm.img_url = file
     },
     uploadError(err, file, fileList) {
+      this.submit_state = -1
       this.$message.error('上传出错：' + err.msg)
     },
     changefileList(file, fileList) {
@@ -176,8 +178,11 @@ export default {
       } else {
         this.$refs['addForm'].validate((valid) => {
           if (valid) {
-          	console.log(120)
-            this.submitUpload()
+          	if (this.submit_state === 2) {
+              this.real(name)
+            } else {
+              this.submitUpload()
+            }
           } else {
             this.$emit('submit-final', name)
             console.log('error submit!!')
@@ -187,8 +192,25 @@ export default {
       }
     },
     submitUpload() {
-      console.log(121)
+      this.submit_state = 1
       this.$refs.upload.submit()
+    },
+    real(name) {
+      const vmthis = this
+      if (vmthis.d) {
+      	clearTimeout(vmthis.d)
+      }
+      if (vmthis.submit_state === -1 || vmthis.submit_state === 1) {
+      	return
+      }
+      vmthis.d = setTimeout(function() {
+        if (vmthis.submit_state === 2) {
+          vmthis.addForm.img_url = vmthis.uploadImg
+          vmthis.formSubmit('addForm')
+        } else {
+        	vmthis.real(name)
+        }
+      },1000)
     }
   }
 }
