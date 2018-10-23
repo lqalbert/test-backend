@@ -1,6 +1,6 @@
 <template>
     <div>
-        <MyDialog  title="添加账号" :name='name'  :width="width" :height="height">
+        <MyDialog  title="添加账号" :name='name'  :width="width" :height="height" @before-open="onOpen">
             <el-form
                     ref="addForm"
                     :rules='rules'
@@ -143,8 +143,6 @@
                             </el-col>
                         </el-row>
 
-
-
                     </el-tab-pane>
                 </el-tabs>
             </el-form>
@@ -257,10 +255,15 @@
           myHeader: {
             'Authorization': 'Bearer ' + getToken()
           },
-          fileList: []
+          fileList: [],
+          submit_state: '1',
+          uploadImg:''
         }
       },
       methods: {
+          onOpen(){
+              this.imgURL="";
+          },
         getAjaxPromise(model) {
           // console.log(model);
           return this.ajaxProxy.create(model)
@@ -269,7 +272,9 @@
           const vmthis = this
           if (res.code === 200) {
             vmthis.addForm.user_img = res.data.url
+            this.uploadImg = res.data.url
             this.formSubmit('addForm')
+              this.submit_state = 2
           } else {
             this.$message.error(res.data.msg)
           }
@@ -298,11 +303,17 @@
         handleRemove(file, fileList) {},
         beforeFormSubmit(name) {
           if (this.fileList.length === 0) {
-            this.formSubmit('addForm')
+            this.$message.error('未上传新图片')
+              return
+            //this.formSubmit('addForm')
           } else {
             this.$refs['addForm'].validate((valid) => {
               if (valid) {
-                this.submitUpload()
+                if(this.submit_state ==2){
+                    this.real(name)
+                }else{
+                    this.submitUpload()
+                }
               } else {
                 this.$emit('submit-final', name)
                 console.log('error submit!!')
@@ -312,8 +323,26 @@
           }
         },
         submitUpload() {
+          this.submit_state =1
           this.$refs.upload.submit()
-        }
+        },
+          real(name){
+              const vmthis = this
+              if(vmthis.d){
+                  clearTimeout(vmthis.d)
+              }
+              if(vmthis.submit_state ===-1 || vmthis.submit_state ===1){
+                  return
+              }
+              vmthis.d = setTimeout(function(){
+                  if(vmthis.submit_state ===2){
+                      vmthis.addForm.user_img = vmthis.uploadImg
+                      vmthis.formSubmit('addForm')
+                  }else{
+                      vmthis.real(name)
+                  }
+              },1000)
+          }
       }
 
     }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <myDialog title="添加教师简介" :name="name" :width="width" :height="height">
+        <myDialog title="添加教师简介" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
                 <el-form-item label="所属直播间" prop="room_id">
                     <el-select  placeholder="请选择" v-model="addForm.room_id">
@@ -119,6 +119,9 @@
             changefileList(file, fileList) {
                 this.fileList = fileList
                 this.imgURL = URL.createObjectURL(file.raw)
+            },
+            onOpen(){
+                this.imgURL="";
             },
             handleRemove(file, fileList) {},
             beforeFormSubmit(name) {
