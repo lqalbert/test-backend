@@ -1,6 +1,6 @@
 <template>
     <div>
-        <myDialog title="添加学院" :name="name" :width="width" :height="height">
+        <myDialog title="添加学院" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
                 <el-form-item label="学院名称" prop="name">
                     <el-input class="name-input" size="small" v-model="addForm.name" ></el-input>
@@ -100,10 +100,15 @@
                 myHeader: {
                     'Authorization': 'Bearer ' + getToken()
                 },
-                fileList: []
+                fileList: [],
+                submit_state: '1',
+                uploadImg:''
             }
         },
         methods: {
+            onOpen(){
+                this.imgURL="";
+            },
             getAjaxPromise(model) {
                 // console.log(model);
                 return this.ajaxProxy.create(model)
@@ -111,8 +116,10 @@
             handleAvatarSuccess(res, file) {
                 const vmthis = this
                 if (res.code === 200) {
-                    vmthis.addForm.logo = res.data.url
+                    vmthis.addForm.user_img = res.data.url
+                    this.uploadImg = res.data.url
                     this.formSubmit('addForm')
+                    this.submit_state = 2
                 } else {
                     this.$message.error(res.data.msg)
                 }
@@ -141,11 +148,16 @@
             handleRemove(file, fileList) {},
             beforeFormSubmit(name) {
                 if (this.fileList.length === 0) {
-                    this.formSubmit('addForm')
+                    this.$message.error('未上传图片')
+                    return
                 } else {
                     this.$refs['addForm'].validate((valid) => {
                         if (valid) {
-                            this.submitUpload()
+                            if(this.submit_state ==2){
+                                this.real(name)
+                            }else{
+                                this.submitUpload()
+                            }
                         } else {
                             this.$emit('submit-final', name)
                             console.log('error submit!!')
@@ -155,7 +167,25 @@
                 }
             },
             submitUpload() {
+                this.submit_state =1
                 this.$refs.upload.submit()
+            },
+            real(name){
+                const vmthis = this
+                if(vmthis.d){
+                    clearTimeout(vmthis.d)
+                }
+                if(vmthis.submit_state ===-1 || vmthis.submit_state ===1){
+                    return
+                }
+                vmthis.d = setTimeout(function(){
+                    if(vmthis.submit_state ===2){
+                        vmthis.addForm.user_img = vmthis.uploadImg
+                        vmthis.formSubmit('addForm')
+                    }else{
+                        vmthis.real(name)
+                    }
+                },1000)
             }
         }
     }
