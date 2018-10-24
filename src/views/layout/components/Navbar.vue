@@ -61,8 +61,6 @@ export default {
     }
   },
   created() {
-    console.log(this.$store.getters)
-    console.log(11111)
   }
 }
 </script>
