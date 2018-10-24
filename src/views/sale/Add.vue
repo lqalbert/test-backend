@@ -128,6 +128,8 @@ export default {
     beforeFormSubmit(name) {
       if (this.fileList.length === 0) {
         this.$message.error('未上传新图片')
+            this.$emit('submit-final', name)
+        
         return
       } else {
         this.$refs['addForm'].validate((valid) => {

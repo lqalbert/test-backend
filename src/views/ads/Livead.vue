@@ -89,7 +89,7 @@
                     <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">
                             <el-button type="primary" size="mini" round @click="editCourse(scope.row)" >修改</el-button>
-                            <el-button type="danger" size="mini" round @click="deleCourse(scope.row.id,scope.row.status)" >删除</el-button>
+                            <el-button type="danger" size="mini" round @click="deleCourse(scope.row.id,scope.row.status,scope.row)" >删除</el-button>
                             <span  v-if="scope.row.packet_status==3">已结束</span>
                         </template>
                     </el-table-column>
@@ -162,7 +162,8 @@
         editCourse(row) {
           this.$modal.show('edit-list', {List:[row,this.roomList,]})
         },
-        deleCourse(id,status) {
+        deleCourse(id,status,row) {
+          console.log(row)
           if(status=='y')return this.$message.error('该广告启动中，不能删除');
           this.$msgbox({
             title: '消息',
@@ -172,12 +173,12 @@
             cancelButtonText: '取消'
           }).then(action => {
             PacketAjaxProxy.delete(id).then(pro => {
-              this.$message.success('删除成功');              
-              this.refresh()
+               this.$message.success('删除成功');              
+              return this.refresh()
               // return;
             }).catch(error=>{
               // console.log(error.code)
-              this.$message.error('删除失败');
+              return this.$message.error('删除失败');
             })
           })
         },
