@@ -167,7 +167,7 @@
           if(status=='y')return this.$message.error('该广告启动中，不能删除');
           this.$msgbox({
             title: '消息',
-            message: '确定结束红包状态？？',
+            message: '确定删除该广告？？',
             showCancelButton: true,
             confirmButtonText: '确定',
             cancelButtonText: '取消'
