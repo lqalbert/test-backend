@@ -72,6 +72,7 @@ export default {
       }
     },
     handleLogin() {
+      const vmthis=this
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
@@ -80,9 +81,10 @@ export default {
             this.$router.push({ path: '/' })
           }).catch(() => {
             this.loading = false
+            console.log('error submit!!')
+            vmthis.$message.error('登录失败，账号或者密码错误！')
           })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
