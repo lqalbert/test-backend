@@ -1,4 +1,4 @@
-/* eslint-disable no-mixed-spaces-and-tabs */
+ /* eslint-disable no-mixed-spaces-and-tabs */
 import Vue from 'vue'
 import Router from 'vue-router'
 
@@ -228,7 +228,7 @@ export const asyncRouterMap = [
         path: '/sale',
         name: '抽奖',
         component: () => import('@/views/sale/Index'),
-        meta: { title: '抽奖', icon: 'prize' ,role: ['admin']},
+        meta: { title: '抽奖', icon: 'prize', role: ['admin'] },
         children: [
           {
             path: 'lottery_draws',
@@ -288,6 +288,28 @@ export const asyncRouterMap = [
         component: () => import('@/views/violation/Index'),
         meta: { title: '违规处理', icon: 'violation', role: ['admin'] }
       }
+    ]
+  },
+  {
+    path: '',
+    component: Layout,
+    redirect: '',
+    name: '数据统计',
+    hidden: false,
+	  meta: { title: '数据统计', icon: 'data', role: ['admin'] },
+    children: [
+      {
+        path: 'data/index',
+        name: '注册用户',
+        component: () => import('@/views/data/Index'),
+        meta: { title: '注册用户', icon: 'register', role: ['admin'] }
+      },
+	    {
+		    path: 'data/register',
+		    name: '在线用户',
+		    component: () => import('@/views/data/Register'),
+		    meta: { title: '在线用户', icon: 'line', role: ['admin'] }
+	    }
     ]
   },
   { path: '/404', component: () => import('@/views/404'), hidden: true },

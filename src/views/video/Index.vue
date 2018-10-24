@@ -22,7 +22,7 @@
         </el-row>
         <el-row>
             <el-col :span="24" style="margin-bottom: 15px">
-                <el-button type="primary" @click="addRoom" size="small">创建直播间</el-button>
+                <el-button type="primary" @click="addRoom" v-if="role" size="small">创建直播间</el-button>
             </el-col>
         </el-row>
         <el-row>
@@ -71,10 +71,10 @@
                     <el-table-column prop="update_time" width="100px" label="修改时间" align="center"></el-table-column>
                     <el-table-column prop="create_time" width="100px" label="创建时间" align="center"></el-table-column>
 
-                    <el-table-column  label="操作" align="center" width="200">
+                    <el-table-column label="操作" align="center" width="200">
                         <template slot-scope="scope">
                             <el-button type="primary" size="mini" round @click="editRoom(scope.row)">编辑</el-button>
-                            <el-button type="danger" size="mini" round @click="handleDelete(scope.row.id)">删除</el-button>
+                            <el-button type="danger" size="mini" v-if="role" round @click="handleDelete(scope.row.id)">删除</el-button>
                             <!--<el-button type="danger" size="mini" round @click="deleteRoom(scope.row)">删除</el-button>-->
                         </template>
                     </el-table-column>
@@ -122,7 +122,8 @@ export default {
         },
         imgLink: APP_CONST.BASE_URL,
         users: [],
-        college: []
+        college: [],
+        role: false
       }
   },
   methods: {
@@ -191,6 +192,9 @@ export default {
     }
   },
   created() {
+  	if (this.$store.getters.roles[0] == 'administrator'){
+  		this.role = true
+    }
   	this.$on('search-tool-change', this.onSearchChange)
     this.loadUser()
     this.loadCollege()

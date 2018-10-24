@@ -45,9 +45,9 @@
                 <el-form-item label="推流地址" prop="push_url">
                     <el-input size="small" placeholder="推流地址" v-model="addForm.push_url" value="rtmp://yanggang112.51vip.biz/lives?key=asd123456"></el-input>
                 </el-form-item>
-                <el-form-item label="在线人数" prop="user_number">
+                <!--<el-form-item label="在线人数" prop="user_number">
                     <el-input size="small" placeholder="在线人数" v-model="addForm.user_number" disabled></el-input>
-                </el-form-item>
+                </el-form-item>-->
                 <el-form-item label="基准人数" prop="base_number">
                     <el-input size="small" placeholder="在线人数" v-model="addForm.base_number" value="1000"></el-input>
                 </el-form-item>

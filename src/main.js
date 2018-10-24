@@ -19,9 +19,11 @@ import InitObject from './mix/InitObjectFromObject'
 import ShowDialog from './mix/ShowDialog'
 import Delete from './mix/Delete'
 import moment from 'moment/moment'
+import echarts from 'echarts'
 
 Vue.use(ElementUI, { locale })
 Vue.use(VModal)
+Vue.prototype.$echarts = echarts
 Vue.config.productionTip = false
 Vue.component('MyDialog', newDialog)
 Vue.mixin(InitObject)

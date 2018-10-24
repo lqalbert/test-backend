@@ -14,8 +14,8 @@ if (process.env.NODE_ENV === 'production') {
   baseUrl = 'http://yanggang112.51vip.biz:40003'
 } else {
   domain = '/admin'
-  url = 'http://www.zhibo.com/admin/uploadfile'
-  baseUrl = 'http://www.zhibo.com'
+  url = 'http://www.edus.com/admin/uploadfile'
+  baseUrl = 'http://www.edus.com'
 }
 
 const upload_url = domain + '/uploadfile'

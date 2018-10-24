@@ -1,6 +1,6 @@
 <template>
     <div>
-        <myDialog title="添加活动" :name="name" :width="width" :height="height">
+        <myDialog title="添加活动" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
                 <el-form-item label="活动首页" prop="index_act">
                     <el-upload
@@ -90,6 +90,10 @@
         }
       },
       methods: {
+          onOpen(){
+              this.imgURL="";
+              this.imgURL1="";
+          },
         getAjaxPromise(model) {
           return this.ajaxProxy.create(model)
         },
@@ -97,6 +101,7 @@
           const vmthis = this
           if (res.code === 200) {
             vmthis.addForm.index_act = res.data.url
+            //this.formSubmit('addForm')
           } else {
             this.$message.error(res.data.msg)
           }
@@ -138,7 +143,7 @@
         },
         handleRemove(file, fileList) {},
         beforeFormSubmit(name) {
-          if (this.fileList.length === 0) {
+          if (this.fileList.length === 2) {
             this.formSubmit('addForm')
           } else {
             this.$refs['addForm'].validate((valid) => {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <myDialog title="添加教师简介" :name="name" :width="width" :height="height">
+        <myDialog title="添加教师简介" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
                 <el-form-item label="所属直播间" prop="room_id">
                     <el-select  placeholder="请选择" v-model="addForm.room_id">
@@ -99,16 +99,62 @@
             this.$message.error(res.data.msg)
           }
         },
-        beforeAvatarUpload(file) {
-          const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/gif'
-          const isLt2M = file.size / 1024 / 1024 < 2
-          if (!isJPG) {
-            this.$message.error('上传头像图片只能是 JPG、PNG、GIF、JPEG 格式!')
+        methods: {
+          getAjaxPromise(model) {
+            return this.ajaxProxy.create(model)
+          },
+          handleAvatarSuccess(res, file) {
+            const vmthis = this
+            if (res.code === 200) {
+              vmthis.addForm.teacher_img = res.data.url
+              this.formSubmit('addForm')
+            } else {
+              this.$message.error(res.data.msg)
+            }
+          },
+          beforeAvatarUpload(file) {
+            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/gif'
+            const isLt2M = file.size / 1024 / 1024 < 2
+            if (!isJPG) {
+              this.$message.error('上传头像图片只能是 JPG、PNG、GIF、JPEG 格式!')
+            }
+            if (!isLt2M) {
+              this.$message.error('上传头像图片大小不能超过 2MB!')
+            }
+            return isJPG && isLt2M
+          },
+          handlePictureCardPreview(file) {
+            this.url = ''
+          },
+          uploadError(err, file, fileList) {
+            this.$message.error('上传出错：' + err.msg)
+          },
+          changefileList(file, fileList) {
+            this.fileList = fileList
+            this.imgURL = URL.createObjectURL(file.raw)
+          },
+          onOpen() {
+            this.imgURL = ''
+          },
+          handleRemove(file, fileList) {},
+          beforeFormSubmit(name) {
+            if (this.fileList.length === 0) {
+              this.formSubmit('addForm')
+            } else {
+              this.$refs['addForm'].validate((valid) => {
+                if (valid) {
+                  this.submitUpload()
+                } else {
+                  this.$emit('submit-final', name)
+                  console.log('error submit!!')
+                  return false
+                }
+              })
+            }
+          },
+          submitUpload() {
+            this.$refs.upload.submit()
           }
-          if (!isLt2M) {
-            this.$message.error('上传头像图片大小不能超过 2MB!')
-          }
-          return isJPG && isLt2M
         },
         handlePictureCardPreview(file) {
           this.url = ''
