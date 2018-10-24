@@ -66,7 +66,6 @@
                 home_ad_name: [
                     { required: true, message: '必须填写', trigger: 'blur' },
                     { max: 10, message: '最长10位' }
-
                 ],
             },
             url_img: '',
@@ -137,7 +136,8 @@
         beforeFormSubmit(name) {
             if (this.fileList.length === 0) {
                 this.$message.error('未上传新图片')
-                return
+                this.$emit('submit-final', name)
+                return false
             } else {
             this.$refs['addForm'].validate((valid) => {
                 if (valid) {
