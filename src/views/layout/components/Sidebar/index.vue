@@ -22,8 +22,8 @@ export default {
   components: { SidebarItem },
   computed: {
     ...mapGetters([
-        'permission_routers',
-        'sidebar'
+      'permission_routers',
+      'sidebar'
     ]),
 
     isCollapse() {

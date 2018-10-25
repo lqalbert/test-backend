@@ -298,17 +298,35 @@ export const asyncRouterMap = [
     hidden: false,
 	  meta: { title: '数据统计', icon: 'data', role: ['admin'] },
     children: [
+	    {
+		    path: 'data/current',
+		    name: '实时在线用户',
+		    component: () => import('@/views/data/Current'),
+		    meta: { title: '实时在线用户', icon: 'line', role: ['admin'] }
+	    },
       {
         path: 'data/index',
-        name: '注册用户',
+        name: '新增用户统计',
         component: () => import('@/views/data/Index'),
-        meta: { title: '注册用户', icon: 'register', role: ['admin'] }
+        meta: { title: '新增用户统计', icon: 'register', role: ['admin'] }
       },
 	    {
 		    path: 'data/register',
-		    name: '在线用户',
+		    name: '历史在线',
 		    component: () => import('@/views/data/Register'),
-		    meta: { title: '在线用户', icon: 'line', role: ['admin'] }
+		    meta: { title: '历史在线', icon: 'line', role: ['admin'] }
+	    },
+	    {
+		    path: 'data/sign',
+		    name: '签到统计',
+		    component: () => import('@/views/data/Sign'),
+		    meta: { title: '签到统计', icon: 'line', role: ['admin'] }
+	    },
+	    {
+		    path: 'data/user',
+		    name: '用户分析',
+		    component: () => import('@/views/data/History'),
+		    meta: { title: '用户分析', icon: 'line', role: ['admin'] }
 	    }
     ]
   },
