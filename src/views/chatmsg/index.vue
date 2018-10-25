@@ -9,14 +9,14 @@
                         </el-button>
 
                     </el-form-item>
-                    <el-form-item label="直播间房间号" prop="room_number">
+                    <el-form-item label="直播间信息" prop="user_type">
                         <!-- <el-input size="small" placeholder="S000001"   disabled ></el-input> -->
-                        <el-select v-model="searchForm.room_number" placeholder="请选择">
+                        <el-select v-model="searchForm.user_type" placeholder="请选择">
                             <el-option
-                              v-for="item in roomList"
-                              :key="item.room_number"
-                              :label="item.room_number"
-                              :value="item.room_number">
+                              v-for="item in typeList"
+                              :key="item.name"
+                              :label="item.name"
+                              :value="item.item">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -31,7 +31,6 @@
                         <el-button @click="exportxls"
                                    size="small" type="primary">导出文件
                         </el-button>
-
                     </el-form-item>
                 </el-form>
             </el-col>
@@ -47,7 +46,7 @@
                     @dbclick="actionThis"
                 >
                     <el-table-column label="序号" align="center" type="index" width="100px"></el-table-column>
-                    <el-table-column prop="room_number" label="直播间号" align="center" ></el-table-column>
+                    <!-- <el-table-column prop="room_number" label="直播间号" align="center" ></el-table-column> -->
                     <el-table-column prop="nickname" label="昵称" align="center" ></el-table-column>
                     <el-table-column prop="role_comment" label="账户类型" align="center" ></el-table-column>
                     <el-table-column prop="content" label="内容" align="center" ></el-table-column>
@@ -84,9 +83,13 @@
           total: '100',
           dataLoad: false,
           searchForm: {
-            room_number: ''
+            user_type: 'all'
           },
-          roomList: [],
+          typeList: [
+            {name:'全部',item:'all'},
+            {name:'真实用户',item:'real'},
+            {name:'水军',item:'navy'},
+          ],
           imgLink: APP_CONST.BASE_URL
         }
       },
@@ -122,7 +125,7 @@
       },
       created() {
         this.$on('search-tool-change', this.onSearchChange)
-        this.getRoomList()
+        // this.getRoomList()
     },
       mounted() {
 
