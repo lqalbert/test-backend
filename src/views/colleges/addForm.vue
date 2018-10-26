@@ -148,8 +148,7 @@
             handleRemove(file, fileList) {},
             beforeFormSubmit(name) {
                 if (this.fileList.length === 0) {
-                    this.$message.error('未上传图片')
-                    return
+                    this.formSubmit('addForm')
                 } else {
                     this.$refs['addForm'].validate((valid) => {
                         if (valid) {

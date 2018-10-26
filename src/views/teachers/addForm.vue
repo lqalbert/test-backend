@@ -83,108 +83,92 @@
           myHeader: {
             'Authorization': 'Bearer ' + getToken()
           },
-          fileList: []
+            fileList: [],
+            submit_state: '1',
+            uploadImg: ''
         }
       },
       methods: {
-        getAjaxPromise(model) {
-          return this.ajaxProxy.create(model)
-        },
-        handleAvatarSuccess(res, file) {
-          const vmthis = this
-          if (res.code === 200) {
-            vmthis.addForm.teacher_img = res.data.url
-            this.formSubmit('addForm')
-          } else {
-            this.$message.error(res.data.msg)
-          }
-        },
-        methods: {
+          onOpen() {
+              this.imgURL = ''
+          },
           getAjaxPromise(model) {
-            return this.ajaxProxy.create(model)
+              // console.log(model);
+              return this.ajaxProxy.create(model)
           },
           handleAvatarSuccess(res, file) {
-            const vmthis = this
-            if (res.code === 200) {
-              vmthis.addForm.teacher_img = res.data.url
-              this.formSubmit('addForm')
-            } else {
-              this.$message.error(res.data.msg)
-            }
+              const vmthis = this
+              if (res.code === 200) {
+                  vmthis.addForm.teacher_img = res.data.url
+                  this.uploadImg = res.data.url
+                  this.formSubmit('addForm')
+                  this.submit_state = 2
+              } else {
+                  this.$message.error(res.data.msg)
+              }
           },
           beforeAvatarUpload(file) {
-            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/gif'
-            const isLt2M = file.size / 1024 / 1024 < 2
-            if (!isJPG) {
-              this.$message.error('上传头像图片只能是 JPG、PNG、GIF、JPEG 格式!')
-            }
-            if (!isLt2M) {
-              this.$message.error('上传头像图片大小不能超过 2MB!')
-            }
-            return isJPG && isLt2M
+              const isJPG = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/gif'
+              const isLt2M = file.size / 1024 / 1024 < 2
+              if (!isJPG) {
+                  this.$message.error('上传头像图片只能是 JPG、PNG、GIF、JPEG 格式!')
+              }
+              if (!isLt2M) {
+                  this.$message.error('上传头像图片大小不能超过 2MB!')
+              }
+              return isJPG && isLt2M
           },
           handlePictureCardPreview(file) {
-            this.url = ''
+              this.url = ''
           },
           uploadError(err, file, fileList) {
-            this.$message.error('上传出错：' + err.msg)
+              this.$message.error('上传出错：' + err.msg)
           },
           changefileList(file, fileList) {
-            this.fileList = fileList
-            this.imgURL = URL.createObjectURL(file.raw)
-          },
-          onOpen() {
-            this.imgURL = ''
+              this.fileList = fileList
+              this.imgURL = URL.createObjectURL(file.raw)
           },
           handleRemove(file, fileList) {},
           beforeFormSubmit(name) {
-            if (this.fileList.length === 0) {
-              this.formSubmit('addForm')
-            } else {
-              this.$refs['addForm'].validate((valid) => {
-                if (valid) {
-                  this.submitUpload()
-                } else {
-                  this.$emit('submit-final', name)
-                  console.log('error submit!!')
-                  return false
-                }
-              })
-            }
+              if (this.fileList.length === 0) {
+                  this.formSubmit('addForm')
+              } else {
+                  this.$refs['addForm'].validate((valid) => {
+                      if (valid) {
+                          if (this.submit_state == 2) {
+                              this.real(name)
+                          } else {
+                              this.submitUpload()
+                          }
+                      } else {
+                          this.$emit('submit-final', name)
+                          console.log('error submit!!')
+                          return false
+                      }
+                  })
+              }
           },
           submitUpload() {
-            this.$refs.upload.submit()
-          }
-        },
-        handlePictureCardPreview(file) {
-          this.url = ''
-        },
-        uploadError(err, file, fileList) {
-          this.$message.error('上传出错：' + err.msg)
-        },
-        changefileList(file, fileList) {
-          this.fileList = fileList
-          this.imgURL = URL.createObjectURL(file.raw)
-        },
-        handleRemove(file, fileList) {},
-        beforeFormSubmit(name) {
-          if (this.fileList.length === 0) {
-            this.formSubmit('addForm')
-          } else {
-            this.$refs['addForm'].validate((valid) => {
-              if (valid) {
-                this.submitUpload()
-              } else {
-                this.$emit('submit-final', name)
-                console.log('error submit!!')
-                return false
+              this.submit_state = 1
+              this.$refs.upload.submit()
+          },
+          real(name) {
+              const vmthis = this
+              if (vmthis.d) {
+                  clearTimeout(vmthis.d)
               }
-            })
+              if (vmthis.submit_state === -1 || vmthis.submit_state === 1) {
+                  return
+              }
+              vmthis.d = setTimeout(function() {
+                  if (vmthis.submit_state === 2) {
+                      vmthis.addForm.teacher_img = vmthis.uploadImg
+                      vmthis.formSubmit('addForm')
+                  } else {
+                      vmthis.real(name)
+                  }
+              }, 1000)
           }
-        },
-        submitUpload() {
-          this.$refs.upload.submit()
-        }
       }
 
     }

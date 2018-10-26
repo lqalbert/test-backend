@@ -78,14 +78,14 @@
                                 </el-form-item>
                             </el-col>
 
-                            <el-col :span="12">
+                            <!--<el-col :span="12">
                                 <el-form-item label="是否启用" prop="is_use">
                                     <el-radio-group v-model="addForm.is_use">
                                         <el-radio label="y" border>是</el-radio>
                                         <el-radio label="n" border>否</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
-                            </el-col>
+                            </el-col>-->
                         </el-row>
 
                     </el-tab-pane>
@@ -196,7 +196,7 @@ export default {
             password: '',
             role_id: '',
             level: '',
-            is_use: '',
+            is_use: 'y',
             user_img: '/images/home/user.jpg',
             nickname: '',
             email: '',
@@ -263,7 +263,7 @@ export default {
       methods: {
         onOpen() {
           this.imgURL = ''
-    },
+        },
         getAjaxPromise(model) {
           // console.log(model);
           return this.ajaxProxy.create(model)
@@ -303,9 +303,7 @@ export default {
         handleRemove(file, fileList) {},
         beforeFormSubmit(name) {
           if (this.fileList.length === 0) {
-            this.$message.error('未上传新图片')
-            return
-            // this.formSubmit('addForm')
+             this.formSubmit('addForm')
           } else {
             this.$refs['addForm'].validate((valid) => {
               if (valid) {

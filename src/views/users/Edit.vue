@@ -52,12 +52,12 @@
                 <el-form-item label="地址" prop="address">
                     <el-input size="small" v-model="editForm.address"></el-input>
                 </el-form-item>
-                <el-form-item label="是否启用" prop="is_use">
+                <!--<el-form-item label="是否启用" prop="is_use">
                     <el-radio-group v-model="editForm.is_use">
                         <el-radio label="y" border>是</el-radio>
                         <el-radio label="n" border>否</el-radio>
                     </el-radio-group>
-                </el-form-item>
+                </el-form-item>-->
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
                 <el-button size="small" @click="handleClose">取消</el-button>

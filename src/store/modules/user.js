@@ -9,6 +9,7 @@ const user = {
     avatar: '',
     roles: [],
     user_id: '',
+    role_id: '',
     live_url: 'rtmp://192.168.121.130/lives',
     live_key: '（密匙已过期请重新设置）',
     company_id: '',
@@ -34,6 +35,9 @@ const user = {
     },
     SET_USER_ID: (state, user_id) => {
       state.user_id = user_id
+    },
+    SET_ROLE_ID: (state, role_id) => {
+        state.role_id = role_id
     },
     SET_LIVE_URL: (state, live_url) => {
       state.live_url = live_url
@@ -82,6 +86,7 @@ const user = {
           commit('SET_NICKNAME', data.nickname)
           commit('SET_AVATAR', data.avatar)
           commit('SET_USER_ID', data.user_id)
+          commit('SET_ROLE_ID', data.role_id)
           commit('SET_COMPANY_ID', data.company_id)
           commit('SET_LEVEL_TYPE', data.level_type)
           commit('SET_COMPANY_NAME', data.company_name)

@@ -51,7 +51,7 @@
                 <TableProxy :url="mainurl" :param="mainparam" :reload="dataTableReload" :page-size="15">
 
                     <el-table-column label="序号" align="center" type="index" width="65"></el-table-column>
-                    <el-table-column prop="is_use" label="是否启用" align="center">
+                    <!--<el-table-column prop="is_use" label="是否启用" align="center">
                         <template slot-scope="scope">
                             <el-switch
                                     v-model="scope.row.is_use"
@@ -63,7 +63,7 @@
                             </el-switch>
 
                         </template>
-                    </el-table-column>
+                    </el-table-column>-->
                     <el-table-column prop="username" label="用户名" width="180" align="center"></el-table-column>
                     <el-table-column prop="nickname" label="昵称" width="180" align="center"></el-table-column>
                     <el-table-column prop="level" label="等级" width="180" align="center">
@@ -196,11 +196,11 @@ export default {
             username: '',
             role_id: '',
             level: '',
-            sockpuppet:"n"
+            sockpuppet:'n'
           },
           ajaxProxy: UserAjaxProxy,
           mainurl: UserAjaxProxy.getUrl(),
-          mainparam: '{"sockpuppet":"n","cid":' + this.$store.getters.company_id + '}',
+          mainparam: '{"sockpuppet":"n", "cid":' + this.$store.getters.company_id +', "create_id":'+this.$store.getters.user_id+', "create_role":'+this.$store.getters.role_id+'}',
           show:false,
           showCollege:false,
           options: [],
