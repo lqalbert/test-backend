@@ -1,5 +1,35 @@
 <template>
     <div>
+        <el-row>
+            <el-col :span="24">
+                <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
+                    <el-form-item label="房间名" prop="name">
+                        <el-select v-model="searchForm.college_id" placeholder="请选择">
+                            <el-option key="0" label="全部" value="0"></el-option>
+                            <el-option
+                                    v-for="item in college"
+                                    :key="item.id"
+                                    :label="item.name"
+                                    :value="item.id">
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="房间号" prop="month" >
+                        <el-date-picker
+                                v-model="searchForm.date"
+                                type="month"
+                                :clearable="false"
+                                placeholder="选择月">
+                        </el-date-picker>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" size="small" icon="search"
+                                   @click="searchData()">查询
+                        </el-button>
+                    </el-form-item>
+                </el-form>
+            </el-col>
+        </el-row>
         <div id="myChart" :style="{width: '100%',height: '600px'}"></div>
     </div>
 </template>
@@ -9,6 +39,8 @@ import PageMix from '../../mix/Page'
 import config from '../../mix/Delete'
 import SearchTool from '../../mix/SearchTool'
 import DataTable from '../../mix/DataTable'
+import CollegeArray from '../../packages/CollegeProxy'
+import UserDataProxy from '../../packages/UserDataProxy'
 export default {
   name: 'Register',
   mixins: [PageMix, DataTable, config, SearchTool],
@@ -19,7 +51,12 @@ export default {
       mainparam: '',
       total: '100',
       dataLoad: false,
-      searchForm: {}
+      searchForm: {
+      	college_id: '0',
+        date: ''
+      },
+      college: [],
+      dataLists: []
     }
   },
   methods: {
@@ -27,107 +64,100 @@ export default {
       return this.ajaxProxy
     },
     drawLine() {
-      const dataAxis = ['点', '击', '柱', '子', '或', '者', '两', '指', '在', '触', '屏', '上', '滑', '动', '能', '够', '自', '动', '缩', '放']
-      const data = [220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149, 210, 122, 133, 334, 198, 123, 125, 220]
-      const yMax = 500
-      const dataShadow = []
+      const data = this.dataLists
+      const dataList = []
+      const valueList = []
       for (let i = 0; i < data.length; i++) {
-      	dataShadow.push(yMax)
+      	dataList.push(data[i][1])
+        valueList.push(data[i][0])
       }
       const myChart = this.$echarts.init(document.getElementById('myChart'))
       myChart.setOption({
-        title: {
-          text: '特性示例：渐变色 阴影 点击缩放',
-          left: 'center',
-          subtext: 'Feature Sample: Gradient Color, Shadow, Click Zoom'
+        title: { left: 'center', text: '用户登录数据统计' },
+        grid: {
+          left: 40,
+          right: 30
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+          	type: 'cross',
+            crossStyle: {
+          		color: '#999'
+            }
+          }
+        },
+        toolbox: {
+          feature: {
+            dataView: { show: true, readOnly: false },
+            magicType: { show: true, type: ['line', 'bar'] },
+            restore: { show: true },
+            saveAsImage: { show: true }
+          }
         },
         xAxis: {
-          data: dataAxis,
-          axisLabel: {
-          	inside: true,
-            textStyle: {
-              color: '#fff'
-            }
+          type: 'category',
+          data: dataList,
+          axisPointer: {
+          	type: 'shadow'
           },
-          axisTick: {
-          	show: false
-          },
-          axisLine: {
-          	show: false
-          },
-          z: 10
+          boundaryGap: false
         },
-        yAxis: {
-          axisLine: {
-            show: false
-          },
-          axisTick: {
-          	show: false
-          },
-          axisLabel: {
-          	textStyle: {
-              color: '#999'
-            }
-          }
-        },
-        dataZoom: [
+        yAxis: [
           {
-          	type: 'inside'
+          	type: 'value',
+            name: '会员'
           }
         ],
-        series: [
-          {
-          	type: 'bar',
-            itemStyle: {
-              normal: { color: 'rgba(0,0,0,0.05' }
-            },
-            barGap: '-100%',
-            barCategoryGap: '40%',
-            data: dataShadow,
-            animation: false
-          },
-          {
-          	type: 'bar',
-            itemStyle: {
-              normal: {
-              	color: new this.$echarts.graphic.LinearGradient(
-                  0, 0, 0, 1,
-                  [
-                    { offset: 0, color: '#83bff6' },
-                    { offset: 0.7, color: '#2378f7' },
-                    { offset: 1, color: '#83bff6' }
-                  ]
-                )
-              },
-              emphasis: {
-              	color: new this.$echarts.graphic.LinearGradient(
-                  0, 0, 0, 1,
-                  [
-                    { offset: 0, color: '#2378f7' },
-                    { offset: 0.7, color: '#2378f7' },
-                    { offset: 1, color: '#188df0' }
-                  ]
-                )
-              }
-            },
-            data: data
-          }
-        ]
+        series: [{
+          name: '新增会员',
+          type: 'line',
+          data: valueList
+        }]
       })
-      const zoomSize = 6
-      myChart.on('click', function(params) {
-        console.log(dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)])
-        myChart.dispatchAction({
-          type: 'dataZoom',
-          startValue: dataAxis[Math.max(params.dataIndex - zoomSize / 2, 0)],
-          endValue: dataAxis[Math.min(params.dataIndex + zoomSize / 2, data.length - 1)]
-        })
-      })
+    },
+    initCollege(data) {
+      this.college = data.items
+    },
+    loadCollege() {
+      const college = new CollegeArray({}, this.initCollege, this)
+      this.collegeProxy = college
+      this.collegeProxy.load()
+    },
+    initUserData(param) {
+      this.dataLists = param.items
+      this.drawLine()
+    },
+    loadUserData() {
+      const userData = new UserDataProxy({ date: this.searchForm.date, register: 'register' }, this.initUserData, this)
+      this.userDataProxy = userData
+      this.userDataProxy.load()
+    },
+    searchData() {
+      const userData = new UserDataProxy({ date: this.searchForm.date, register: 'register', cid: this.searchForm.college_id }, this.initUserData, this)
+      this.userDataProxy = userData
+      this.userDataProxy.load()
+    },
+    initMonth() {
+      const date = new Date()
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1
+      if (month < 10) {
+        this.searchForm.date = year.toString() + '-0' + month.toString()
+      } else {
+        this.searchForm.date = year.toString() + '-' + month.toString()
+      }
     }
   },
-  created() {},
+  created() {
+  },
   mounted() {
-  	this.drawLine()
+  	// 初始化本月时间
+    this.initMonth()
+    // 加载公司列表
+    this.loadCollege()
+    // 加载数据
+    this.loadUserData()
   }
 }
 </script>

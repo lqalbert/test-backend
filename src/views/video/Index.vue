@@ -186,13 +186,13 @@ export default {
       this.college = data.items
     },
     loadCollege() {
-      const college = new CollegeArray({},this.initCollege,this)
+      const college = new CollegeArray({}, this.initCollege, this)
       this.collegeProxy = college
       this.collegeProxy.load()
     }
   },
   created() {
-  	if (this.$store.getters.roles[0] == 'administrator'){
+  	if (this.$store.getters.roles[0] == 'administrator') {
   		this.role = true
     }
   	this.$on('search-tool-change', this.onSearchChange)

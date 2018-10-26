@@ -307,13 +307,13 @@ export const asyncRouterMap = [
       {
         path: 'data/index',
         name: '新增用户统计',
-        component: () => import('@/views/data/Index'),
+        component: () => import('@/views/data/Register'),
         meta: { title: '新增用户统计', icon: 'register', role: ['admin'] }
       },
 	    {
 		    path: 'data/register',
 		    name: '历史在线',
-		    component: () => import('@/views/data/Register'),
+		    component: () => import('@/views/data/History'),
 		    meta: { title: '历史在线', icon: 'line', role: ['admin'] }
 	    },
 	    {
@@ -325,7 +325,7 @@ export const asyncRouterMap = [
 	    {
 		    path: 'data/user',
 		    name: '用户分析',
-		    component: () => import('@/views/data/History'),
+		    component: () => import('@/views/data/Index'),
 		    meta: { title: '用户分析', icon: 'line', role: ['admin'] }
 	    }
     ]
