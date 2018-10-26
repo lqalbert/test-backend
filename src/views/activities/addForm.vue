@@ -101,7 +101,7 @@
           const vmthis = this
           if (res.code === 200) {
             vmthis.addForm.index_act = res.data.url
-            //this.formSubmit('addForm')
+            this.formSubmit('addForm')
           } else {
             this.$message.error(res.data.msg)
           }

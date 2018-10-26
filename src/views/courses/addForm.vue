@@ -83,21 +83,26 @@
                 myHeader: {
                     'Authorization': 'Bearer ' + getToken()
                 },
-                fileList: []
+                fileList: [],
+                submit_state: '1',
+                uploadImg: ''
             }
         },
         methods: {
-            onOpen(){
-                this.imgURL="";
+            onOpen() {
+                this.imgURL = ''
             },
-            getAjaxPromise(model){
-                return this.ajaxProxy.create(model);
+            getAjaxPromise(model) {
+                // console.log(model);
+                return this.ajaxProxy.create(model)
             },
             handleAvatarSuccess(res, file) {
                 const vmthis = this
                 if (res.code === 200) {
-                    vmthis.addForm.course_img = res.data.url
+                    vmthis.addForm.user_img = res.data.url
+                    this.uploadImg = res.data.url
                     this.formSubmit('addForm')
+                    this.submit_state = 2
                 } else {
                     this.$message.error(res.data.msg)
                 }
@@ -130,7 +135,11 @@
                 } else {
                     this.$refs['addForm'].validate((valid) => {
                         if (valid) {
-                            this.submitUpload()
+                            if (this.submit_state == 2) {
+                                this.real(name)
+                            } else {
+                                this.submitUpload()
+                            }
                         } else {
                             this.$emit('submit-final', name)
                             console.log('error submit!!')
@@ -140,9 +149,28 @@
                 }
             },
             submitUpload() {
+                this.submit_state = 1
                 this.$refs.upload.submit()
+            },
+            real(name) {
+                const vmthis = this
+                if (vmthis.d) {
+                    clearTimeout(vmthis.d)
+                }
+                if (vmthis.submit_state === -1 || vmthis.submit_state === 1) {
+                    return
+                }
+                vmthis.d = setTimeout(function() {
+                    if (vmthis.submit_state === 2) {
+                        vmthis.addForm.user_img = vmthis.uploadImg
+                        vmthis.formSubmit('addForm')
+                    } else {
+                        vmthis.real(name)
+                    }
+                }, 1000)
             }
-        },
+        }
+
 
 
 

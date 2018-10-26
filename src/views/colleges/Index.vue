@@ -47,11 +47,10 @@
 
                     <el-table-column prop="updated_at" label="修改时间" width="180" align="center"></el-table-column>
 
-
                     <el-table-column  fixed="right"  label="操作" align="center" width="180">
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
-                            <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
+                            <!--<el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>-->
                         </template>
                     </el-table-column>
 
