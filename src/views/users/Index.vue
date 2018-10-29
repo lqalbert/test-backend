@@ -142,6 +142,7 @@
 
                     <div slot="buttonbar">
                         <el-button size="small" type="primary" @click="showAdd">添加账号</el-button>
+                        <el-button size="small" type="primary" @click="showAll">批量导入账号</el-button>
 
                     </div>
                 </TableProxy>
@@ -163,12 +164,18 @@
               :colleges="colleges"
               :leveloption="leveloption"/>
 
+        <Import name="import-list"
+             :ajax-proxy="ajaxProxy"
+             @submit-success="handleReload"
+             />
+
     </div>
 </template>
 
 <script>
     import Add from './addForm'
     import Edit from './Edit'
+    import Import from './Import'
     import TableProxy from '../../components/Commontable/Table'
     import config from '../../mix/Delete'
     import SearchTool from '../../mix/SearchTool'
@@ -188,7 +195,7 @@
 export default {
       name: 'User',
       mixins: [SearchTool, DataTable, PageMix, config],
-      components: { Add, Edit, TableProxy },
+      components: { Add, Edit, TableProxy,Import },
       data() {
         return {
           searchForm: {
@@ -237,6 +244,9 @@ export default {
         },
         showAdd() {
           this.$modal.show('add-list')
+        },
+        showAll() {
+          this.$modal.show('import-list')
         },
         showEdit(row) {
           this.$modal.show('edit-list', { model: row })

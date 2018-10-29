@@ -20,6 +20,7 @@ if (process.env.NODE_ENV === 'production') {
 
 const upload_url = domain + '/uploadfile'
 const slide_upload_url = domain + '/slide-upload'
+const excel_upload = domain + "/excel-upload";
 
 const APP_CONST = {}
 
@@ -43,6 +44,13 @@ Object.defineProperty(APP_CONST, 'SLIDE_UPLOAD_URL', {
   configurable: true,
   enumerable: true
 })
+
+Object.defineProperty(APP_CONST, "EXCEL_UPLOAD", {
+    value: excel_upload,
+    writable: false, //设置属性只读
+    configurable: true,
+    enumerable: true
+});
 
 editor_confi.uploadConfig.action = upload_url
 Object.defineProperty(APP_CONST, 'editor_option', {
