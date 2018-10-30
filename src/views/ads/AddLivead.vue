@@ -5,10 +5,10 @@
                 <el-form-item label="名称" prop="live_ad_name">
                     <el-input size="small" placeholder="名称" v-model="addForm.live_ad_name"></el-input>
                 </el-form-item>
-                
+               <!--  
                 <el-form-item label="跳转链接" prop="url_addr">
                     <el-input size="small" placeholder="名称" v-model="addForm.url_addr"></el-input>
-                </el-form-item>
+                </el-form-item> -->
 
                 <el-form-item label="直播间" prop="room_number">
                     <el-select v-model="addForm.room_number" placeholder="请选择">

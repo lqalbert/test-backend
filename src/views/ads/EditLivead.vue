@@ -5,9 +5,9 @@
                  <el-form-item label="名称" prop="live_ad_name">
                     <el-input size="small" placeholder="名称" v-model="editForm.live_ad_name"></el-input>
                 </el-form-item>
-                <el-form-item label="名称" prop="url_addr">
+               <!--  <el-form-item label="名称" prop="url_addr">
                     <el-input size="small" placeholder="名称" v-model="editForm.url_addr"></el-input>
-                </el-form-item>
+                </el-form-item> -->
                
 
                 <el-form-item label="背景图" prop="url_img">
