@@ -37,7 +37,7 @@ const user = {
       state.user_id = user_id
     },
     SET_ROLE_ID: (state, role_id) => {
-        state.role_id = role_id
+      state.role_id = role_id
     },
     SET_LIVE_URL: (state, live_url) => {
       state.live_url = live_url

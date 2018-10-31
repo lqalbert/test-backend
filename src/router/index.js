@@ -296,37 +296,25 @@ export const asyncRouterMap = [
     redirect: '',
     name: '数据统计',
     hidden: false,
-	meta: { title: '数据统计', icon: 'data', role: ['admin'] },
+    meta: { title: '数据统计', icon: 'data', role: ['admin', 'salesman'] },
     children: [
 	    {
 		    path: 'data/current',
 		    name: '实时在线用户',
 		    component: () => import('@/views/data/Current'),
-		    meta: { title: '实时在线用户', icon: 'line', role: ['admin'] }
+		    meta: { title: '实时在线用户', icon: 'line', role: ['admin', 'salesman'] }
 	    },
       {
         path: 'data/index',
         name: '新增用户统计',
         component: () => import('@/views/data/Register'),
-        meta: { title: '新增用户统计', icon: 'register', role: ['admin'] }
+        meta: { title: '新增用户统计', icon: 'register', role: ['admin', 'salesman'] }
       },
 	    {
 		    path: 'data/register',
 		    name: '历史在线',
 		    component: () => import('@/views/data/History'),
-		    meta: { title: '历史在线', icon: 'line', role: ['admin'] }
-	    },
-	    {
-		    path: 'data/sign',
-		    name: '签到统计',
-		    component: () => import('@/views/data/Sign'),
-		    meta: { title: '签到统计', icon: 'line', role: ['admin'] }
-	    },
-	    {
-		    path: 'data/user',
-		    name: '用户分析',
-		    component: () => import('@/views/data/Index'),
-		    meta: { title: '用户分析', icon: 'line', role: ['admin'] }
+		    meta: { title: '历史在线', icon: 'line', role: ['admin', 'salesman'] }
 	    }
     ]
   },

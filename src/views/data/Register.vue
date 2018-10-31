@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="24">
                 <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
-                    <el-form-item label="房间名" prop="name">
+                    <el-form-item v-if="role=='administrator'" label="公司名" prop="name">
                         <el-select v-model="searchForm.college_id" placeholder="请选择">
                             <el-option key="0" label="全部" value="0"></el-option>
                             <el-option
@@ -14,7 +14,7 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="房间号" prop="month" >
+                    <el-form-item label="月份" prop="month" >
                         <el-date-picker
                                 v-model="searchForm.date"
                                 type="month"
@@ -57,7 +57,10 @@ export default {
         date: ''
       },
       college: [],
-      dataLists: []
+      dataLists: [],
+      role: '',
+      cid: '',
+      userID: ''
     }
   },
   methods: {
@@ -130,16 +133,19 @@ export default {
       this.drawLine()
     },
     loadUserData() {
-      const userData = new UserDataProxy({ date: this.searchForm.date, register: 'register' }, this.initUserData, this)
+      const userData = new UserDataProxy({ date: this.searchForm.date, register: 'register', cid: this.cid, role: this.role, userID: this.userID }, this.initUserData, this)
       this.userDataProxy = userData
       this.userDataProxy.load()
     },
     searchData() {
-      const userData = new UserDataProxy({ date: this.searchForm.date, register: 'register', cid: this.searchForm.college_id }, this.initUserData, this)
+      const userData = new UserDataProxy({ date: this.searchForm.date, register: 'register', cid: this.searchForm.college_id, role: this.role, userID: this.userID }, this.initUserData, this)
       this.userDataProxy = userData
       this.userDataProxy.load()
     },
     initMonth() {
+      this.role = this.$store.getters.roles[0]
+      this.cid = this.$store.getters.company_id
+      this.userID = this.$store.getters.user_id
       const date = new Date()
       const year = date.getFullYear()
       const month = date.getMonth() + 1
