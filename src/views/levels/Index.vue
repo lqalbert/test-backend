@@ -21,6 +21,8 @@
                     <el-table-column prop="name1" label="等级一名称"  align="center"></el-table-column>
                     <el-table-column prop="name2" label="等级二名称"  align="center"></el-table-column>
                     <el-table-column prop="name3" label="等级三名称"  align="center"></el-table-column>
+                    <el-table-column prop="name4" label="等级四名称"  align="center"></el-table-column>
+                    <el-table-column prop="name5" label="等级五名称"  align="center"></el-table-column>
 
 
 
@@ -87,7 +89,6 @@
 
         created() {
             this.$on('search-tool-change', this.onSearchChange);
-            console.log(111222)
             console.log(this.$store.getters.level_type)
         }
 

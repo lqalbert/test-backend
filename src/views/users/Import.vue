@@ -26,6 +26,8 @@
                     <el-row>
                         <el-col :span="12">
                             <el-button size="small" type="primary" @click="beforeFormSubmit()">点击上传</el-button>
+                        </el-col>
+                        <el-col :span="12">
                             <el-button size="small" type="primary" @click="importAccount()">批量导入</el-button>
                         </el-col>
                     </el-row>
@@ -132,7 +134,7 @@
                 this.dataTableReload++
             },
             importAccount(){
-
+                window.open(APP_CONST.BASE_URL + '/admin/user-import?filePath='+ this.excel_url)
             }
 
         }

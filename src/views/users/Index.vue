@@ -71,17 +71,18 @@
                             {{ getLevel(scope.row.level, scope.row.cid, levels, colleges) }}
                         </template>
                     </el-table-column>
+                    <el-table-column  align="center" prop="role_id" label="角色" width="180">
+                        <template scope="scope">
+                            {{ getRole(scope.row.role_id, options) }}
+                        </template>
+                    </el-table-column>
                     <!--<el-table-column prop="invitation_code" label="邀请码" width="180" align="center"></el-table-column>-->
                     <el-table-column  align="center" prop="cid" label="用户所属学院" width="180" v-if="showCollege">
                         <template scope="scope">
                             {{ getCollege(scope.row.cid, colleges) }}
                         </template>
                     </el-table-column>
-                    <el-table-column  align="center" prop="role_id" label="角色" width="180">
-                        <template scope="scope">
-                            {{ getRole(scope.row.role_id, options) }}
-                        </template>
-                    </el-table-column>
+
                     <el-table-column prop="pid" label="账号创建者" width="180" align="center">
                         <template scope="scope">
                             {{ getUserName(scope.row.pid, users)? getUserName(scope.row.pid, users):username }}
@@ -357,26 +358,42 @@ export default {
                     },
                     {
                         id:2,
-                        name:'中级'
+                        name:'初级'
                     },
                     {
                         id:3,
+                        name:'中级'
+                    },
+                    {
+                        id:4,
                         name:'高级'
+                    },
+                    {
+                        id:5,
+                        name:'顶级'
                     }
                 ]
             }else if(this.$store.getters.level_type==2){
                   this.leveloption=[
                       {
                           id:1,
-                          name:'白银'
+                          name:'青铜'
                       },
                       {
                           id:2,
-                          name:'黄金'
+                          name:'白银'
                       },
                       {
                           id:3,
-                          name:'砖石'
+                          name:'黄金'
+                      },
+                      {
+                          id:4,
+                          name:'铂金'
+                      },
+                      {
+                          id:5,
+                          name:'钻石'
                       }
                   ]
               }

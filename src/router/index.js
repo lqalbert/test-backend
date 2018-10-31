@@ -296,7 +296,7 @@ export const asyncRouterMap = [
     redirect: '',
     name: '数据统计',
     hidden: false,
-	  meta: { title: '数据统计', icon: 'data', role: ['admin'] },
+	meta: { title: '数据统计', icon: 'data', role: ['admin'] },
     children: [
 	    {
 		    path: 'data/current',
