@@ -128,31 +128,47 @@
                 if(this.$store.getters.level_type==1){
                     this.leveloption=[
                         {
-                            id:'1',
+                            id:1,
                             name:'普通'
                         },
                         {
-                            id:'2',
+                            id:2,
+                            name:'初级'
+                        },
+                        {
+                            id:3,
                             name:'中级'
                         },
                         {
-                            id:'3',
+                            id:4,
                             name:'高级'
+                        },
+                        {
+                            id:5,
+                            name:'顶级'
                         }
                     ]
                 }else if(this.$store.getters.level_type==2){
                     this.leveloption=[
                         {
-                            id:'1',
+                            id:1,
+                            name:'青铜'
+                        },
+                        {
+                            id:2,
                             name:'白银'
                         },
                         {
-                            id:'2',
+                            id:3,
                             name:'黄金'
                         },
                         {
-                            id:'3',
-                            name:'砖石'
+                            id:4,
+                            name:'铂金'
+                        },
+                        {
+                            id:5,
+                            name:'钻石'
                         }
                     ]
                 }
