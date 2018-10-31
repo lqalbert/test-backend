@@ -225,6 +225,12 @@ export const asyncRouterMap = [
     meta: { title: '营销工具', icon: 'sale', role: ['admin'] },
     children: [
       {
+        path: 'sale/saleSet',
+        name: '营销设置',
+        component: () => import('@/views/saleSet/Index'),
+        meta: { title: '营销设置', icon: 'set', role: ['admin'] }
+      },
+      {
         path: '/sale',
         name: '抽奖',
         component: () => import('@/views/sale/Index'),
@@ -273,6 +279,7 @@ export const asyncRouterMap = [
         component: () => import('@/views/activities/Index'),
         meta: { title: '活动管理', icon: 'activity', role: ['admin'] }
       }
+      
     ]
   },
   {

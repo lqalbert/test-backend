@@ -1,16 +1,13 @@
 <template>
     <div>
-        <myDialog title="编辑广告" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <myDialog title="编辑二维码" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
-                 <el-form-item label="名称" prop="live_ad_name">
-                    <el-input size="small" placeholder="名称" v-model="editForm.live_ad_name"></el-input>
-                </el-form-item>
                <!--  <el-form-item label="名称" prop="url_addr">
                     <el-input size="small" placeholder="名称" v-model="editForm.url_addr"></el-input>
                 </el-form-item> -->
                
 
-                <el-form-item label="背景图" prop="url_img">
+                <el-form-item label="客服二维码" prop="live_wx_code">
                     <el-upload
                             ref="upload"
                             name="avatar"
@@ -68,13 +65,13 @@ export default {
             },
             editForm: {
                 live_ad_name: '',
-                url_img: '',
+                live_wx_code: '',
                 url_addr:'',
             },
             rules: {
-                home_ad_name: [
-                    { required: true, message: '必须填写', trigger: 'blur' },
-                ],                
+                // home_ad_name: [
+                //     { required: true, message: '必须填写', trigger: 'blur' },
+                // ],                
             },
             model: '',
             imgURL: '',
@@ -89,7 +86,7 @@ export default {
         handleAvatarSuccess(res, file) {
             const vmthis = this
             if (res.code === 200) {
-              vmthis.editForm.url_img = res.data.url
+              vmthis.editForm.live_wx_code = res.data.url
               this.formSubmit('editForm')
             } else {
               this.$message.error(res.data.msg)
@@ -150,8 +147,9 @@ export default {
         },
         onOpen(model){
             this.editForm=model.params.List[0];
-            this.imgURL=this.editForm.url_img
-            this.model=model.params.List[0];
+            console.log(this.editForm)
+            this.imgURL=this.editForm.live_wx_code
+            // this.model=model.params.List[0];
 
         }
     },
@@ -162,7 +160,7 @@ export default {
                     this.editForm[key] = val[key]
                 }
             }
-            this.imgURL = this.url + this.editForm.url_img
+            this.imgURL = this.url + this.editForm.live_wx_code
         }
     },
     created() {

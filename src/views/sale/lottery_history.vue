@@ -54,7 +54,7 @@
                     <el-table-column  label="操作" align="center" width="200">
                         <template slot-scope="scope">
                             <el-button type="primary" size="mini" round @click="setCash(scope.row.id)"  v-if="scope.row.lottery_history_status==1">兑现</el-button>
-                            <el-button type="danger" size="mini" round @click="deleCash(scope.row.id)" v-if="scope.row.lottery_history_status==1">结束</el-button>
+                            <!-- <el-button type="danger" size="mini" round @click="deleCash(scope.row.id)" v-if="scope.row.lottery_history_status==1">结束</el-button> -->
                             <span v-if="scope.row.lottery_history_status==2">已兑换</span>
                             <span v-if="scope.row.lottery_history_status==3">异常,取消</span>
                         </template>
@@ -123,39 +123,41 @@
                 });
             },
             setCash(id) {
-                return this.alertShow('待写');
-
-                // this.$modal.show('edit-list', { model: id })
-                // this.$msgbox({
-                //     title: '消息',
-                //     message: '确定发放红包？？',
-                //     showCancelButton: true,
-                //     confirmButtonText: '确定',
-                //     cancelButtonText: '取消'
-                // }).then(action => {
-                //     UserPacketAjaxProxy.find(id)
-                //     // .then(pro=>{
-                //     //     this.alertShow(pro.msg);
-                //     //     this.refresh();
-                //     // });
-                // });
-            },
-            deleCash(id) {
-                return this.alertShow('待写');
                 this.$msgbox({
                     title: '消息',
-                    message: '确定由于该红包异常要提前结束？？',
+                    message: '确定兑换？？',
                     showCancelButton: true,
                     confirmButtonText: '确定',
                     cancelButtonText: '取消'
                 }).then(action => {
-                    UserPacketAjaxProxy.delete(id)
+                    UserPacketAjaxProxy.find(id)
                     .then(pro=>{
                         this.alertShow(pro.msg);
                         this.refresh();
-                    });
+                    }).catch(error=>{
+                        this.$message({
+                            message:'兑换失败',
+                            type: 'error'
+                        });
+                    })
                 });
             },
+            // deleCash(id) {
+            //     // return this.alertShow('待写');
+            //     this.$msgbox({
+            //         title: '消息',
+            //         message: '确定该',
+            //         showCancelButton: true,
+            //         confirmButtonText: '确定',
+            //         cancelButtonText: '取消'
+            //     }).then(action => {
+            //         UserPacketAjaxProxy.delete(id)
+            //         .then(pro=>{
+            //             this.alertShow(pro.msg);
+            //             this.refresh();
+            //         });
+            //     });
+            // },
             refresh(){
                 this.dataTableReload++;
             },
