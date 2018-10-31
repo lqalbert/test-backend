@@ -57,6 +57,8 @@
     import DialogForm from '../../mix/DialogForm'
     import { getToken } from '../../utils/auth'
     import APP_CONST from '../../config/index'
+    import { mapActions,mapGetters } from 'vuex';
+
     export default {
         name: 'addList',
         mixins: [DialogForm],
@@ -98,7 +100,7 @@
                     this.$message.error('文件上传出错了');
                     this.handleClose();
                 }else{
-                    this.matchButton = true;
+                    //this.matchButton = true;
                     this.$message.success('文件上传成功');
                     return this.excel_url =  response.data.url;
                 }
@@ -134,7 +136,12 @@
                 this.dataTableReload++
             },
             importAccount(){
-                window.open(APP_CONST.BASE_URL + '/admin/user-import?filePath='+ this.excel_url)
+                if(this.excel_url){
+                    window.open(APP_CONST.BASE_URL + '/admin/user-import?filePath='+ this.excel_url +'&cid='+this.$store.getters.company_id+'&pid='+this.$store.getters.user_id)
+                }else{
+                    return this.$message.error('请先上传excel文件')
+                }
+
             }
 
         }

@@ -78,12 +78,12 @@
     export default {
         name: 'editList',
         mixins: [DialogForm],
-        props: {
+        /*props: {
             leveloption: {
                 type: Array,
                 default: []
             }
-        },
+        },*/
         data() {
             return {
                 dialogThis: this,
@@ -97,6 +97,7 @@
                 liveDir: {
                     base: 'live'
                 },
+                leveloption:[],
                 editForm: {
                     id: '',
                     username: '',
@@ -134,6 +135,25 @@
         methods: {
             onOpen(param) {
                 this.model = param.params.model
+                if(this.model.role_id<6){
+                    this.leveloption=[
+                        {
+                            id:5,
+                            name:'顶级'
+                        }
+                    ]
+                }else if(this.model.role_id==6){
+                    this.leveloption=[
+                        {
+                            id:3,
+                            name:'中级'
+                        },
+                        {
+                            id:4,
+                            name:'高级'
+                        }
+                    ]
+                }
             },
             getAjaxPromise(model) {
                 return this.ajaxProxy.update(model.id, model)
