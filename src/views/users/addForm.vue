@@ -37,7 +37,7 @@
 
                             <el-col :span="12">
                                 <el-form-item label="角色" prop="role_id">
-                                    <el-select  clearable placeholder="请选择" v-model="addForm.role_id">
+                                    <el-select  clearable placeholder="请选择" v-model="addForm.role_id" @change="role_change">
                                         <el-option
                                                 v-for="item in options"
                                                 :key="item.id"
@@ -175,10 +175,10 @@ export default {
           type: Array,
           default: []
         },
-        leveloption: {
+        /*leveloption: {
           type: Array,
           default: []
-        },
+        },*/
         showCollege: {
           type: Boolean,
           default: false
@@ -207,6 +207,7 @@ export default {
             pid: this.$store.getters.user_id
           },
           url: APP_CONST.UPLOAD_BASE_URL,
+          leveloption:[],
           rules: {
             username: [
               { required: true, message: '只能输入字母、数字、下划线', trigger: 'blur' },
@@ -340,7 +341,32 @@ export default {
               vmthis.real(name)
             }
           }, 1000)
-        }
+        },
+
+          role_change:function (e) {
+            if(e<6){
+                this.leveloption=[
+                    {
+                        id:5,
+                        name:'顶级'
+                    }
+                ]
+            }else if(e==6){
+                this.leveloption=[
+                    {
+                        id:3,
+                        name:'中级'
+                    },
+                    {
+                        id:4,
+                        name:'高级'
+                    }
+                ]
+            }
+
+          }
+
+
       }
 
     }

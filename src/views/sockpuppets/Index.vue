@@ -134,18 +134,6 @@
                         {
                             id:2,
                             name:'初级'
-                        },
-                        {
-                            id:3,
-                            name:'中级'
-                        },
-                        {
-                            id:4,
-                            name:'高级'
-                        },
-                        {
-                            id:5,
-                            name:'顶级'
                         }
                     ]
                 }else if(this.$store.getters.level_type==2){
@@ -157,18 +145,6 @@
                         {
                             id:2,
                             name:'白银'
-                        },
-                        {
-                            id:3,
-                            name:'黄金'
-                        },
-                        {
-                            id:4,
-                            name:'铂金'
-                        },
-                        {
-                            id:5,
-                            name:'钻石'
                         }
                     ]
                 }
