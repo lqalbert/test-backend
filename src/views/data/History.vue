@@ -144,7 +144,11 @@ export default {
     },
     initMonth() {
       this.role = this.$store.getters.roles[0]
-      this.cid = this.$store.getters.company_id
+      if (this.role == 'administrator') {
+      	this.cid = 0
+      } else {
+        this.cid = this.$store.getters.company_id
+      }
       this.userID = this.$store.getters.user_id
       const date = new Date()
       const year = date.getFullYear()
