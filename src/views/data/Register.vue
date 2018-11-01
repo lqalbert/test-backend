@@ -77,7 +77,7 @@ export default {
       }
       const myChart = this.$echarts.init(document.getElementById('myChart'))
       myChart.setOption({
-        title: { left: 'center', text: '用户登录数据统计' },
+        title: { left: 'center', text: '新增用户数据统计' },
         grid: {
           left: 40,
           right: 30

@@ -319,9 +319,9 @@ export const asyncRouterMap = [
       },
 	    {
 		    path: 'data/register',
-		    name: '历史在线',
+		    name: '用户登录历史',
 		    component: () => import('@/views/data/History'),
-		    meta: { title: '历史在线', icon: 'line', role: ['admin', 'salesman'] }
+		    meta: { title: '用户登录历史', icon: 'line', role: ['admin', 'salesman'] }
 	    }
     ]
   },
