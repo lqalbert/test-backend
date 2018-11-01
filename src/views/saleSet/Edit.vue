@@ -147,8 +147,8 @@ export default {
         },
         onOpen(model){
             this.editForm=model.params.List[0];
-            console.log(this.editForm)
-            this.imgURL=this.editForm.live_wx_code
+            // console.log(this.editForm)
+            this.imgURL=this.url+this.editForm.live_wx_code
             // this.model=model.params.List[0];
 
         }
