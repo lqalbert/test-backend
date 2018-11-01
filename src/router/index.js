@@ -1,4 +1,4 @@
- /* eslint-disable no-mixed-spaces-and-tabs */
+/* eslint-disable no-mixed-spaces-and-tabs */
 import Vue from 'vue'
 import Router from 'vue-router'
 
@@ -279,7 +279,6 @@ export const asyncRouterMap = [
         component: () => import('@/views/activities/Index'),
         meta: { title: '活动管理', icon: 'activity', role: ['admin'] }
       }
-      
     ]
   },
   {

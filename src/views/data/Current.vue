@@ -66,30 +66,28 @@ import DataTable from '../../mix/DataTable'
 import CollegeArray from '../../packages/CollegeProxy'
 import OnlineProxy from '../../packages/OnlineProxy'
 export default {
-	name: 'current',
-	mixins: [PageMix, DataTable, config, SearchTool],
-	data() {
-		return {
-			ajaxProxy: '',
-			mainurl: '',
-			mainparam: '',
-			total: '100',
-			dataLoad: false,
-			searchForm: {
-				college_id: '0',
-				currentPage:1,
-				pagezise:5,
-			    
-			},
-			college: [],
-			dataLists: [],
-			tableData3: [
-		    ],
-		    total:0,
-		    showCollege:false,
+  name: 'current',
+  mixins: [PageMix, DataTable, config, SearchTool],
+  data() {
+    return {
+      ajaxProxy: '',
+      mainurl: '',
+      mainparam: '',
+      dataLoad: false,
+      searchForm: {
+        college_id: '0',
+        currentPage: 1,
+        pagezise: 5
 
-		}
-	},
+      },
+      college: [],
+      dataLists: [],
+      tableData3: [],
+	  total: 0,
+	  showCollege: false
+
+    }
+  },
   	methods: {
 	    getAjaxProxy() {
 	      return this.ajaxProxy
@@ -132,17 +130,13 @@ export default {
 	        xAxis: {
 	          	type: 'category',
 	          // data: dataList,
-	          	data: ['总人数','公司管理员', '房间管理者', '组长','业务员', '会员'],
+	          	data: ['总人数', '公司管理员', '房间管理者', '组长', '业务员', '会员'],
 	          	axisTick: {
 	                alignWithLabel: true
 	            },
 	          	axisPointer: {
 	          		type: 'shadow'
-	          	},
-	          	// boundaryGap: false,
-	          	axisTick: {
-	                alignWithLabel: true
-	            }
+	          	}
 	        },
 	        yAxis: [
 	          	{
@@ -153,7 +147,7 @@ export default {
 	        series: [{
 	          	name: '在线人数',
 	          	type: 'bar',
-	          	barWidth:'40%',
+	          	barWidth: '40%',
 	          	data: valueList
 	          	// data: [400,10, 52, 200, 334]
 	        }]
@@ -163,44 +157,44 @@ export default {
 	      	this.college = data.items
 	    },
 	    loadCollege() {
-			const college = new CollegeArray({}, this.initCollege, this)
-			this.collegeProxy = college
-			this.collegeProxy.load()	
+      const college = new CollegeArray({}, this.initCollege, this)
+      this.collegeProxy = college
+      this.collegeProxy.load()
 	    },
 	    initUserData(param) {
-			// console.log(param.data,222)
-			this.dataLists = param.data
-			this.total=param.total
-			this.tableData3=param.items
+      // console.log(param.data,222)
+      this.dataLists = param.data
+      this.total = param.total
+      this.tableData3 = param.items
 
-			this.drawLine()
+      this.drawLine()
 	    },
 	    loadUserData() {
-			const userData = new OnlineProxy({ currentPage: this.searchForm.currentPage,pagezise: this.searchForm.pagezise }, this.initUserData, this)
-			// console.log(userData)
-			this.OnlineProxy = userData
-			this.OnlineProxy.load()
+      const userData = new OnlineProxy({ currentPage: this.searchForm.currentPage, pagezise: this.searchForm.pagezise }, this.initUserData, this)
+      // console.log(userData)
+      this.OnlineProxy = userData
+      this.OnlineProxy.load()
 	    },
 	    searchData() {
-			const userData = new OnlineProxy({ currentPage: this.searchForm.currentPage,pagezise: this.searchForm.pagezise, cid: this.searchForm.college_id }, this.initUserData, this)
-			this.OnlineProxy = userData
-			this.OnlineProxy.load()
+      const userData = new OnlineProxy({ currentPage: this.searchForm.currentPage, pagezise: this.searchForm.pagezise, cid: this.searchForm.college_id }, this.initUserData, this)
+      this.OnlineProxy = userData
+      this.OnlineProxy.load()
 	    },
-	    handleSizeChange(value){
-	    	this.searchForm.pagezise=value
+	    handleSizeChange(value) {
+	    	this.searchForm.pagezise = value
 	    	this.searchData()
 	    },
-	    handleCurrentChange(){
+	    handleCurrentChange() {
 	    	this.searchData()
 	    }
-	    
+
   	},
   	created() {
   	},
   	mounted() {
-  		if(this.$store.getters.roles['0']=='administrator'){
-            return this.showCollege=true;
-        }
+	  if (this.$store.getters.roles['0'] == 'administrator') {
+	  	this.showCollege = true
+	  }
 	    // 加载公司列表
 	    this.loadCollege()
 	    // 加载数据
