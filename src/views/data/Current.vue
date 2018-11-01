@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="24">
                 <el-form :inline="true" :model="searchForm" ref="searchForm" class="demo-form-inline" size="small">
-                    <el-form-item label="房间名" prop="name">
+                    <el-form-item label="房间名" prop="name" v-if="showCollege">
                         <el-select v-model="searchForm.college_id" placeholder="请选择">
                             <el-option key="0" label="全部" value="0"></el-option>
                             <el-option
@@ -86,6 +86,7 @@ export default {
 			tableData3: [
 		    ],
 		    total:0,
+		    showCollege:false,
 
 		}
 	},
@@ -197,6 +198,9 @@ export default {
   	created() {
   	},
   	mounted() {
+  		if(this.$store.getters.roles['0']=='administrator'){
+            return this.showCollege=true;
+        }
 	    // 加载公司列表
 	    this.loadCollege()
 	    // 加载数据
