@@ -131,7 +131,7 @@ export default {
 	        xAxis: {
 	          	type: 'category',
 	          // data: dataList,
-	          	data: ['总人数','公司管理员', '房间管理者', '业务员', '会员'],
+	          	data: ['总人数','公司管理员', '房间管理者', '组长','业务员', '会员'],
 	          	axisTick: {
 	                alignWithLabel: true
 	            },
