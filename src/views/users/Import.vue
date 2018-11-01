@@ -133,6 +133,7 @@
             },
             handleDialogClose(){
                 this.handleClose();
+                this.excel_url='';
                 this.dataTableReload++
             },
             importAccount(){
