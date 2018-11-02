@@ -144,7 +144,7 @@
                     <div slot="buttonbar">
                         <el-button size="small" type="primary" @click="showAdd">添加账号</el-button>
                         <el-button size="small" type="primary" @click="showAll">批量导入账号</el-button>
-
+                        <el-button size="small" type="primary" @click="exportxls">模板下载</el-button>
                     </div>
                 </TableProxy>
             </el-col>
@@ -424,6 +424,9 @@ export default {
             }
 
           },
+          exportxls() {
+              window.open(APP_CONST.BASE_URL + '/admin/example-account')
+          }
 
       },
 
