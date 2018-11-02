@@ -138,7 +138,7 @@
             },
             importAccount(){
                 if(this.excel_url){
-                    window.open(APP_CONST.BASE_URL + '/admin/sockpuppet-import?filePath='+ this.excel_url +'&cid='+this.$store.getters.company_id+'&pid='+this.$store.getters.user_id)
+                    window.open(APP_CONST.BASE_URL + '/admin/sockpuppet-import?filePath='+ this.excel_url +'&cid='+this.$store.getters.company_id+'&pid='+this.$route.query.pid)
                 }else{
                     return this.$message.error('请先上传excel文件')
                 }
