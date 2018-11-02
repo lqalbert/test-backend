@@ -37,6 +37,8 @@
 
                     <div slot="buttonbar">
                         <el-button size="small" type="primary" @click="showAdd">添加</el-button>
+                        <el-button size="small" type="primary" @click="showAll">批量添加</el-button>
+                        <el-button size="small" type="primary" @click="exportxls">模板下载</el-button>
                         <router-link :to="'/system/user'"><el-button type="success" size="small">返回用户列表</el-button></router-link>
                     </div>
                 </TableProxy>
@@ -55,12 +57,18 @@
               @submit-success="handleReload"
               :leveloption="leveloption"/>
 
+        <Import name="import-list"
+                :ajax-proxy="ajaxProxy"
+                @submit-success="handleReload"
+        />
+
     </div>
 </template>
 
 <script>
     import Add from './addForm'
     import Edit from './Edit'
+    import Import from './Import'
     import TableProxy from '../../components/Commontable/Table'
     import config from '../../mix/Delete'
     import SearchTool from '../../mix/SearchTool'
@@ -76,7 +84,7 @@
     export default {
         name:'Sockpuppet',
         mixins: [SearchTool, DataTable, PageMix, config],
-        components: {  Add, Edit, TableProxy },
+        components: {  Add, Edit,Import, TableProxy },
         data(){
             return{
 
@@ -98,6 +106,9 @@
             },
             showAdd() {
                 this.$modal.show('add-list')
+            },
+            showAll() {
+                this.$modal.show('import-list')
             },
             showEdit(row) {
                 this.$modal.show('edit-list', { model: row })
@@ -164,6 +175,9 @@
                     }
                 }
             },
+            exportxls() {
+                window.open(APP_CONST.BASE_URL + '/admin/example-sockpuppet')
+            }
 
         },
 
