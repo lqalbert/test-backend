@@ -150,7 +150,7 @@ export default {
         },
         onOpen(model){
             this.editForm=model.params.List[0];
-            this.imgURL=this.editForm.url_img
+            this.imgURL=this.url+this.editForm.url_img
             this.model=model.params.List[0];
 
         }
