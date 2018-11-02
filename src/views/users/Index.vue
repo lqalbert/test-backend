@@ -204,7 +204,9 @@ export default {
             username: '',
             role_id: '',
             level: '',
-            sockpuppet:'n'
+            sockpuppet:'n',
+            create_id:this.$store.getters.user_id,
+            create_role:this.$store.getters.role_id
           },
           ajaxProxy: UserAjaxProxy,
           mainurl: UserAjaxProxy.getUrl(),
