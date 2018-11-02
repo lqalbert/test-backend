@@ -4,7 +4,7 @@
     <div class="dashboard-text">name:{{name}}</div>
     <div class="dashboard-text">roles:<span v-for='role in roles' :key='role'>{{role}}</span></div>
     <div v-if="canShow">
-      <el-form ref="editForm" v-loading="dataLoad" :model="editForm" :rules="rules" label-width="140px">
+      <el-form ref="editForm" v-loading="dataLoad" :model="editForm" label-width="140px">
         <el-form-item label="">
           <div style="height: 40px;line-height: 40px"></div>
         </el-form-item>
@@ -115,8 +115,7 @@ export default {
       fileList: [],
       unChange: true,
       canShow: false,
-      arr: {},
-      rules: {}
+      arr: {}
     }
   },
   methods: {
@@ -156,7 +155,8 @@ export default {
     handleRemove(file, fileList) {},
     beforeFormSubmit(name) {
       if (this.fileList.length === 0) {
-      	this.$refs['editForm'].validate((valid) => {
+        this.formSubmit('editForm')
+      	/*this.$refs['editForm'].validate((valid) => {
           if (valid) {
           	this.formSubmit('editForm')
           } else {
@@ -165,9 +165,10 @@ export default {
             console.log('error submit!!')
             return false
           }
-        })
+        })*/
       } else {
-        this.$refs['editForm'].validate((valid) => {
+        this.submitUpload()
+        /*this.$refs['editForm'].validate((valid) => {
           if (valid) {
             this.submitUpload()
           } else {
@@ -176,7 +177,7 @@ export default {
             console.log('error submit!!')
             return false
           }
-        })
+        })*/
       }
     },
     submitUpload() {
