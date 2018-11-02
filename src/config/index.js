@@ -14,13 +14,13 @@ if (process.env.NODE_ENV === 'production') {
   baseUrl = 'http://yanggang112.51vip.biz:40003'
 } else {
   domain = '/admin'
-  url = 'http://www.zhibo.com/admin/uploadfile'
-  baseUrl = 'http://www.zhibo.com'
+  url = 'http://www.edus.com/admin/uploadfile'
+  baseUrl = 'http://www.edus.com'
 }
 
 const upload_url = domain + '/uploadfile'
 const slide_upload_url = domain + '/slide-upload'
-const excel_upload = domain + "/excel-upload";
+const excel_upload = domain + '/excel-upload'
 
 const APP_CONST = {}
 
@@ -45,12 +45,12 @@ Object.defineProperty(APP_CONST, 'SLIDE_UPLOAD_URL', {
   enumerable: true
 })
 
-Object.defineProperty(APP_CONST, "EXCEL_UPLOAD", {
-    value: excel_upload,
-    writable: false, //设置属性只读
-    configurable: true,
-    enumerable: true
-});
+Object.defineProperty(APP_CONST, 'EXCEL_UPLOAD', {
+  value: excel_upload,
+  writable: false, // 设置属性只读
+  configurable: true,
+  enumerable: true
+})
 
 editor_confi.uploadConfig.action = upload_url
 Object.defineProperty(APP_CONST, 'editor_option', {
