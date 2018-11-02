@@ -287,7 +287,7 @@ export const asyncRouterMap = [
     redirect: 'violation/index',
     name: '违规处理',
     hidden: false,
-    meta: { role: ['admin'] },
+    meta: { role: ['admin','teacher-assistant'] },
     children: [
       {
         path: 'violation/index',
