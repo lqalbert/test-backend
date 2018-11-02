@@ -57,6 +57,7 @@
                             <!-- <el-button type="danger" size="mini" round @click="deleCash(scope.row.id)" v-if="scope.row.lottery_history_status==1">结束</el-button> -->
                             <span v-if="scope.row.lottery_history_status==2">已兑换</span>
                             <span v-if="scope.row.lottery_history_status==3">异常,取消</span>
+                            <span v-if="scope.row.lottery_history_status==4">未中奖</span>
                         </template>
                     </el-table-column>
                 </TableProxy>
@@ -98,6 +99,7 @@
                     1: '未兑换',
                     2: '已兑现',
                     3: '异常,取消',
+                    4: '未中奖',
                 },
                 showCollege:false
 
