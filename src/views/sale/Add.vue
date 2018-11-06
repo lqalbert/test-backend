@@ -5,6 +5,14 @@
                 <el-form-item label="奖品文字" prop="content">
                     <el-input size="small" placeholder="红包总金额" v-model="addForm.content"></el-input>
                 </el-form-item>
+                <el-form-item label="类型" prop="lottery_draws_type">
+                    <el-radio v-model="addForm.lottery_draws_type" label="1" border>积分</el-radio>
+                    <el-radio v-model="addForm.lottery_draws_type" label="2" border>物品</el-radio>
+                </el-form-item>
+                <el-form-item label="积分" prop="scores" v-if="addForm.lottery_draws_type=='1'">
+                    <el-input size="small" placeholder="积分" v-model="addForm.scores"></el-input>
+                </el-form-item>
+
                 <el-form-item label="奖品配图" prop="img_url">
                     <el-upload
                             ref="upload"
@@ -54,6 +62,8 @@ export default {
       addForm: {
         content: '',
         img_url: '',
+        lottery_draws_type:'1',
+        scores:0,
       },
       roomList: [],
       rules: {

@@ -65,6 +65,23 @@
                     <el-table-column prop="off_money" label="剩余金额" align="center"></el-table-column>
                     <el-table-column prop="max_money" label="最大金额" align="center"></el-table-column>
                     <el-table-column prop="min_money" label="最小金额" align="center"></el-table-column>
+                    <!-- <el-table-column prop="wx_code" label="详情" align="center">
+                        <template slot-scope="scope">
+                            <el-popover
+                                placement="top-start"
+                                title="标题"
+                                width="200"
+                                trigger="hover"
+                                :content="'最大金额：'+scope.row.max_money+' 最大金额：'+scope.row.max_money+' 最大金额：'+scope.row.max_money">
+                                <el-button type="primary" icon="el-icon-tickets" slot="reference">详情</el-button>
+                            </el-popover>
+                        </template>
+                    </el-table-column> -->
+                    <el-table-column prop="packet_type" label="红包类别" align="center" width="104px">
+                        <template slot-scope="scope">
+                            <div>{{typeList[scope.row.packet_type]}}</div>
+                        </template>
+                    </el-table-column>
                     
                     <!-- <el-table-column prop="nickname" label="创建人" align="center"></el-table-column> -->
                     <el-table-column prop="wx_code" label="客服二维码" align="center">
@@ -148,6 +165,10 @@
             1: '未发送',
             2: '抢包中',
             3: '已结束'
+          },
+          typeList:{
+                1: '积分红包',
+                2: '现金红包',
           },
           roomList: [],
           imgLink: APP_CONST.BASE_URL,

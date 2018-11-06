@@ -25,6 +25,7 @@
                     <!-- <el-table-column prop="room_number" label="直播间号" align="center" ></el-table-column> -->
                     <el-table-column prop="room_number" label="直播间房间号" align="center" ></el-table-column>
                     <el-table-column prop="college_name" label="所属公司" align="center" ></el-table-column>
+                    <el-table-column prop="draw_cores" label="抽奖消耗积分" align="center" ></el-table-column>
                     <el-table-column prop="draw_status" label="抽奖启用" width="120px" align="center">
                         <template slot-scope="scope">
                             <el-switch
@@ -38,6 +39,19 @@
                             </el-switch>
                         </template>
                     </el-table-column>
+                    <el-table-column prop="cash_status" label="兑奖启用" width="120px" align="center">
+                        <template slot-scope="scope">
+                            <el-switch
+                                    v-model="scope.row.cash_status"
+                                    active-value="y"
+                                    inactive-value="n"
+                                    active-color="#13ce66"
+                                    inactive-color="#ff4949"
+                                    @change="changeStatus(scope.row,'cash_status')"
+                            >
+                            </el-switch>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="live_wx_code" label="抽奖客服" width="120px" align="center">
                         <template slot-scope="scope">
                             <img :src="imgLink+scope.row.live_wx_code" v-if="scope.row.live_wx_code" alt="" width="100px">
@@ -46,7 +60,7 @@
                     </el-table-column>
                     <el-table-column label="操作" align="center" width="200">
                         <template slot-scope="scope">
-                            <el-button type="primary" size="mini" round @click="editWxCode(scope.row)">修改客服二维码</el-button>
+                            <el-button type="primary" size="mini" round @click="editWxCode(scope.row)">修改</el-button>
                         </template>
                     </el-table-column>
                 </TableProxy>

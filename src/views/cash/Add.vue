@@ -1,20 +1,16 @@
 <template>
     <div>
-        <myDialog title="增加红包" :name="name" :width="width" :height="height" @before-open="onOpen">
+        <myDialog title="增加奖品" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="addForm" ref="addForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
-                <el-form-item label="直播间房间号" prop="room_number">
-                    <el-select v-model="addForm.room_number" placeholder="请选择">
-                        <el-option
-                          v-for="item in roomList"
-                          :key="item.room_number"
-                          :label="item.room_number"
-                          :value="item.room_number">
-                        </el-option>
-                    </el-select>
-
-
+                <el-form-item label="奖品文字" prop="content">
+                    <el-input size="small" placeholder="红包总金额" v-model="addForm.content"></el-input>
                 </el-form-item>
-                <el-form-item label="客服二维码" prop="wx_code">
+                <el-form-item label="消耗积分" prop="cash_scores" >
+                    <el-input size="small" placeholder="积分" v-model="addForm.cash_scores"></el-input>
+                </el-form-item>
+
+                <el-form-item label="奖品配图" prop="img_url">
+
                     <el-upload
                             ref="upload"
                             name="avatar"
@@ -34,26 +30,6 @@
                         <img v-if="imgURL" :src="imgURL" class="avatar" style="max-width:300px">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
-                </el-form-item>
-                <el-form-item label="红包类型" prop="packet_type">
-                    <el-radio v-model="addForm.packet_type" label="1" border>积分红包</el-radio>
-                    <el-radio v-model="addForm.packet_type" label="2" border>现金红包</el-radio>
-                </el-form-item>
-
-                <el-form-item label="红包总金额" prop="total_money">
-                    <el-input size="small" placeholder="红包总金额" v-model="addForm.total_money"></el-input>
-                </el-form-item>
-                <el-form-item label="红包总个数" prop="total_num">
-                    <el-input size="small" placeholder="红包总个数" v-model="addForm.total_num"></el-input>
-                </el-form-item>
-                <el-form-item label="" prop="">
-                    <span>若不填最大金额与最小金额  则默认为平均</span>
-                </el-form-item>
-                <el-form-item label="最大金额" prop="max_money">
-                    <el-input size="small" placeholder="最大金额" v-model="addForm.max_money"></el-input>
-                </el-form-item>
-                <el-form-item label="最小金额" prop="min_money">
-                    <el-input size="small" placeholder="最小金额" v-model="addForm.min_money"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="dialog-foot" class="dialog-footer">
@@ -81,48 +57,23 @@ export default {
       labelPosition: 'right',
       labelWidth: '120px',
       addForm: {
-        room_number: '',
-        wx_code: '',
-        total_num: '',
-        total_money: '',
-        max_money: '',
-        min_money: '',
-        submit_state: '1',
-        fileList:[],
-        uploadImg: '',
-        packet_type:'1'
+        content: '',
+        img_url: '',
+        lottery_draws_type:'1',
+        scores:0,
       },
       roomList: [],
       rules: {
-        room_number: [
+        content: [
           { required: true, message: '必须填写', trigger: 'blur' },
-          { min: 6, max: 6, message: '必须填写' }
+          { min: 1, max: 12, message: '必须填写' }
         ],
-        packet_type: [
-          { required: true, message: '必须填写', trigger: 'blur' },
-          // { min: 6, max: 6, message: '必须填写' }
-        ],
-        total_num: [
-          { required: true, message: '必须填写', trigger: 'blur' },
-          { min: 1, max: 3, message: '最多999' },
-          { pattern: /^([1-9][0-9]*)$/, message: '正整数' }
-        ],
-        total_money: [
-          { required: true, message: '必须填写', trigger: 'blur' },
-          { min: 1, max: 3, message: '最多999' },
-          { pattern: /^([1-9][0-9]*)$/, message: '正整数' }
-        ],
-        max_money: [
-          { required: false, message: '必须填写', trigger: 'blur' },
-          // {min: 1, max: 3, message: '最多999'},
-          { pattern: /^[0-9]+(.[0-9]{2})?$/, message: '请精确到小数点两位' }
-        ],
-        min_money: [
-          { required: false, message: '必须填写', trigger: 'blur' },
-          // {min: 1, max: 3, message: '最多999'},
-          { pattern: /^[0-9]+(.[0-9]{2})?$/, message: '请精确到小数点两位' }
+        cash_scores:[
+            { required: true, message: '必须填写', trigger: 'blur' },
+            { type: 'number', message: '请输入数字格式', trigger: 'blur', transform(value) {
+                    return Number(value);
+              }}
         ]
-
       },
       imgURL: '',
       liveDir: {
@@ -139,11 +90,7 @@ export default {
   },
   methods: {
     getAjaxPromise() {
-      // if(this.addForm.min_money*this.addForm.total_num>=this.addForm.total_money||this.addForm.max_money>this.addForm.total_money){
-      //     this.alertShowError('数据错误，请重填');
-      //     // return;
-      // }
-      return this.ajaxProxy.create(this.addForm)
+        return this.ajaxProxy.create(this.addForm)
     },
     alertShowSuccess(msg) {
       this.$message({
@@ -160,7 +107,7 @@ export default {
     handleAvatarSuccess(res, file) {
       const vmthis = this
       if (res.code === 200) {
-        vmthis.addForm.wx_code = res.data.url
+        vmthis.addForm.img_url = res.data.url
         this.formSubmit('addForm')
         this.uploadImg = res.data.url
         this.submit_state = 2
@@ -200,11 +147,11 @@ export default {
       } else {
         this.$refs['addForm'].validate((valid) => {
           if (valid) {
-              if (this.submit_state === 2) {
-                  this.real(name)
-              } else {
-                  this.submitUpload()
-              }
+                if (this.submit_state === 2) {
+                    this.real(name)
+                } else {
+                    this.submitUpload()
+                }
           } else {
             this.$emit('submit-final', name)
             console.log('error submit!!')
@@ -230,7 +177,7 @@ export default {
         }
         vmthis.d = setTimeout(function() {
             if (vmthis.submit_state === 2) {
-                vmthis.addForm.wx_code = vmthis.uploadImg
+                vmthis.addForm.img_url = vmthis.uploadImg
                 vmthis.formSubmit('addForm')
             } else {
                 vmthis.real(name)

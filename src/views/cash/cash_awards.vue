@@ -36,16 +36,7 @@
                             <!-- <img style="height:20px;" src="http://www.boroboromi.com/images/qr-code.png" alt=""> -->
                         </template>
                     </el-table-column>
-                    <el-table-column prop="scores" label="积分" align="center">
-                        <template slot-scope="scope">
-                            <span v-if="scope.row.lottery_draws_type=='1'">{{scope.row.scores}}</span>
-                            <span v-if="scope.row.lottery_draws_type=='2'">-</span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="lottery_draws_type" label="奖品类型" align="center" width="104px">
-                        <template slot-scope="scope">
-                            <div>{{typeList[scope.row.lottery_draws_type]}}</div>
-                        </template>
+                    <el-table-column prop="cash_scores" label="消耗积分" align="center">
                     </el-table-column>
                     <el-table-column prop="name" label="所属学院" align="center" v-if="showCollege"></el-table-column>
                     <el-table-column prop="created_at" label="创建时间" align="center" width="101px"></el-table-column>
@@ -78,19 +69,19 @@
     import SearchTool from '@/mix/SearchTool'
     import DataTable from '@/mix/DataTable'
     import TableProxy from '@/components/Commontable/Table'
-    import PacketAjaxProxy from '@/api/lottery_draws'
+    import CashAwardAjaxProxy from '@/api/cash_awards'
     import Edit from './Edit'
     import Add from './Add'
     import APP_CONST from '@/config/index'
 
     export default {
       name: 'Videos',
-      mixins: [PageMix, DataTable, config, SearchTool, PacketAjaxProxy],
+      mixins: [PageMix, DataTable, config, SearchTool, CashAwardAjaxProxy],
       components: { TableProxy, Add, Edit },
       data() {
         return {
-          ajaxProxy: PacketAjaxProxy,
-          mainurl: PacketAjaxProxy.getUrl(),
+          ajaxProxy: CashAwardAjaxProxy,
+          mainurl: CashAwardAjaxProxy.getUrl(),
           mainparam: '',
           total: '100',
           dataLoad: false,
@@ -98,10 +89,6 @@
             status: '',
             room_number: ''
             // user_id:'',
-          },
-          typeList:{
-                1: '积分',
-                2: '物品',
           },
           imgLink: APP_CONST.BASE_URL,
           showCollege:false
@@ -141,7 +128,7 @@
             confirmButtonText: '确定',
             cancelButtonText: '取消'
           }).then(action => {
-            PacketAjaxProxy.delete(id).then(pro => {
+            CashAwardAjaxProxy.delete(id).then(pro => {
               this.alertShow(pro.msg)
               this.refresh()
             }).catch(error=>{
@@ -158,7 +145,7 @@
         /*获取直播间列表  弃用*/
         getRoomList() {
           // console.log('getRoomList')
-          // PacketAjaxProxy.find('1').then(response => {
+          // CashAwardAjaxProxy.find('1').then(response => {
           //     console.log()
           //   this.roomList = response.data
           // }).catch(error => {
