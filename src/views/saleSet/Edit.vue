@@ -2,10 +2,9 @@
     <div>
         <myDialog title="编辑二维码" :name="name" :width="width" :height="height" @before-open="onOpen">
             <el-form :model="editForm" ref="editForm" :rules="rules" :label-width="labelWidth" :label-position="labelPosition">
-               <!--  <el-form-item label="名称" prop="url_addr">
-                    <el-input size="small" placeholder="名称" v-model="editForm.url_addr"></el-input>
-                </el-form-item> -->
-               
+                <el-form-item label="名称" prop="draw_cores">
+                    <el-input size="small" placeholder="名称" v-model="editForm.draw_cores"></el-input>
+                </el-form-item>
 
                 <el-form-item label="客服二维码" prop="live_wx_code">
                     <el-upload

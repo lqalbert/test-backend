@@ -48,7 +48,6 @@ export const asyncRouterMap = [
       }
     ]
   },
-
   {
     path: '/system',
     component: Layout,
@@ -273,6 +272,28 @@ export const asyncRouterMap = [
           }
         ]
 	    },
+      {
+        path: '/cash',
+        name: '兑奖管理',
+        // redirect: 'packet',
+        component: () => import('@/views/cash/index'),
+
+        meta: { title: '兑奖管理', icon: 'cash', role: ['admin'] },
+        children: [
+          {
+            path: 'cash_awards',
+            name: '奖品列表',
+            component: () => import('@/views/cash/cash_awards'),
+            meta: { title: '奖品列表', icon: 'cash', role: ['admin'] }
+          },
+          {
+            path: 'cash_history',
+            name: '兑奖记录',
+            component: () => import('@/views/cash/cash_history'),
+            meta: { title: '兑奖记录', icon: 'cash', role: ['admin'] }
+          }
+        ]
+      },
       {
         path: 'sale/activity',
         name: '活动管理',
