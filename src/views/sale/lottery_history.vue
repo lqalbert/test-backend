@@ -47,6 +47,13 @@
                             <div>{{statusList[scope.row.lottery_history_status]}}</div>
                         </template>
                     </el-table-column>
+                    <el-table-column prop="cash_code" label="兑换码" align="center">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.cash_code">{{scope.row.cash_code}}</span>
+                            <span v-if="!scope.row.cash_code">-</span>
+                        </template>
+                    </el-table-column>
+
                     <el-table-column prop="nickname" label="所属用户" align="center"></el-table-column>
                     <el-table-column prop="name" label="所属学院" align="center" v-if="showCollege"></el-table-column>
                     <el-table-column prop="created_at" label="抢到时间" align="center"></el-table-column>

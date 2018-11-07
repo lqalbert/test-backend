@@ -41,13 +41,17 @@
                 >
                     <el-table-column label="序号" align="center" type="index" width="65px"></el-table-column>
                     <el-table-column prop="packet_num" label="红包编号" align="center"></el-table-column>
-                    <el-table-column prop="cash_code" label="兑换码" align="center"></el-table-column>
                     <el-table-column prop="nickname" label="用户" align="center"></el-table-column>
                     <el-table-column prop="name" label="所属学院" align="center" v-if="showCollege"></el-table-column>
 
                     <el-table-column prop="money" label="抢到红包金额" align="center"></el-table-column>
                     <el-table-column prop="get_time" label="抢到时间" align="center"></el-table-column>
-                    <el-table-column prop="cash_time" label="兑现时间" align="center"></el-table-column>
+                    <el-table-column prop="cash_time" label="兑现时间" align="center">
+                        <template slot-scope="scope">
+                            <span v-if="scope.row.packet_type=='1'">积分红包，直接到账</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="cash_code" label="兑换码" align="center"></el-table-column>
                     <el-table-column prop="cash_wx" label="兑换微信号码" align="center"></el-table-column>
                     <el-table-column prop="end_time" label="结束时间" align="center"></el-table-column>
 

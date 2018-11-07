@@ -47,6 +47,7 @@
                             <div>{{statusList[scope.row.lottery_history_status]}}</div>
                         </template>
                     </el-table-column>
+                    <el-table-column prop="cash_code" label="兑换码" align="center"></el-table-column>
                     <el-table-column prop="nickname" label="所属用户" align="center"></el-table-column>
                     <el-table-column prop="name" label="所属学院" align="center" v-if="showCollege"></el-table-column>
                     <el-table-column prop="created_at" label="抢到时间" align="center"></el-table-column>
@@ -77,7 +78,7 @@
     import SearchTool from '@/mix/SearchTool'
     import DataTable from '@/mix/DataTable'
     import TableProxy from '@/components/Commontable/Table'
-    import UserPacketAjaxProxy from '@/api/lottery_history'
+    import UserPacketAjaxProxy from '@/api/cash_history'
     import Edit from './Edit'
 
     export default {
@@ -98,8 +99,8 @@
                 statusList:{
                     1: '未兑换',
                     2: '已兑现',
-                    3: '异常,取消',
-                    4: '未中奖',
+                    // 3: '异常,取消',
+                    // 4: '未中奖',
                 },
                 showCollege:false
 
