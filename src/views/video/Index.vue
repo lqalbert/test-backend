@@ -64,6 +64,19 @@
                             </el-switch>
                         </template>
                     </el-table-column>
+                    <el-table-column prop="open_status" label="聊天合流" width="120px" align="center">
+                        <template slot-scope="scope">
+                            <el-switch
+                                    v-model="scope.row.open_status"
+                                    active-value="y"
+                                    inactive-value="n"
+                                    active-color="#13ce66"
+                                    inactive-color="#ff4949"
+                                    @change="changeStatus(scope.row)"
+                            >
+                            </el-switch>
+                        </template>
+                    </el-table-column>
                     <!--<el-table-column prop="live_status" label="直播间状态" width="120px" align="center">-->
                         <!--<span v-if="1">正在直播</span>-->
                         <!--<span v-else>停止直播</span>-->
