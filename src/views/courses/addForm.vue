@@ -99,7 +99,7 @@
             handleAvatarSuccess(res, file) {
                 const vmthis = this
                 if (res.code === 200) {
-                    vmthis.addForm.user_img = res.data.url
+                    vmthis.addForm.course_img = res.data.url
                     this.uploadImg = res.data.url
                     this.formSubmit('addForm')
                     this.submit_state = 2
@@ -162,7 +162,7 @@
                 }
                 vmthis.d = setTimeout(function() {
                     if (vmthis.submit_state === 2) {
-                        vmthis.addForm.user_img = vmthis.uploadImg
+                        vmthis.addForm.course_img = vmthis.uploadImg
                         vmthis.formSubmit('addForm')
                     } else {
                         vmthis.real(name)
