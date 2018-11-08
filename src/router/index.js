@@ -9,7 +9,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '../views/layout/Layout'
-import {getRoles} from '@/utils/getRole'
+//import {getRoles} from '@/utils/getRole'
 /**
  * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
  * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
@@ -26,7 +26,7 @@ import {getRoles} from '@/utils/getRole'
 //let role = this.info.data.role
 //let role = info.name;
 //let role = getRoles();
-console.log(getRoles())
+//console.log(getRoles())
 
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true }
