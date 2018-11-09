@@ -1,5 +1,4 @@
 import { asyncRouterMap, constantRouterMap } from '@/router'
-import store from '../../store'
 /**
  * 通过meta.role判断是否与当前用户权限匹配
  * @param roles
@@ -44,8 +43,6 @@ const permission = {
     GenerateRoutes({ commit }, data) {
       return new Promise(resolve => {
         const { roles } = data
-          console.log(data)
-          console.log(4444)
         let accessedRouters
         if (roles.indexOf('administrator') >= 0) {
           accessedRouters = asyncRouterMap

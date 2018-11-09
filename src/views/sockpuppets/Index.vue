@@ -23,7 +23,7 @@
                     <el-table-column prop="nickname" label="马甲名称"  align="center"></el-table-column>
                     <el-table-column prop="level" label="马甲等级"  align="center">
                         <template scope="scope">
-                            {{ getLevel(scope.row.level, scope.row.cid, levels, colleges) }}
+                            {{ getLevel(scope.row.level, leveloption) }}
                         </template>
                     </el-table-column>
 
@@ -90,9 +90,11 @@
 
                 ajaxProxy:UserAjaxProxy,
                 mainurl:UserAjaxProxy.getUrl(),
-                mainparam:'{"pid": ' + this.$route.query.pid + '}',
+                mainparam:'{"sockpuppet":"y", "pid": ' + this.$route.query.pid + '}',
                 pid:'',
                 cid:'',
+                levels:[],
+                colleges:[],
                 leveloption: []
             }
         },
@@ -160,7 +162,7 @@
                     ]
                 }
             },
-            getLevel(level, cid, levels, colleges){
+            /*getLevel(level, cid, levels, colleges){
                 let level_type = '';
                 let res = '';
                 for ( let i = 0; i <colleges.length; i++){
@@ -173,6 +175,14 @@
                         }
                         return res;
                     }
+                }
+            },*/
+            getLevel(level,leveloption){
+              if(level ==1){
+                  return leveloption['0']['name'];
+              }
+                if(level ==2){
+                    return leveloption['1']['name'];
                 }
             },
             exportxls() {
