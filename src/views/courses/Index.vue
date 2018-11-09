@@ -25,7 +25,7 @@
                             {{ getRooms(scope.row.room_id, rooms) }}
                         </template>
                     </el-table-column>
-                    <el-table-column prop="teacher_img" label="课程简介" width="120" align="center">
+                    <el-table-column prop="course_img" label="课程简介" width="120" align="center">
                         <template slot-scope="scope">
                             <img :src="url+scope.row.course_img" alt="" width="100px">
                         </template>

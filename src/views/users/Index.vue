@@ -194,6 +194,7 @@
     import { mapActions,mapGetters } from 'vuex';
 
 export default {
+      role: '',
       name: 'User',
       mixins: [SearchTool, DataTable, PageMix, config],
       components: { Add, Edit, TableProxy,Import },
