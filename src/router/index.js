@@ -9,7 +9,6 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '../views/layout/Layout'
-//import {getRoles} from '@/utils/getRole'
 /**
  * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
  * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
@@ -26,7 +25,6 @@ import Layout from '../views/layout/Layout'
 //let role = this.info.data.role
 //let role = info.name;
 //let role = getRoles();
-//console.log(getRoles())
 
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true }
@@ -66,7 +64,7 @@ export const asyncRouterMap = [
         path: 'role',
         name: '角色列表',
         component: () => import('@/views/roles/index'),
-        meta: { title: '角色列表', icon: 'role', role: [] }
+        meta: { title: '角色列表', icon: 'role', role: ['admin'] }
       },
       {
         path: 'user',
@@ -85,7 +83,7 @@ export const asyncRouterMap = [
         path: 'college',
         name: '学院列表',
         component: () => import('@/views/colleges/index'),
-        meta: { title: '学院列表', icon: 'college', role: ['admin']}
+        meta: { title: '学院列表', icon: 'college', role: []}
       }
     ]
   },

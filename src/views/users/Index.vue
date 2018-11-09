@@ -137,7 +137,7 @@
                         <template slot-scope="scope">
                             <el-button type="info" size="small" @click="showEdit(scope.row)">编辑</el-button>
                             <el-button type="danger" size="small" @click="handleDelete(scope.row.id)">删除</el-button>
-                            <router-link :to="'/system/sockpuppet?pid='+scope.row.id"><el-button type="success" size="small" v-show=scope.row.show>马甲</el-button></router-link>
+                            <router-link :to="'/system/sockpuppet?sockpuppet=y&pid='+scope.row.id"><el-button type="success" size="small" v-show=scope.row.show>马甲</el-button></router-link>
                         </template>
                     </el-table-column>
 
@@ -194,6 +194,7 @@
     import { mapActions,mapGetters } from 'vuex';
 
 export default {
+      role: '',
       name: 'User',
       mixins: [SearchTool, DataTable, PageMix, config],
       components: { Add, Edit, TableProxy,Import },
