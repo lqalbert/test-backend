@@ -14,6 +14,7 @@ const user = {
     live_key: '（密匙已过期请重新设置）',
     company_id: '',
     level_type: '',
+    access_point: '',
     company_name: ''
   },
 
@@ -50,6 +51,9 @@ const user = {
     },
     SET_LEVEL_TYPE: (state, level_type) => {
       state.level_type = level_type
+    },
+    SET_ACCESS_POINT: (state, access_point) => {
+        state.access_point = access_point
     },
     SET_COMPANY_NAME: (state, company_name) => {
       state.company_name = company_name
@@ -90,6 +94,7 @@ const user = {
           commit('SET_COMPANY_ID', data.company_id)
           commit('SET_LEVEL_TYPE', data.level_type)
           commit('SET_COMPANY_NAME', data.company_name)
+          commit('SET_ACCESS_POINT', data.access_point)
           resolve(response)
         }).catch(error => {
           reject(error)
