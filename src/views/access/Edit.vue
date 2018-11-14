@@ -6,6 +6,16 @@
                 <!--<el-form-item label="角色名字" prop="role_name">
                     <el-input v-model="editForm.role_name" disabled></el-input>
                 </el-form-item>-->
+                <el-form-item label="所属学院" prop="cid" v-if="showCollege">
+                    <el-select  clearable placeholder="请选择" v-model="editForm.cid">
+                        <el-option
+                                v-for="item in colleges"
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
 
                 <el-form-item prop="access">
                     <el-tree
@@ -37,6 +47,16 @@
     export default {
         name: 'editList',
         mixins: [DialogForm],
+        props: {
+            colleges: {
+                type: Array,
+                default: []
+            },
+            showCollege: {
+                type: Boolean,
+                default: false
+            }
+        },
         data() {
             return {
                 dialogThis: this,
@@ -44,6 +64,7 @@
                 labelWidth: '120px',
                 editForm: {
                     id:'',
+                    cid:'',
                     access_point:[],
                     main_menu:[]
                 },

@@ -25,6 +25,8 @@
 
         <Edit name="edit-list"
              :ajax-proxy="ajaxProxy"
+             :colleges="colleges"
+             :showCollege="showCollege"
              @submit-success="handleReload"/>
 
     </div>
@@ -39,6 +41,9 @@
     import PageMix from '../../mix/Page';
     import AccessProxy from '../../packages/AccessProxy';
     import AccessAjaxProxy from '../../api/access';
+    import CollegeProxy from '../../packages/CollegeProxy';
+    import CollegeAjaxProxy from '../../api/college';
+    import { mapActions,mapGetters } from 'vuex';
 
     export default {
         name:'Access',
@@ -48,6 +53,8 @@
             return{
                 ajaxProxy:AccessAjaxProxy,
                 mainurl:AccessAjaxProxy.getUrl(),
+                colleges: [],
+                showCollege:false,
                 mainparam:''
             }
         },
@@ -62,11 +69,26 @@
             showEdit(row) {
                 this.$modal.show('edit-list', { model: row })
             },
+            loadColleges(data) {
+                this.colleges = data.items
+                console.log(this.colleges)
+            },
+            getCanAddColleges() {
+                const canAddColleges = new CollegeProxy({}, this.loadColleges, this)
+                canAddColleges.load()
+            },
+            getShowCollege(){
+                if(this.$store.getters.roles['0']=='administrator'){
+                    return this.showCollege=true;
+                }
+            }
 
         },
 
         created() {
             this.$on('search-tool-change', this.onSearchChange);
+            this.getCanAddColleges()
+            this.getShowCollege()
         }
 
 
