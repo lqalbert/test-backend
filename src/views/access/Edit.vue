@@ -65,6 +65,7 @@
                 editForm: {
                     id:'',
                     cid:'',
+                    role_id:'',
                     access_point:[],
                     main_menu:[]
                 },
