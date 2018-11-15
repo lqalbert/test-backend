@@ -258,7 +258,6 @@ export default {
         loadRoles(data) {
           this.options = data.items
           console.log(this.options)
-          console.log(1233)
         },
         loadUsers(data) {
             this.users = data.items
